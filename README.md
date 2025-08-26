@@ -1,23 +1,14 @@
-# Sommervika – Nettside (Next.js + Tailwind + Netlify)
+# Sommervika – Next.js + Tailwind (Netlify-ready)
+- Global CSS import flyttet til `app/layout.tsx` (krav i Next.js).
+- `netlify.toml` uten publish-dir. Netlify-plugin for Next.js styrer deploy.
 
-Dette repoet inneholder en enkel, estetisk nettside for sommerhuset **Sommervika**.
-
-## Komme i gang
-
-```bash
+## Lokalt
 npm install
 npm run dev
-```
 
-Åpne http://localhost:3000 i nettleser.
-
-## Bygg og deploy (Netlify)
-
-Dette repoet er klargjort for Netlify.
-
-- `netlify.toml` er inkludert med riktig konfigurasjon (`@netlify/plugin-nextjs`).
-- Når du kobler repoet til Netlify, vil siden bygges med `npm run build` og publiseres automatisk.
-
-## Kalender
-
-Bytt `src` på Google Calendar-`iframe` i `app/page.tsx` til deres offentlige kalender.
+## Netlify
+- Importer repoet fra GitHub
+- Build command: `npm run build`
+- **Ikke sett publish directory**
+- Installer plugin: `@netlify/plugin-nextjs`
+- Trigger nytt deploy (Clear cache and deploy)

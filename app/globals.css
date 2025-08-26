@@ -1,3 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body { height: 100%; }
+body { @apply bg-gradient-to-b from-white via-sky-50 to-white text-slate-800; }
