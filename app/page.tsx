@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, { useMemo, useState } from "react";
@@ -19,9 +18,9 @@ function Title({ children }: { children: React.ReactNode }) {
 }
 
 const TABS = [
-  { id: "regler", label: "Regler for bruk" },
+  { id: "regler", label: "Regler for lån" },
   { id: "praktisk", label: "Praktisk informasjon" },
-  { id: "omraade", label: "Helgøya & Ny-Hellesund" },
+  { id: "omraade", label: "Historien & Ny-Hellesund" },
   { id: "kalender", label: "Kalender" },
 ] as const;
 type TabId = typeof TABS[number]["id"];
@@ -33,7 +32,7 @@ export default function Page() {
   return (
     <div className="min-h-screen w-full">
       <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b">
-        <div className="mx-auto max-w-6xl px-4">
+        <Container>
           <div className="py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="h-9 w-9 rounded-xl bg-sky-100 grid place-items-center shadow-sm">
@@ -53,21 +52,21 @@ export default function Page() {
               </a>
             </div>
           </div>
-        </div>
+        </Container>
       </header>
 
       <section className="relative">
-        <div className="mx-auto max-w-6xl px-4">
+        <Container>
           <div className="mt-6 h-[34vh] sm:h-[46vh] w-full overflow-hidden rounded-3xl shadow-md ring-1 ring-black/5">
             <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: `url(${HERO_URL})` }}>
               <div className="h-full w-full bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
             </div>
           </div>
-        </div>
+        </Container>
       </section>
 
       <main className="py-8">
-        <div className="mx-auto max-w-6xl px-4">
+        <Container>
           <nav className="grid grid-cols-2 sm:grid-cols-4 gap-2 bg-slate-100 p-2 rounded-2xl">
             {TABS.map(({ id, label }) => (
               <button
@@ -85,31 +84,65 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Regler for bruk</Title>
+                  <Title>Regler for lån av Sommervik</Title>
                 </CardSection>
                 <CardSection>
-                  <ul className="grid sm:grid-cols-2 gap-4 list-disc pl-6 leading-relaxed">
-                    <li><strong>Antall gjester:</strong> Maks 8 overnattende med forhåndsavtale.</li>
-                    <li><strong>Røykfritt:</strong> Røyking kun utendørs – bruk askebeger og ta med sneiper.</li>
-                    <li><strong>Husdyr:</strong> Etter avtale. Ingen dyr i møbler/senger.</li>
-                    <li><strong>Støy:</strong> Vis hensyn – ro etter kl. 23:00. Ingen høy musikk utendørs.</li>
-                    <li><strong>Strøm & vann:</strong> Slå av lys/varme ved avreise. Spar på vann i tørre perioder.</li>
-                    <li><strong>Boss & resirk:</strong> Sortér i merkede dunker: glass/metall, plast, papp, rest.</li>
-                    <li><strong>Båt & brygge:</strong> Redningsvester på vannet. Sjekk fortøyninger ved avreise.</li>
-                    <li><strong>Brannvern:</strong> Se slukkeutstyr i entré/kjøkken. Ingen åpne flammer inne.</li>
-                    <li><strong>Utstyr:</strong> Bruk og rydd på plass. Meld fra om noe blir ødelagt.</li>
-                    <li><strong>Utvask:</strong> Følg sjekklisten – eller bestill vask på forhånd.</li>
-                  </ul>
+                  <p className="mb-4 text-slate-700">For at alle skal få like gode opplevelser, ber vi om at følgende regler følges når du låner hytta:</p>
 
-                  <div className="mt-6">
-                    <h3 className="font-semibold mb-2">Sjekkliste ved avreise</h3>
-                    <ol className="list-decimal pl-6 space-y-1">
-                      <li>Rydd og vask overflater; tøm kjøleskap og søppel.</li>
-                      <li>Sett på oppvaskmaskin (eco) og tøm når ferdig hvis mulig.</li>
-                      <li>Rist og heng sengetøy/tepper; legg brukte håndklær i kurv.</li>
-                      <li>Steng vinduer, trekk ut båten, og lås dører.</li>
-                      <li>Slå av varme/lys; sett kjøleskap på lav.</li>
-                    </ol>
+                  <div className="space-y-6 leading-relaxed">
+                    <div>
+                      <h3 className="font-semibold mb-2">Hytta og uteområdet</h3>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Skjærgården, Sjøbua og båtene skal forlates i samme stand som da du kom – eller gjerne litt bedre.</li>
+                        <li>Alt søppel tas med hjem eller leveres i godkjent avfallsstasjon. Ikke la noe stå igjen.</li>
+                        <li>Kjøleskap og matskap tømmes for lett bedervelige varer.</li>
+                        <li>Gulv, bad og kjøkken vaskes/støvsuges før avreise.</li>
+                        <li>Har du lånt sengetøy, håndklær eller kluter fra hytta, skal de vaskes og legges på plass igjen før avreise.</li>
+                        <li>Plenen klippes dersom det trengs (og det gjør det nok). Å fjerne litt ugress er også godt for sjelen.</li>
+                        <li>Puter til utemøbler skal alltid ryddes inn om natta, i regnvær og når du drar.</li>
+                        <li>Gå ikke inn med sko.</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-2">Båt og sjøliv</h3>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Båtene skal leveres tilbake med like mye bensin som da du kom (eventuelt kan du prøve å be om tilgivelse før du drar).</li>
+                        <li>Sørg for at båtene alltid er godt fortøyd – en fender eller to ekstra skader ingen.</li>
+                        <li>Pluggen for selvlensing skal stå åpen i Pepsi når du drar, men stenges ved bruk.</li>
+                        <li>Ta vare på årer, vester og annet utstyr – legg det på plass i Sjøbua etter bruk.</li>
+                        <li>Alle skal bruke redningsvest i båt.</li>
+                        <li>Kjør hensynsfullt, både for miljøet, naboene og sikkerheten. Det er mange båer og skjær i Ny Hellesund, så ta en ekstra titt på kartet.</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-2">Bad og fiske</h3>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Bad og kos dere, men ikke sitt i møbler med våte klær eller badetøy.</li>
+                        <li>Det ligger fiskeutstyr i Sjøbua som kan lånes – legg det tilbake etter bruk.</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-2">Strøm, vann og sikkerhet</h3>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Slå av alle lys, elektriske apparater og steng vannet ved avreise.</li>
+                        <li>Gi beskjed hvis det er lite gass igjen i grillen, slik at neste kan ta med seg.</li>
+                        <li>Hytta har pumpestasjon for avløp – derfor må kun toalettpapir kastes i do (ikke bind, våtservietter o.l.).</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-2">Generelt</h3>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Vis hensyn til naboer og naturen.</li>
+                        <li>Røyking innendørs er ikke tillatt.</li>
+                        <li>Husdyr skal ikke tas med til Skjærgården.</li>
+                        <li>Eventuelle skader eller mangler meldes fra så snart som mulig.</li>
+                        <li>Det er obligatorisk å skrive noen linjer i hytteboka før du drar! Håper dere har hatt det fint :-D</li>
+                      </ul>
+                    </div>
                   </div>
                 </CardSection>
               </Card>
@@ -200,29 +233,55 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Helgøya & Ny-Hellesund</Title>
+                  <Title>Historien om Sommervika & Ny-Hellesund</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    <p>
-                      Ny-Hellesund er et historisk uthavn ytterst i Søgne-skjærgården, kjent for trange sund, hvite hus
-                      og lune viker. Området har vært brukt som los- og handelssted i flere hundre år, og byr i dag på
-                      fine turmuligheter, badeplasser og kystkultur. Hytta vender mot viken <strong>Kilen</strong> på Helgøya –
-                      perfekt for korte båtturer og padling mellom holmer.
-                    </p>
-                    <div className="grid md:grid-cols-3 gap-6">
-                      <div className="p-4 rounded-2xl bg-slate-50">
-                        <h4 className="font-semibold mb-1">Turer</h4>
-                        <p>Gå stiene på Helgøya, eller ta båten til <em>Verftet</em> på Kappelløya for kaffe og tur videre.</p>
-                      </div>
-                      <div className="p-4 rounded-2xl bg-slate-50">
-                        <h4 className="font-semibold mb-1">Bading & strender</h4>
-                        <p>Små svaberg og naturlige badekulp i le for de fleste vindretninger.</p>
-                      </div>
-                      <div className="p-4 rounded-2xl bg-slate-50">
-                        <h4 className="font-semibold mb-1">Kultur</h4>
-                        <p>Sommergallerier og arrangementer i Ny-Hellesund. Følg lokale oppslag.</p>
-                      </div>
+                    <div>
+                      <h3>Historien om Sommervika</h3>
+                      <p>📍 <strong>Helgøya 8 – Sommervika</strong> består av hytta <em>Skjærgården</em> og båthuset <em>Sjøbua</em>.</p>
+                      <h4 className="font-semibold">🗓 Viktige årstall</h4>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li><strong>1967</strong> – Skjærgården og Sjøbua ble bygget som sommersted.</li>
+                        <li><strong>1982</strong> – Sjøbua ble skadet i en storm og gjenoppbygd.</li>
+                        <li><strong>2012</strong> – Skjærgården ble utvidet og modernisert, med godkjenning fra fylkeskonservatoren.</li>
+                      </ul>
+                      <h4 className="font-semibold mt-4">🌲 Spor fra fortiden</h4>
+                      <p>Bak hytta, inne i skogen, kan man fremdeles se murrester etter et gammelt hus – et glimt inn i hverdagslivet på Helgøya før fritidsbebyggelsen.</p>
+                      <h4 className="font-semibold mt-4">🌿 Fredet kulturmiljø</h4>
+                      <p>I <strong>2016 ble Ny-Hellesund fredet ved kongelig resolusjon</strong>. Utvidelsen av Skjærgården i 2012 ble gjort i dialog med fylkeskonservatoren, slik at hytta skulle passe naturlig inn i det fredede landskapet.</p>
+                      <h4 className="font-semibold mt-4">🌊 Beliggenheten</h4>
+                      <p>Sommervika ligger ytterst på Helgøya i Ny-Hellesund – midt i Sørlandets skjærgård. Hytta vender mot den lune viken <strong>Kilen</strong>, som i generasjoner har vært brukt som havn og tilholdssted for småbåter.</p>
+                      <h4 className="font-semibold mt-4">🚶 Turmuligheter rett fra hytta</h4>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li><strong>Vestover:</strong> Sti over fjellet til fergekaia og festningsanleggene.</li>
+                        <li><strong>Østover:</strong> Via naboens plen til “Tyskerbrygga” og videre til festningene.</li>
+                        <li><strong>Snarveien nordover:</strong> Rett gjennom hagen og over saugjerdet til ferjeleiet.</li>
+                        <li><strong>Med båt til Kapelløya:</strong> Besøk Verftet med sommerkafé og stier videre.</li>
+                      </ul>
+                      <h4 className="font-semibold mt-4">🛒 Handling og service</h4>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li><strong>Høllen</strong> – lokalhandel + Bunnpris.</li>
+                        <li><strong>Langenes</strong> – offentlig brygge + Kiwi.</li>
+                        <li><strong>Kristiansand</strong> – ca. 30 min med hurtigbåt.</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h3>⚓ Ny-Hellesund – uthavna i havgapet</h3>
+                      <p>Ny-Hellesund er en av Sørlandets best bevarte uthavner, bestående av <strong>Helgøya, Kapelløya og Monsøya</strong>, bundet sammen av trange sund.</p>
+                      <h4 className="font-semibold">🌍 Fra seilskutetid til kystkultur</h4>
+                      <p>Allerede på 1600-tallet var Ny-Hellesund en travel uthavn der seilskuter søkte ly. Den smale innseilingen gjorde stedet trygt, og havnen ble et viktig stoppested på leia. Losvirksomhet, fiske, handel og småindustri preget stedet.</p>
+                      <h4 className="font-semibold">🏛 Historiske bygg og steder</h4>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li><strong>Olavsundet</strong> – smalt sund oppkalt etter sagnet om Olav den hellige.</li>
+                        <li><strong>Kjøbmandskjær og gjestgiveriet</strong> – gjestgiveri på 1700–1800-tallet.</li>
+                        <li><strong>Sjøbuer og uthus</strong> – gamle sjøbuer langs sundet.</li>
+                        <li><strong>Kapelløya</strong> – navnet fra et kapell på 1500-tallet.</li>
+                        <li><strong>Kystfortet på Helgøya</strong> – bygget av tyskerne 1942–43.</li>
+                      </ul>
+                      <h4 className="font-semibold">🕰 Moderne tid og vern</h4>
+                      <p>Etter seilskutetida ble mange hus sommerhus. I <strong>2016 ble hele Ny-Hellesund fredet</strong>, og i dag regnes området som en levende kulturarv.</p>
                     </div>
                   </div>
                 </CardSection>
@@ -264,11 +323,11 @@ export default function Page() {
               </Card>
             </section>
           )}
-        </div>
+        </Container>
       </main>
 
       <footer className="border-t bg-white/70 backdrop-blur">
-        <div className="mx-auto max-w-6xl px-4">
+        <Container>
           <div className="py-8 text-sm flex flex-col sm:flex-row items-center justify-between gap-3">
             <p>© {year} Sommervika – Helgøya, Ny-Hellesund</p>
             <div className="flex items-center gap-2">
@@ -277,7 +336,7 @@ export default function Page() {
               <a className="underline" href="#regler" onClick={() => setTab("regler")}>Husregler</a>
             </div>
           </div>
-        </div>
+        </Container>
       </footer>
     </div>
   );
@@ -296,14 +355,7 @@ function BookingForm() {
     const melding = (data.get("melding") as string) || "";
     const subject = encodeURIComponent(`Bookingforespørsel – Sommervika (${fra}–${til})`);
     const body = encodeURIComponent(
-      `Navn: ${navn}
-E-post: ${epost}
-Telefon: ${telefon}
-Dato: ${fra} – ${til}
-Antall personer: ${antall}
-
-Melding:
-${melding}`
+      `Navn: ${navn}\nE-post: ${epost}\nTelefon: ${telefon}\nDato: ${fra} – ${til}\nAntall personer: ${antall}\n\nMelding:\n${melding}`
     );
     window.location.href = `mailto:booking@sommervika.no?subject=${subject}&body=${body}`;
   }

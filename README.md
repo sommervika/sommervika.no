@@ -1,14 +1,14 @@
-# Sommervika – Next.js + Tailwind (Netlify-ready)
-- Global CSS import flyttet til `app/layout.tsx` (krav i Next.js).
-- `netlify.toml` uten publish-dir. Netlify-plugin for Next.js styrer deploy.
+# Sommervika – Static Export for Netlify
+Denne versjonen bruker `next export` → **`out/`**. Perfekt for Netlify **manual/Git deploy** uten Next-plugin-krøll.
 
 ## Lokalt
 npm install
-npm run dev
+npm run build
+# resultat i ./out
 
-## Netlify
-- Importer repoet fra GitHub
+## Netlify (Git deploy)
 - Build command: `npm run build`
-- **Ikke sett publish directory**
-- Installer plugin: `@netlify/plugin-nextjs`
-- Trigger nytt deploy (Clear cache and deploy)
+- Publish directory: `out`
+- Ikke nødvendig med netlify.toml eller plugin.
+
+HTTPS: Domain management → Verify DNS → Provision certificate.
