@@ -1,14 +1,5 @@
-export const metadata = {
-  title: "Sommervika – Helgøya / Ny-Hellesund",
-  description: "Sommerhuset Sommervika – praktisk info, regler, område og kalender."
-};
-
+export const metadata = { title: "Sommervika – Helgøya / Ny-Hellesund", description: "Familiehytte – regler, info, historie, område, bilder og kalender." };
 import "./globals.css";
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="no">
-      <body>{children}</body>
-    </html>
-  );
+  return (<html lang="no"><body>{children}</body></html>);
 }
