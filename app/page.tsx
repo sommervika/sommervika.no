@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 
 const HERO_URL = "/sommervika-hero.webp";
 const CAL_URL =
-  "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FOslo&hl=no&mode=AGENDA&wkst=2&showTitle=0&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%23ffffff";
+  "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FOslo&hl=no&mode=MONTH&wkst=2&showTitle=0&showDate=0&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%23ffffff";
 
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4">{children}</div>;
@@ -25,6 +25,7 @@ const TABS = [
   { id: "historie", label: "Historien om Sommervika" },
   { id: "omrade", label: "Området Ny-Hellesund" },
   { id: "bilder", label: "Bilder" },
+  { id: "kart", label: "Kart" },
   { id: "kalender", label: "Kalender" },
 ] as const;
 type TabId = typeof TABS[number]["id"];
@@ -63,7 +64,7 @@ export default function Page() {
 
       <main className="py-8">
         <Container>
-          <nav className="grid grid-cols-2 sm:grid-cols-6 gap-2 bg-slate-100 p-2 rounded-2xl">
+          <nav className="grid grid-cols-2 sm:grid-cols-7 gap-2 bg-slate-100 p-2 rounded-2xl">
             {TABS.map(({ id, label }) => (
               <button
                 key={id}
@@ -297,6 +298,24 @@ export default function Page() {
             </section>
           )}
 
+          {/* Kart */}
+          {tab === "kart" && (
+            <section className="mt-6">
+              <Card>
+                <CardSection>
+                  <Title>Kart</Title>
+                </CardSection>
+                <CardSection>
+                  <img
+                    src="/kart_helgoya.png"
+                    alt="Kart Helgøya og Ny-Hellesund"
+                    className="w-full rounded-2xl ring-1 ring-black/5"
+                  />
+                </CardSection>
+              </Card>
+            </section>
+          )}
+
           {/* Kalender */}
           {tab === "kalender" && (
             <section className="mt-6" id="kalender">
@@ -346,7 +365,6 @@ function Gallery() {
   const prev = useCallback(() => setIndex((i) => (i - 1 + images.length) % images.length), [images.length]);
   const close = useCallback(() => setOpen(false), []);
 
-  // Tastatursnarveier
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => {
@@ -358,7 +376,6 @@ function Gallery() {
     return () => window.removeEventListener("keydown", onKey);
   }, [open, next, prev, close]);
 
-  // Lås bakgrunnsrulling når lysboksen er åpen
   useEffect(() => {
     if (open) {
       const original = document.body.style.overflow;
