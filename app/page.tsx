@@ -3,6 +3,8 @@
 import React, { useMemo, useState } from "react";
 
 const HERO_URL = "/sommervika-hero.webp";
+const CAL_URL =
+  "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FLondon&hl=no&mode=MONTH&wkst=2&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%23ffffff";
 
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4">{children}</div>;
@@ -296,12 +298,12 @@ export default function Page() {
                   <Title>Kalender</Title>
                 </CardSection>
                 <CardSection>
-                  <p className="text-sm text-slate-600">Bytt <code>src</code> under med deres egen offentlige Google-kalender (Innstillinger → Integrer kalender → Offentlig lenke).</p>
+                  <p className="text-sm text-slate-600">Kalenderen under er lenket til vår Google-kalender. Ønsker du norsk tidssone, bytt <code>Europe/London</code> til <code>Europe/Oslo</code> i <code>CAL_URL</code>.</p>
                   <div className="aspect-video w-full overflow-hidden rounded-2xl ring-1 ring-black/5 mt-4">
                     <iframe
                       title="Sommervika kalender"
                       className="h-full w-full"
-                      src="https://calendar.google.com/calendar/embed?height=600&wkst=2&bgcolor=%23ffffff&ctz=Europe%2FOslo&src=ZW4ubm9yc2tAaG9sZGFsbGUuZXhhbXBsZS5jb20&color=%23039BE5"
+                      src={CAL_URL}
                       frameBorder="0"
                       scrolling="no"
                     />

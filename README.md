@@ -1,14 +1,8 @@
-# Sommervika – Static Export for Netlify
-Denne versjonen bruker `next export` → **`out/`**. Perfekt for Netlify **manual/Git deploy** uten Next-plugin-krøll.
+# Sommervika – Next.js static export (Netlify)
+- Bygg: `next build && next export` → publiser mappen `out/` på Netlify
+- Kalender: Google Calendar integrert via CAL_URL i `app/page.tsx` (Europe/London). Bytt til `Europe/Oslo` hvis ønskelig.
+- Ingen netlify.toml nødvendig.
 
-## Lokalt
-npm install
-npm run build
-# resultat i ./out
-
-## Netlify (Git deploy)
-- Build command: `npm run build`
-- Publish directory: `out`
-- Ikke nødvendig med netlify.toml eller plugin.
-
-HTTPS: Domain management → Verify DNS → Provision certificate.
+## Netlify GUI
+Build command: `npm run build`
+Publish directory: `out`
