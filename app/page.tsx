@@ -3,8 +3,9 @@
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 
 const HERO_URL = "/sommervika-hero.webp";
+
 const CAL_URL =
-  "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FOslo&hl=no&mode=MONTH&wkst=2&showTitle=0&showDate=0&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%23ffffff";
+  "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FOslo&hl=no&mode=AGENDA&wkst=2&showTitle=0&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%23ffffff";
 
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4">{children}</div>;
