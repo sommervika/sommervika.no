@@ -91,9 +91,7 @@ export default function Page() {
                     <div>
                       <h3 className="font-semibold mb-2">Adkomst</h3>
                       <p>
-                        Hytta ligger i den lune viken <strong>Kilen</strong> på Helgøya, midt i Ny-Hellesund. Vanlig
-                        adkomst er med båt fra <strong>Solta Båthavn i Høllen</strong>, hvor det også finnes mulighet for
-                        parkering mot betaling. <strong>Ta kontakt med oss for detaljer om båtplass og nøkler.</strong>
+                        Hytta ligger i den lune viken Kilen på Helgøya, midt i Ny-Hellesund. Vanlig adkomst er med båt fra Solta Båthavn i Høllen, hvor det også finnes mulighet for parkering mot betaling. Ta kontakt med oss for detaljer om båtplass og nøkler.
                       </p>
                       <p className="mt-2">
                         Det går også passasjerferge flere ganger daglig fra Høllen til Helgøya.{" "}
@@ -118,18 +116,15 @@ export default function Page() {
                       <h3 className="font-semibold mb-2">Båt, bad og brygge</h3>
                       <ul className="list-disc pl-6 space-y-1">
                         <li>Alle skal bruke redningsvest i båt.</li>
-                        <li>Vester og årer til <em>Solo</em> og <em>Pepsi</em> finnes i Sjøbua.</li>
-                        <li>Bensinkanne og reservekanne til <em>Pepsi</em> er også i Sjøbua.</li>
+                        <li>Vester og årer til Solo og Pepsi finnes i Sjøbua.</li>
+                        <li>Bensinkanne og reservekanne til Pepsi er også i Sjøbua.</li>
                       </ul>
                     </div>
 
                     <div>
                       <h3 className="font-semibold mb-2">Butikker</h3>
                       <p>
-                        Det finnes ingen matbutikker i Ny-Hellesund. Enkleste alternativ er å ta båten til Høllen, hvor
-                        det ligger en liten kolonial. Det er også gangavstand derfra til en god Bunnpris. Alternativt kan
-                        du ta båten til Langenes, hvor det ligger en stor Kiwi-butikk fem minutters gange fra
-                        gjestebrygga.
+                        Det finnes ingen matbutikker i Ny-Hellesund. Enkleste alternativ er å ta båten til Høllen, hvor det ligger en liten kolonial. Det er også gangavstand derfra til en god Bunnpris. Alternativt kan du ta båten til Langenes, hvor det ligger en stor Kiwi-butikk fem minutters gange fra gjestebrygga.
                       </p>
                     </div>
 
@@ -137,7 +132,7 @@ export default function Page() {
                       <h3 className="font-semibold mb-2">Spisesteder</h3>
                       <ul className="list-disc pl-6 space-y-1">
                         <li>
-                          På <strong>Kapelløya</strong> finner du en koselig sommerkafé med mat og drikke.{" "}
+                          På Kapelløya finner du en koselig sommerkafé med mat og drikke.{" "}
                           <a
                             href="https://www.facebook.com/cafeverftetnyhellesund/?locale=en_GB"
                             target="_blank"
@@ -149,8 +144,7 @@ export default function Page() {
                           .
                         </li>
                         <li>
-                          Litt lenger unna finner du <strong>Geitodden Café</strong> på Flekkerøya. Turen dit går med båt
-                          uttaskjærs, så det krever godt vær.{" "}
+                          Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt uttaskjærs, så det krever godt vær.{" "}
                           <a
                             href="https://www.geitodden.no/"
                             target="_blank"
@@ -189,15 +183,13 @@ export default function Page() {
                     <div>
                       <h3 className="font-semibold mb-2">Spor fra fortiden</h3>
                       <p>
-                        Bak hytta kan man se murrester etter et gammelt hus – et glimt inn i hverdagslivet på Helgøya før
-                        fritidsbebyggelsen.
+                        Bak hytta kan man se murrester etter et gammelt hus – et glimt inn i hverdagslivet på Helgøya før fritidsbebyggelsen.
                       </p>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Fredet kulturmiljø</h3>
                       <p>
-                        I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012 ble gjort i dialog med
-                        fylkeskonservatoren for å tilpasses landskapet.
+                        I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012 ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.
                       </p>
                     </div>
                   </div>
@@ -216,29 +208,46 @@ export default function Page() {
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <p>
-                      Ny-Hellesund er en av Sørlandets best bevarte uthavner. Havnen består av Helgøya, Kapelløya og
-                      Monsøya, bundet sammen av trange sund.
+                      Ny-Hellesund er en av Sørlandets best bevarte uthavner, kjent for sin vakre natur og rike historie. Havnen består av øyene Helgøya, Kapelløya og Monsøya, bundet sammen av trange sund.
                     </p>
                     <div>
                       <h3 className="font-semibold mb-2">Fra seilskutetid til kystkultur</h3>
                       <p>
-                        Allerede på 1600-tallet var Ny-Hellesund en travel uthavn der seilskuter søkte ly. Losvirksomhet,
-                        fiske, handel og småindustri har satt spor.
+                        Allerede på 1600-tallet var Ny-Hellesund en travel uthavn der seilskuter fra fjern og nær søkte ly for vær og vind. Den smale innseilingen gjorde stedet trygt, og havnen ble et viktig stoppested på leia mellom Østlandet og Vestlandet.
+                      </p>
+                      <p>
+                        Gjennom tidene hadde Ny-Hellesund både tollstasjon, gjestgiveri og verft, og utviklet seg til et lite sentrum i skjærgården. Mange familier levde som loser, og losstasjonen her var blant de viktigste på Sørlandskysten. Fisket ga også livsgrunnlag, og det ble drevet både handel og småindustri knyttet til sjøen.
                       </p>
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-2">Historiske steder</h3>
+                      <h3 className="font-semibold mb-2">Historiske bygg og steder</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Olavsundet – smalt sund oppkalt etter sagnet om Olav den hellige.</li>
-                        <li>Kjøbmandskjær og gjestgiveriet – historisk gjestgiveri.</li>
-                        <li>Sjøbuer og uthus – gamle sjøbuer langs sundet.</li>
-                        <li>Kapelløya – navnet fra et eldre kapell.</li>
-                        <li>Kystfortet på Helgøya – bygget 1942–43.</li>
+                        <li>Olavsundet – et smalt sund mellom Kapelløya og Helgøya, oppkalt etter sagnet om at Olav den hellige seilte gjennom her på flukt fra fiender.</li>
+                        <li>Kjøbmandskjær og gjestgiveriet – på 1700- og 1800-tallet lå det et gjestgiveri her hvor sjøfolk fikk husly og proviant.</li>
+                        <li>Sjøbuer og uthus – mange av de gamle sjøbuene, brukt til lagring av fiskeredskaper og varer, står fortsatt langs sundet.</li>
+                        <li>Kapelløya – har navn etter et kapell som stod her på 1500-tallet. Ruinene er borte, men navnet lever videre.</li>
+                        <li>Kystfortet på Helgøya – anlagt av tyskerne i 1942–43 som del av Atlanterhavsvollen. Her finnes fortsatt kanonstillinger, tunneler og bygninger fra krigsårene.</li>
                       </ul>
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-2">Vern</h3>
-                      <p>I 2016 ble hele Ny-Hellesund fredet som kulturmiljø. Området regnes i dag som en levende kulturarv.</p>
+                      <h3 className="font-semibold mb-2">Moderne tid og vern</h3>
+                      <p>
+                        Etter seilskutetiden gikk aktiviteten gradvis ned, og mange av bygningene ble tatt i bruk som sommerhus. Den unike kombinasjonen av natur, kultur og historie førte til at hele Ny-Hellesund ble fredet som kulturmiljø ved kongelig resolusjon i 2016.
+                      </p>
+                      <p>
+                        I dag regnes uthavnen som en levende kulturarv – et sted der man kan oppleve både naturens ro og sporene etter flere hundre års kysthistorie.
+                      </p>
+                    </div>
+                    <div>
+                      <h3 className="font-semibold mb-2">Turmuligheter rett fra hytta</h3>
+                      <p>Helgøya byr på mange fine stier og små eventyr rett utenfor døra. Fra Sommervika kan du velge flere ruter:</p>
+                      <ul className="list-disc pl-6 space-y-1">
+                        <li>Vestover: Følg stien vestover fra hytta, og ta første sti til venstre over fjellet. Da kommer du ned til fergekaia og veien videre mot festningsanleggene.</li>
+                        <li>Østover: Gå via naboens plen til den såkalte "Tyskerbrygga". Herfra kan du følge grusveien opp til festningene eller ned til ferjeleiet.</li>
+                        <li>Snarveien nordover: For de som ikke er redd for litt småklatring – ta turen rett nordover fra hytta, gjennom hagen, over saugjerdet og forbi et par store steiner. Da kommer du rett ned til ferjeleia.</li>
+                        <li>Med båt til Kapelløya: Hvis du vil utforske mer av Ny-Hellesund, er det flott å ta båten bort til Verftet på Kapelløya. Her finner du en koselig sommerkafé og gode muligheter for å fortsette turen videre til fots.</li>
+                      </ul>
+                      <p>Alle rutene gir et lite innblikk i Helgøyas natur og historie – og flere leder til de gamle tyske festningene fra andre verdenskrig, som er vel verdt et besøk.</p>
                     </div>
                   </div>
                 </CardSection>
@@ -254,10 +263,6 @@ export default function Page() {
                   <Title>Regler for lån av Sommervik</Title>
                 </CardSection>
                 <CardSection>
-                  <p className="mb-4 text-slate-700">
-                    For at alle skal få like gode opplevelser, ber vi om at følgende regler følges når du låner hytta:
-                  </p>
-
                   <div className="space-y-6 leading-relaxed">
                     <div>
                       <h3 className="font-semibold mb-2">Hytta og uteområdet</h3>
@@ -267,7 +272,7 @@ export default function Page() {
                         <li>Kjøleskap og matskap tømmes for lett bedervelige varer.</li>
                         <li>Gulv, bad og kjøkken vaskes/støvsuges før avreise.</li>
                         <li>Har du lånt sengetøy, håndklær eller kluter fra hytta, skal de vaskes og legges på plass igjen før avreise.</li>
-                        <li>Plenen klippes dersom det trengs. Å fjerne litt ugress er også godt for sjelen.</li>
+                        <li>Plenen klippes dersom det trengs. Å fjerne litt ugress er fint.</li>
                         <li>Puter til utemøbler skal alltid ryddes inn om natta, i regnvær og når du drar.</li>
                         <li>Gå ikke inn med sko.</li>
                       </ul>
@@ -363,7 +368,7 @@ export default function Page() {
                       title="Sommervika kalender"
                       className="h-full w-full"
                       src={CAL_URL}
-                      frameBorder="0"
+                      frameBorder={0}
                       scrolling="no"
                     />
                   </div>
@@ -412,11 +417,11 @@ function Gallery() {
 
   useEffect(() => {
     if (open) {
-      const original = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => {
-        document.body.style.overflow = original;
-      };
+    const original = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = original;
+    };
     }
   }, [open]);
 
