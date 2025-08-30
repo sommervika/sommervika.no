@@ -172,13 +172,13 @@ export default function Page() {
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    <p>Helgøya 8 – Sommervika består av hytta Skjærgården og båthuset Sjøbua.</p>
+                    <p>Helgøya 8 – Sommervika består av hytta Kilenstua og båthuset Sjøbua.</p>
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>1967 – Skjærgården og Sjøbua ble bygget som sommersted.</li>
+                        <li>1967 – Kilenstua og Sjøbua ble bygget som sommersted.</li>
                         <li>1982 – Sjøbua ble skadet i en storm og gjenoppbygd.</li>
-                        <li>2012 – Skjærgården ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
+                        <li>2012 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
                       </ul>
                     </div>
                     <div>
@@ -268,7 +268,7 @@ export default function Page() {
                     <div>
                       <h3 className="font-semibold mb-2">Hytta og uteområdet</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Skjærgården, Sjøbua og båtene skal forlates i samme stand som da du kom – eller gjerne litt bedre.</li>
+                        <li>Kilenstua, Sjøbua og båtene skal forlates i samme stand som da du kom – eller gjerne litt bedre.</li>
                         <li>Alt søppel tas med hjem eller leveres i godkjent avfallsstasjon. Ikke la noe stå igjen.</li>
                         <li>Kjøleskap og matskap tømmes for lett bedervelige varer.</li>
                         <li>Gulv, bad og kjøkken vaskes/støvsuges før avreise.</li>
@@ -313,7 +313,7 @@ export default function Page() {
                       <ul className="list-disc pl-6 space-y-1">
                         <li>Vis hensyn til naboer og naturen.</li>
                         <li>Røyking innendørs er ikke tillatt.</li>
-                        <li>Husdyr skal ikke tas med til Skjærgården.</li>
+                        <li>Husdyr skal ikke tas med til Sommervika.</li>
                         <li>Eventuelle skader eller mangler meldes fra så snart som mulig.</li>
                         <li>Skriv gjerne noen linjer i hytteboka før du drar.</li>
                       </ul>
