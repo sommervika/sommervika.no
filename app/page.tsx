@@ -339,22 +339,29 @@ export default function Page() {
           )}
 
           {/* Kart */}
-          {tab === "kart" && (
-            <section className="mt-6">
-              <Card>
-                <CardSection>
-                  <Title>Kart</Title>
-                </CardSection>
-                <CardSection>
-                  <img
-                    src="/kart_helgoya.png"
-                    alt="Kart Helgøya og Ny-Hellesund"
-                    className="w-full rounded-2xl ring-1 ring-black/5"
-                  />
-                </CardSection>
-              </Card>
-            </section>
-          )}
+{tab === "kart" && (
+  <section className="mt-6">
+    <Card>
+      <CardSection>
+        <Title>Kart</Title>
+      </CardSection>
+      <CardSection>
+        <div className="space-y-6">
+          <img
+            src="/kart_helgoya.png"
+            alt="Kart Helgøya og Ny-Hellesund"
+            className="w-full rounded-2xl ring-1 ring-black/5"
+          />
+          <img
+            src="/kart_2.png"
+            alt="Kart område 2"
+            className="w-full rounded-2xl ring-1 ring-black/5"
+          />
+        </div>
+      </CardSection>
+    </Card>
+  </section>
+)}
 
           {/* Kalender */}
           {tab === "kalender" && (
