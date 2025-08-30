@@ -144,16 +144,17 @@ export default function Page() {
                           .
                         </li>
                         <li>
-                          Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt uttaskjærs, så det krever godt vær.{" "}
-                          <a
-                            href="https://www.geitodden.no/"
-                            target="_blank"
-                            rel="noreferrer"
-                            className="text-sky-600 underline"
-                          >
-                            geitodden.no
-                          </a>
-                        </li>
+  Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt
+  uttaskjærs, så det krever godt vær.{" "}
+  <a
+    href="https://www.geitodden.no/"
+    target="_blank"
+    rel="noreferrer"
+    className="text-sky-600 underline"
+  >
+    Se hjemmesiden for meny og åpningstider
+  </a>
+</li>
                       </ul>
                     </div>
                   </div>
