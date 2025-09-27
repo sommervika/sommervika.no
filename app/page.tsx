@@ -208,6 +208,10 @@ export default function Page() {
                         Minene var av typen stokkmine – sprengladning under betongrør, montert på stolper med snubletråd – et grep som ble
                         brukt fordi jordsmonnet var for tynt til ordinære nedgravde miner.
                       </p>
+                      <p>
+                        I dag er det fortsatt mulig å se enkelte trappetrinn og betongflater langs traseen som kan stamme fra krigstiden.
+                        Alle miner ble naturligvis ryddet bort etter krigen, og området er helt trygt å ferdes i.
+                      </p>
                       <img
                         src="/ww2.jpg"
                         alt="Utsnitt fra tyske minekart som viser Teilfeld L bak Helgøya 8"
