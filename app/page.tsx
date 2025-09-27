@@ -193,6 +193,32 @@ export default function Page() {
                         I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012 ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.
                       </p>
                     </div>
+
+                     {/* Ny del: Krigshistorie */}
+                    <div>
+                      <h3 className="font-semibold mb-2">Krigshistorie</h3>
+                      <p>
+                        Under andre verdenskrig gikk den tyske gangveien <em>Langfeldstieg</em> forbi eiendommen. Den ble anlagt sommeren og
+                        høsten 1942 som en transportvei mellom kaianlegget, leiren til Organisation Todt (ved dagens Helgøya&nbsp;10) og
+                        kystfortet. Stien krysset tomten som i dag er Helgøya&nbsp;8, og ble brukt både av soldater og norske arbeidere. På
+                        enkelte partier var det en gangvei med planker og rekkverk, men mye var forfalt allerede på 1950-tallet.
+                      </p>
+                      <p>
+                        Området var dessuten svært farlig. Her lå fire minefelt (<em>Teilfeld&nbsp;L</em>) med til sammen 115 antipersonellminer.
+                        Minene var av typen stokkmine – sprengladning under betongrør, montert på stolper med snubletråd – et grep som ble
+                        brukt fordi jordsmonnet var for tynt til ordinære nedgravde miner.
+                      </p>
+                      <img
+                        src="/ww2.jpg"
+                        alt="Utsnitt fra tyske minekart som viser Teilfeld L bak Helgøya 8"
+                        className="mt-3 w-full rounded-2xl ring-1 ring-black/5"
+                        loading="lazy"
+                      />
+                      <p className="text-sm text-slate-500 mt-2">
+                        Kilde: Forsvarshistorisk forening, Kristiansand. Utsnitt fra tyske minekart.
+                      </p>
+                    </div>
+                    
                   </div>
                 </CardSection>
               </Card>
