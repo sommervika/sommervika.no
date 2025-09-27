@@ -5,37 +5,9 @@
 
 import React, { useEffect, useMemo, useState, useCallback } from "react";
 
-const SIMPLE_PIN = "1234"; // bytt til ønsket PIN (merk: synlig i klient)
-
 const HERO_URL = "/20250812_1200591.jpg";
 const CAL_URL =
   "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FOslo&hl=no&mode=AGENDA&wkst=2&showTitle=0&showNav=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&bgcolor=%23ffffff";
-
-
-function usePinGate() {
-  const [authed, setAuthed] = useState<boolean>(() => {
-    try {
-      return localStorage.getItem("sommervika_authed") === "1";
-    } catch {
-      return false;
-    }
-  });
-
-  useEffect(() => {
-    // hvis authed er false, prompt - optional: vis modal istedenfor prompt
-    if (!authed) {
-      const pin = prompt("Skriv inn PIN for å åpne siden:");
-      if (pin === SIMPLE_PIN) {
-        localStorage.setItem("sommervika_authed", "1");
-        setAuthed(true);
-      } else {
-        alert("Feil PIN");
-      }
-    }
-  }, [authed]);
-
-  return { authed };
-}
 
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4">{children}</div>;
@@ -62,10 +34,7 @@ const TABS = [
 type TabId = typeof TABS[number]["id"];
 
 export default function Page() {
- const { authed } = usePinGate();
-  if (!authed) {
-    return <div className="min-h-screen flex items-center justify-center">Sikrer siden…</div>;
-  }
+
   
   const [tab, setTab] = useState<TabId>("praktisk");
   const year = useMemo(() => new Date().getFullYear(), []);
