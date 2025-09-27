@@ -144,17 +144,17 @@ export default function Page() {
                           .
                         </li>
                         <li>
-  Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt
-  uttaskjærs, så det krever godt vær.{" "}
-  <a
-    href="https://www.geitodden.no/"
-    target="_blank"
-    rel="noreferrer"
-    className="text-sky-600 underline"
-  >
-    Se hjemmesiden for meny og åpningstider
-  </a>
-</li>
+                        Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt
+                        uttaskjærs, så det krever godt vær.{" "}
+                        <a
+                          href="https://www.geitodden.no/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sky-600 underline"
+                        >
+                          Se hjemmesiden for meny og åpningstider
+                        </a>
+                      </li>
                       </ul>
                     </div>
                   </div>
@@ -176,9 +176,9 @@ export default function Page() {
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>1967 – Kilenstua og Sjøbua ble bygget som sommersted.</li>
-                        <li>1982 – Sjøbua ble skadet i en storm og gjenoppbygd.</li>
-                        <li>2012 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
+                        <li>1968 – Kilenstua og Sjøbua ble bygget som sommersted.</li>
+                        <li>1991 – Sjøbua ble skadet i en storm og gjenoppbygd.</li>
+                        <li>2013 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
                       </ul>
                     </div>
                     <div>
