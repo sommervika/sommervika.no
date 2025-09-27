@@ -46,13 +46,7 @@ export default function Page() {
           <div className="py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
              <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
-              <img
-                src="/logo-hytte.jpg"
-                alt="Sommervika"
-                className="h-full w-full object-cover"
-                loading="eager"
-                decoding="async"
-              />
+              <img src="/logo-hytte-icon-sketch.jpg" alt="Sommervika" className="h-full w-full object-cover" />
             </div>
               <div>
                 <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Sommervika</h1>
