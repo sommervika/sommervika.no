@@ -45,9 +45,15 @@ export default function Page() {
         <Container>
           <div className="py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl bg-sky-100 grid place-items-center shadow-sm">
-                <span className="font-semibold">SV</span>
-              </div>
+             <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
+              <img
+                src="/logo-hytte.jpg"
+                alt="Sommervika"
+                className="h-full w-full object-cover"
+                loading="eager"
+                decoding="async"
+              />
+            </div>
               <div>
                 <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Sommervika</h1>
                 <p className="text-xs text-slate-500 -mt-0.5">Familiehytte – Helgøya / Ny-Hellesund</p>
