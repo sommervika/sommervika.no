@@ -60,7 +60,7 @@ export default function Page() {
       <section className="relative">
         <Container>
           <div className="mt-6 h-[34vh] sm:h-[46vh] w-full overflow-hidden rounded-3xl shadow-md ring-1 ring-black/5">
-            <div className="h-full w-full bg-cover bg-center" style={{ backgroundImage: `url(${HERO_URL})` }}>
+            <div className="h-full w-full bg-cover bg-bottom" style={{ backgroundImage: `url(${HERO_URL})` }}>
               <div className="h-full w-full bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
             </div>
           </div>
