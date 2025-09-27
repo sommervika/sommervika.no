@@ -273,6 +273,18 @@ export default function Page() {
                       <p>
                         I dag regnes uthavnen som en levende kulturarv – et sted der man kan oppleve både naturens ro og sporene etter flere hundre års kysthistorie.
                       </p>
+                      <p className="mt-2">
+                        Les mer om Ny-Hellesund på{" "}
+                        <a
+                          href="https://riksantikvaren.no/kulturhistorie/ny-hellesund-med-armene-mot-verden/"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sky-600 underline"
+                        >
+                          Riksantikvaren sin hjemmeside
+                        </a>
+                        .
+                      </p>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Turmuligheter rett fra hytta</h3>
