@@ -255,15 +255,41 @@ export default function Page() {
                         I dag er det fortsatt mulig å se enkelte trappetrinn og betongflater langs traseen som kan stamme fra krigstiden.
                         Alle miner ble naturligvis ryddet bort etter krigen, og området er helt trygt å ferdes i.
                       </p>
-                      <img
-                        src="/ww2.jpg"
-                        alt="Utsnitt fra tyske minekart som viser Teilfeld L bak Helgøya 8"
-                        className="mt-3 w-full rounded-2xl ring-1 ring-black/5"
-                        loading="lazy"
-                      />
-                      <p className="text-sm text-slate-500 mt-2">
-                        Kilde: Forsvarshistorisk forening, Kristiansand. Utsnitt fra tyske minekart.
-                      </p>
+
+<div>
+  <h3 className="font-semibold mb-2">
+    Minekart fra andre verdenskrig
+  </h3>
+  <p className="mb-4">
+    Kartet viser tyske miner og sperringer i Ny-Hellesund-området under
+    okkupasjonen.
+  </p>
+
+  <img
+    src="/krig-miner.png"
+    alt="Minekart fra andre verdenskrig"
+    className="w-full rounded-2xl ring-1 ring-black/5"
+    loading="lazy"
+  />
+</div>
+
+<div>
+  <h3 className="font-semibold mb-2 mt-8">
+    Kilevika i 1990
+  </h3>
+  <p className="mb-4">
+    Bildet viser hytta slik den så ut rundt 1990, før utbygging og renovering
+    av sjøbua.
+  </p>
+
+  <img
+    src="/Kilevika1990.png"
+    alt="Kilevika i 1990"
+    className="w-full rounded-2xl ring-1 ring-black/5"
+    loading="lazy"
+  />
+</div>
+                      
                     </div>
                     
                   </div>
