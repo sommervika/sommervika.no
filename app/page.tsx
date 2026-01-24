@@ -476,6 +476,11 @@ export default function Page() {
             alt="Kart område 2"
             className="w-full rounded-2xl ring-1 ring-black/5"
           />
+          <img
+            src="/sjokart-Kilen.png"
+            alt="Sjøkart over Kilen"
+            className="mt-6 w-full rounded-2xl ring-1 ring-black/5"
+          />
         </div>
       </CardSection>
     </Card>
