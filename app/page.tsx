@@ -209,12 +209,6 @@ export default function Page() {
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <p>Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og båthuset Sjøbua.</p>
-                    <img
-                      src="/Kilevika1990.png"
-                      alt="Kilevika i 1990 – før utbygging og renovering av Sjøbua"
-                      className="w-full rounded-2xl ring-1 ring-black/5"
-                      loading="lazy"
-                    />
 
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
