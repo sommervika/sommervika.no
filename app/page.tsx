@@ -260,7 +260,7 @@ export default function Page() {
   </p>
 
   <img
-    src="/krig-miner.png"
+    src="/ww2.jpg"
     alt="Minekart fra andre verdenskrig"
     className="w-full rounded-2xl ring-1 ring-black/5"
     loading="lazy"
