@@ -360,13 +360,14 @@ export default function Page() {
                         <li>Snarveien nordover: For de som ikke er redd for litt småklatring – ta turen rett nordover fra hytta, gjennom hagen, over saugjerdet og forbi et par store steiner. Da kommer du rett ned til ferjeleia.</li>
                         <li>Med båt til Kapelløya: Hvis du vil utforske mer av Ny-Hellesund, er det flott å ta båten bort til Verftet på Kapelløya. Her finner du en koselig sommerkafé og gode muligheter for å fortsette turen videre til fots.</li>
                       </ul>
+                      <p>Alle rutene gir et lite innblikk i Helgøyas natur og historie – og flere leder til de gamle tyske festningene fra andre verdenskrig, som er vel verdt et besøk.</p>
                       <img
                         src="/helgoya-stikart2.png"
                         alt="Turkart – Helgøya"
                         className="mt-4 w-full rounded-2xl ring-1 ring-black/5"
                         loading="lazy"
                       />
-                      <p>Alle rutene gir et lite innblikk i Helgøyas natur og historie – og flere leder til de gamle tyske festningene fra andre verdenskrig, som er vel verdt et besøk.</p>
+                      
                     </div>
                   </div>
                 </CardSection>
