@@ -203,13 +203,13 @@ export default function Page() {
           {tab === "historie" && (
             <section className="mt-6">
               <Card>
-                <CardSection>
-                  <Title>Historien om Kilevika</Title>
-                </CardSection>
-                <CardSection>
+               <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    <p>Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og båthuset Sjøbua.</p>
-
+                    <p>
+                      Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og
+                      båthuset Sjøbua.
+                    </p>
+                
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
                       <ul className="list-disc pl-6 space-y-1">
@@ -218,74 +218,78 @@ export default function Page() {
                         <li>2013 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
                       </ul>
                     </div>
+                
                     <div>
                       <h3 className="font-semibold mb-2">Spor fra fortiden</h3>
                       <p>
-                        Bak hytta kan man se murrester etter et gammelt hus – et glimt inn i hverdagslivet på Helgøya før fritidsbebyggelsen.
+                        Bak hytta kan man se murrester etter et gammelt hus – et glimt inn i
+                        hverdagslivet på Helgøya før fritidsbebyggelsen.
                       </p>
                     </div>
+                
                     <div>
                       <h3 className="font-semibold mb-2">Fredet kulturmiljø</h3>
                       <p>
-                        I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012 ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.
+                        I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012
+                        ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.
                       </p>
                     </div>
-
-                     {/* Ny del: Krigshistorie */}
+                
+                    {/* Krigshistorie */}
                     <div>
                       <h3 className="font-semibold mb-2">Krigshistorie</h3>
                       <p>
-                        Under andre verdenskrig gikk den tyske gangveien <em>Langfeldstieg</em> forbi eiendommen. Den ble anlagt sommeren og
-                        høsten 1942 som en transportvei mellom kaianlegget, leiren til Organisation Todt (ved dagens Helgøya&nbsp;10) og
-                        kystfortet. Stien krysset tomten som i dag er Helgøya&nbsp;8, og ble brukt både av soldater og norske arbeidere. På
-                        enkelte partier var det en gangvei med planker og rekkverk, men mye var forfalt allerede på 1950-tallet.
+                        Under andre verdenskrig gikk den tyske gangveien <em>Langfeldstieg</em>
+                        forbi eiendommen. Den ble anlagt sommeren og høsten 1942 som en
+                        transportvei mellom kaianlegget, leiren til Organisation Todt (ved dagens
+                        Helgøya&nbsp;10) og kystfortet.
                       </p>
                       <p>
-                        Området var dessuten svært farlig. Her lå fire minefelt (<em>Teilfeld&nbsp;L</em>) med til sammen 115 antipersonellminer.
-                        Minene var av typen stokkmine – sprengladning under betongrør, montert på stolper med snubletråd – et grep som ble
-                        brukt fordi jordsmonnet var for tynt til ordinære nedgravde miner.
+                        Området var dessuten svært farlig. Her lå fire minefelt
+                        (<em>Teilfeld&nbsp;L</em>) med til sammen 115 antipersonellminer.
                       </p>
                       <p>
-                        I dag er det fortsatt mulig å se enkelte trappetrinn og betongflater langs traseen som kan stamme fra krigstiden.
-                        Alle miner ble naturligvis ryddet bort etter krigen, og området er helt trygt å ferdes i.
+                        I dag er det fortsatt mulig å se enkelte trappetrinn og betongflater
+                        langs traseen som kan stamme fra krigstiden. Alle miner ble naturligvis
+                        ryddet bort etter krigen, og området er helt trygt å ferdes i.
                       </p>
-
-<div>
-  <h3 className="font-semibold mb-2">
-    Minekart fra andre verdenskrig
-  </h3>
-  <p className="mb-4">
-    Kartet viser tyske miner og sperringer i Ny-Hellesund-området under
-    okkupasjonen.
-  </p>
-
-  <img
-    src="/ww2.jpg"
-    alt="Minekart fra andre verdenskrig"
-    className="w-full rounded-2xl ring-1 ring-black/5"
-    loading="lazy"
-  />
-</div>
-
-<div>
-  <h3 className="font-semibold mb-2 mt-8">
-    Kilevika i 1990
-  </h3>
-  <p className="mb-4">
-    Bildet viser hytta slik den så ut rundt 1990, før utbygging og renovering
-    av sjøbua.
-  </p>
-
-  <img
-    src="/Kilevika1990.png"
-    alt="Kilevika i 1990"
-    className="w-full rounded-2xl ring-1 ring-black/5"
-    loading="lazy"
-  />
-</div>
-                      
                     </div>
-                    
+                
+                    {/* Minekart */}
+                    <div>
+                      <h3 className="font-semibold mb-2">
+                        Minekart fra andre verdenskrig
+                      </h3>
+                      <p className="mb-4">
+                        Kartet viser tyske miner og sperringer i Ny-Hellesund-området under
+                        okkupasjonen.
+                      </p>
+                
+                      <img
+                        src="/ww2.jpg"
+                        alt="Minekart fra andre verdenskrig"
+                        className="w-full rounded-2xl ring-1 ring-black/5"
+                        loading="lazy"
+                      />
+                    </div>
+                
+                    {/* 1990-bildet */}
+                    <div>
+                      <h3 className="font-semibold mb-2">
+                        Kilevika i 1990
+                      </h3>
+                      <p className="mb-4">
+                        Bildet viser hytta slik den så ut rundt 1990, før utbygging og
+                        renovering av sjøbua.
+                      </p>
+                
+                      <img
+                        src="/Kilevika1990.png"
+                        alt="Kilevika i 1990"
+                        className="w-full rounded-2xl ring-1 ring-black/5"
+                        loading="lazy"
+                      />
+                    </div>
                   </div>
                 </CardSection>
               </Card>
