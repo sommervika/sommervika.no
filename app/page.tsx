@@ -23,8 +23,9 @@ function Title({ children }: { children: React.ReactNode }) {
 }
 
 const TABS = [
+  { id: "kilevika", label: "Kilevika" },
   { id: "praktisk", label: "Praktisk informasjon" },
-  { id: "historie", label: "Historien om Sommervika" },
+  { id: "historie", label: "Historien om Kilevika" },
   { id: "omrade", label: "Området Ny-Hellesund" },
   { id: "regler", label: "Regler for lån" },
   { id: "bilder", label: "Bilder" },
@@ -36,7 +37,7 @@ type TabId = typeof TABS[number]["id"];
 export default function Page() {
 
   
-  const [tab, setTab] = useState<TabId>("praktisk");
+  const [tab, setTab] = useState<TabId>("kilevika");
   const year = useMemo(() => new Date().getFullYear(), []);
 
   return (
@@ -46,10 +47,10 @@ export default function Page() {
           <div className="py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
              <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
-              <img src="/logo-hytte-icon-sketch.jpg" alt="Sommervika" className="h-full w-full object-cover" />
+              <img src="/logo-hytte-icon-sketch.jpg" alt="Kilevika" className="h-full w-full object-cover" />
             </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Sommervika</h1>
+                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Kilevika</h1>
                 <p className="text-xs text-slate-500 -mt-0.5">Familiehytte – Helgøya / Ny-Hellesund</p>
               </div>
             </div>
@@ -69,7 +70,7 @@ export default function Page() {
 
       <main className="py-8">
         <Container>
-          <nav className="grid grid-cols-2 sm:grid-cols-7 gap-2 bg-slate-100 p-2 rounded-2xl">
+          <nav className="grid grid-cols-2 sm:grid-cols-8 gap-2 bg-slate-100 p-2 rounded-2xl">
             {TABS.map(({ id, label }) => (
               <button
                 key={id}
@@ -83,6 +84,30 @@ export default function Page() {
               </button>
             ))}
           </nav>
+
+          {/* Kilevika */}
+          {tab === "kilevika" && (
+            <section className="mt-6">
+              <Card>
+                <CardSection>
+                  <Title>Kilevika</Title>
+                </CardSection>
+                <CardSection>
+                  <div className="space-y-4 leading-relaxed">
+                    <p>
+                      Velkommen til <strong>Kilevika</strong> – en familiehytte i den lune viken Kilen på Helgøya, midt i Ny-Hellesund.
+                    </p>
+                    <p>
+                      Dette er en privat familiehytte, og vi driver dessverre <strong>ikke</strong> med utleie.
+                    </p>
+                    <p>
+                      Tomten har offisielt navnet <strong>Kilevika</strong>, men vi kaller ofte hytta <strong>Sommervika</strong> i dagligtale.
+                    </p>
+                  </div>
+                </CardSection>
+              </Card>
+            </section>
+          )}
 
           {/* Praktisk informasjon */}
           {tab === "praktisk" && (
@@ -110,11 +135,6 @@ export default function Page() {
                         </a>
                         .
                       </p>
-                    </div>
-
-                    <div>
-                      <h3 className="font-semibold mb-2">Sengetøy og håndklær</h3>
-                      <p>Vi setter pris på at dere tar med eget sengetøy og håndklær.</p>
                     </div>
 
                     <div>
@@ -173,11 +193,11 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Historien om Sommervika</Title>
+                  <Title>Historien om Kilevika</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    <p>Helgøya 8 – Sommervika består av hytta Kilenstua og båthuset Sjøbua.</p>
+                    <p>Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og båthuset Sjøbua.</p>
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
                       <ul className="list-disc pl-6 space-y-1">
@@ -288,13 +308,19 @@ export default function Page() {
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Turmuligheter rett fra hytta</h3>
-                      <p>Helgøya byr på mange fine stier og små eventyr rett utenfor døra. Fra Sommervika kan du velge flere ruter:</p>
+                      <p>Helgøya byr på mange fine stier og små eventyr rett utenfor døra. Fra Kilevika kan du velge flere ruter:</p>
                       <ul className="list-disc pl-6 space-y-1">
                         <li>Vestover: Følg stien vestover fra hytta, og ta første sti til venstre over fjellet. Da kommer du ned til fergekaia og veien videre mot festningsanleggene.</li>
                         <li>Østover: Gå via naboens plen til den såkalte "Tyskerbrygga". Herfra kan du følge grusveien opp til festningene eller ned til ferjeleiet.</li>
                         <li>Snarveien nordover: For de som ikke er redd for litt småklatring – ta turen rett nordover fra hytta, gjennom hagen, over saugjerdet og forbi et par store steiner. Da kommer du rett ned til ferjeleia.</li>
                         <li>Med båt til Kapelløya: Hvis du vil utforske mer av Ny-Hellesund, er det flott å ta båten bort til Verftet på Kapelløya. Her finner du en koselig sommerkafé og gode muligheter for å fortsette turen videre til fots.</li>
                       </ul>
+                      <img
+                        src="/helgoya-stikart2.png"
+                        alt="Turkart – Helgøya"
+                        className="mt-4 w-full rounded-2xl ring-1 ring-black/5"
+                        loading="lazy"
+                      />
                       <p>Alle rutene gir et lite innblikk i Helgøyas natur og historie – og flere leder til de gamle tyske festningene fra andre verdenskrig, som er vel verdt et besøk.</p>
                     </div>
                   </div>
@@ -308,7 +334,7 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Regler for lån av Sommervik</Title>
+                  <Title>Regler for lån av Kilevika</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
@@ -319,7 +345,7 @@ export default function Page() {
                         <li>Alt søppel tas med hjem eller leveres i godkjent avfallsstasjon. Ikke la noe stå igjen.</li>
                         <li>Kjøleskap og matskap tømmes for lett bedervelige varer.</li>
                         <li>Gulv, bad og kjøkken vaskes/støvsuges før avreise.</li>
-                        <li>Har du lånt sengetøy, håndklær eller kluter fra hytta, skal de vaskes og legges på plass igjen før avreise.</li>
+                        <li>Vi setter pris på at dere tar med eget sengetøy og håndklær.</li>
                         <li>Plenen klippes dersom det trengs. Å fjerne litt ugress er fint.</li>
                         <li>Puter til utemøbler skal alltid ryddes inn om natta, i regnvær og når du drar.</li>
                         <li>Gå ikke inn med sko.</li>
@@ -360,7 +386,7 @@ export default function Page() {
                       <ul className="list-disc pl-6 space-y-1">
                         <li>Vis hensyn til naboer og naturen.</li>
                         <li>Røyking innendørs er ikke tillatt.</li>
-                        <li>Husdyr skal ikke tas med til Sommervika.</li>
+                        <li>Husdyr skal ikke tas med til Kilevika.</li>
                         <li>Eventuelle skader eller mangler meldes fra så snart som mulig.</li>
                         <li>Skriv gjerne noen linjer i hytteboka før du drar.</li>
                       </ul>
@@ -420,7 +446,7 @@ export default function Page() {
                 <CardSection>
                   <div className="aspect-video w-full overflow-hidden rounded-2xl ring-1 ring-black/5 mt-2">
                     <iframe
-                      title="Sommervika kalender"
+                      title="Kilevika kalender"
                       className="h-full w-full"
                       src={CAL_URL}
                       frameBorder={0}
@@ -437,7 +463,7 @@ export default function Page() {
       <footer className="border-t bg-white/70 backdrop-blur">
         <Container>
           <div className="py-8 text-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© {year} Sommervika – Helgøya, Ny-Hellesund</p>
+            <p>© {year} Kilevika – Helgøya, Ny-Hellesund</p>
           </div>
         </Container>
       </footer>
@@ -492,7 +518,7 @@ function Gallery() {
           >
             <img
               src={src}
-              alt="Sommervika"
+              alt="Kilevika"
               className="h-40 w-full object-cover transition-transform duration-200 group-hover:scale-[1.03]"
               loading="lazy"
             />
