@@ -95,30 +95,23 @@ export default function Page() {
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <div>
-                      <h3 className="font-semibold mb-2">Velkommen til Kilevika</h3>
-                      <p>
-                        Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her
-                        ligger Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett
-                        utenfor døra.
-                      </p>
-                      <p className="mt-2">
-                        På denne siden finner du praktisk informasjon om bruk av hytta, regler
-                        for lån, historie og litt om området rundt.
-                      </p>
-                      <p className="mt-2">
-                        Hytta er en privat familiehytte. Vi låner den ut til familie og nære
-                        venner, men vi driver dessverre ikke med utleie.
-                      </p>
-                      <p className="mt-2">
-                        Tomten heter offisielt Kilevika, men i dagligtale kaller vi den ofte
-                        Sommervika.
-                      </p>
-                    </div>
+                              <h3 className="font-semibold mb-2">Velkommen til Kilevika</h3>
+                              <p>
+                                Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her ligger
+                                Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett utenfor døra.
+                                På denne siden finner du praktisk informasjon om bruk av hytta, regler for
+                                lån, historie og litt om området rundt.
+                              </p>
+                              <p className="mt-2">
+                                Hytta er en privat familiehytte. Vi låner den ut til familie og nære venner,
+                                men vi driver dessverre ikke med utleie. Tomten heter offisielt Kilevika, men
+                                i dagligtale kaller vi den ofte Sommervika.
+                              </p>
+                            </div>
                 
                     <div>
                       <h3 className="font-semibold mb-2">Adkomst</h3>
                       <p>
-                        Hytta ligger i den lune viken Kilen på Helgøya, midt i Ny-Hellesund.
                         Vanlig adkomst er med båt fra Solta Båthavn i Høllen, hvor det også finnes
                         mulighet for parkering mot betaling. Ta kontakt med oss for detaljer om
                         båtplass og nøkler.
