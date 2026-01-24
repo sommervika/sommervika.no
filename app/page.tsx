@@ -95,19 +95,19 @@ export default function Page() {
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <div>
-                              <h3 className="font-semibold mb-2">Velkommen til Kilevika</h3>
-                              <p>
-                                Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her ligger
-                                Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett utenfor døra.
-                                På denne siden finner du praktisk informasjon om bruk av hytta, regler for
-                                lån, historie og litt om området rundt.
-                              </p>
-                              <p className="mt-2">
-                                Hytta er en privat familiehytte. Vi låner den ut til familie og nære venner,
-                                men vi driver dessverre ikke med utleie. Tomten heter offisielt Kilevika, men
-                                i dagligtale kaller vi den ofte Sommervika.
-                              </p>
-                            </div>
+                          <h3 className="font-semibold mb-2">Velkommen til Kilevika</h3>
+                          <p>
+                            Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her ligger
+                            Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett utenfor døra.
+                            På denne siden finner du praktisk informasjon om bruk av hytta, regler for
+                            lån, historie og litt om området rundt.
+                          </p>
+                          <p className="mt-2">
+                            Hytta er en privat familiehytte. Vi låner den ut til familie og nære venner,
+                            men vi driver dessverre ikke med utleie. Tomten heter offisielt Kilevika, men
+                            i dagligtale kaller vi den ofte Sommervika.
+                          </p>
+                        </div>
                 
                     <div>
                       <h3 className="font-semibold mb-2">Adkomst</h3>
@@ -215,7 +215,7 @@ export default function Page() {
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <p>
-                      Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og
+                      Helgøya 8 – Kilevika består av hytta Kilenstua og
                       båthuset Sjøbua.
                     </p>
                 
@@ -410,7 +410,6 @@ export default function Page() {
                     <div>
                       <h3 className="font-semibold mb-2">Båt og sjøliv</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Båtene skal leveres tilbake med like mye bensin som da du kom.</li>
                         <li>Sørg for at båtene alltid er godt fortøyd – en fender eller to ekstra skader ingen.</li>
                         <li>Pluggen for selvlensing skal stå åpen i Pepsi når du drar, men stenges ved bruk.</li>
                         <li>Ta vare på årer, vester og annet utstyr – legg det på plass i Sjøbua etter bruk.</li>
