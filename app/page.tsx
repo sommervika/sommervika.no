@@ -271,6 +271,9 @@ export default function Page() {
                         className="w-full rounded-2xl ring-1 ring-black/5"
                         loading="lazy"
                       />
+                      <p className="mt-2 text-sm text-slate-500">
+                        Kilde: Forsvarshistorisk forening i Kristiansandsregionen
+                      </p>
                     </div>
                 
                     {/* 1990-bildet */}
