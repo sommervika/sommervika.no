@@ -85,7 +85,7 @@ export default function Page() {
             ))}
           </nav>
 
-          {/* Kilevika */}
+                    {/* Kilevika */}
           {tab === "kilevika" && (
             <section className="mt-6">
               <Card>
@@ -93,16 +93,33 @@ export default function Page() {
                   <Title>Kilevika</Title>
                 </CardSection>
                 <CardSection>
-                  <div className="space-y-4 leading-relaxed">
+                  <div className="space-y-6 leading-relaxed">
                     <p>
-                      Velkommen til <strong>Kilevika</strong> – en familiehytte i den lune viken Kilen på Helgøya, midt i Ny-Hellesund.
+                      Velkommen til <strong>Kilevika</strong> – en liten, lun vik i Kilen på Helgøya, midt i Ny-Hellesund. Her ligger Kilenstua og Sjøbua tett på sjøen,
+                      med svaberg, saltvann og kveldssol rett utenfor døra.
                     </p>
-                    <p>
-                      Dette er en privat familiehytte, og vi driver dessverre <strong>ikke</strong> med utleie.
-                    </p>
-                    <p>
-                      Tomten har offisielt navnet <strong>Kilevika</strong>, men vi kaller ofte hytta <strong>Sommervika</strong> i dagligtale.
-                    </p>
+
+                    <img
+                      src="/20250812_114536.jpg"
+                      alt="Kilevika – hytta ved sjøen"
+                      className="w-full rounded-2xl ring-1 ring-black/5"
+                      loading="lazy"
+                    />
+
+                    <div>
+                      <h3 className="font-semibold mb-2">Familiehytte</h3>
+                      <p>
+                        Kilevika er en privat familiehytte. Vi låner den ut i familien og til nære venner, men vi driver dessverre <strong>ikke</strong> med utleie.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h3 className="font-semibold mb-2">Navnet Kilevika og Sommervika</h3>
+                      <p>
+                        Tomten har offisielt navnet <strong>Kilevika</strong>. I dagligtale sier vi ofte <strong>Sommervika</strong> – mest fordi det har blitt et kjært
+                        kallenavn gjennom mange somre her ute.
+                      </p>
+                    </div>
                   </div>
                 </CardSection>
               </Card>
@@ -198,6 +215,13 @@ export default function Page() {
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <p>Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og båthuset Sjøbua.</p>
+                    <img
+                      src="/Kilevika1990.png"
+                      alt="Kilevika i 1990 – før utbygging og renovering av Sjøbua"
+                      className="w-full rounded-2xl ring-1 ring-black/5"
+                      loading="lazy"
+                    />
+
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
                       <ul className="list-disc pl-6 space-y-1">
