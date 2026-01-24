@@ -90,7 +90,10 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-  <div className="space-y-6 leading-relaxed">
+                  <Title>Kilevika</Title>
+                </CardSection>
+                <CardSection>
+<div className="space-y-6 leading-relaxed">
     <p>
       Velkommen til Kilevika – en liten, lun vik i Kilen på Helgøya, midt i
       Ny-Hellesund. Her ligger Kilenstua og Sjøbua tett på sjøen. Kilevika er en
@@ -132,7 +135,7 @@ export default function Page() {
       loading="lazy"
     />
   </div>
-</CardSection>
+                </CardSection>
               </Card>
             </section>
           )}
@@ -204,6 +207,9 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                <CardSection>
+                  <Title>Historien om Kilevika</Title>
+                </CardSection>
+                <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <p>
                       Helgøya 8 – Kilevika (ofte kalt Sommervika) består av hytta Kilenstua og
