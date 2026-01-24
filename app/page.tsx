@@ -93,49 +93,59 @@ export default function Page() {
                   <Title>Kilevika</Title>
                 </CardSection>
                 <CardSection>
-<div className="space-y-6 leading-relaxed">
-    <p>
-      Velkommen til Kilevika – en liten, lun vik i Kilen på Helgøya, midt i
-      Ny-Hellesund. Her ligger Kilenstua og Sjøbua tett på sjøen. Kilevika er en
-      privat familiehytte. Vi låner den ut til familien og til nære venner, men
-      vi driver ikke med utleie.
-    </p>
-
-    <div>
-      <h3 className="font-semibold mb-2">Navnet Kilevika og Sommervika</h3>
-      <p>Tomten har offisielt navnet Kilevika, men vi kaller den ofte også Sommervika.</p>
-    </div>
-
-    <div>
-      <h3 className="font-semibold mb-2">Adkomst</h3>
-      <p>
-        Hytta ligger i den lune viken Kilen på Helgøya, midt i Ny-Hellesund.
-        Vanlig adkomst er med båt fra Solta Båthavn i Høllen, hvor det også finnes
-        mulighet for parkering mot betaling. Ta kontakt med oss for detaljer om
-        båtplass og nøkler.
-      </p>
-      <p className="mt-2">
-        Det går også passasjerferge flere ganger daglig fra Høllen til Helgøya{" "}
-        <a
-          href="https://www.akt.no/_f/p1/i84326d30-9668-4820-bc65-6ca70588fa28/92-hollen-boroya-skarpoya-ny-hellsund-fra-01072025.pdf"
-          target="_blank"
-          rel="noreferrer"
-          className="text-sky-600 underline"
-        >
-          Se rutetabell her
-        </a>
-        .
-      </p>
-    </div>
-
-    <img
-      src="/20250812_114536.jpg"
-      alt="Kilevika – hytta ved sjøen"
-      className="w-full rounded-2xl ring-1 ring-black/5"
-      loading="lazy"
-    />
-  </div>
+                  <div className="space-y-6 leading-relaxed">
+                    <div>
+                      <h3 className="font-semibold mb-2">Velkommen til Kilevika</h3>
+                      <p>
+                        Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her
+                        ligger Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett
+                        utenfor døra.
+                      </p>
+                      <p className="mt-2">
+                        På denne siden finner du praktisk informasjon om bruk av hytta, regler
+                        for lån, historie og litt om området rundt.
+                      </p>
+                      <p className="mt-2">
+                        Hytta er en privat familiehytte. Vi låner den ut til familie og nære
+                        venner, men vi driver dessverre ikke med utleie.
+                      </p>
+                      <p className="mt-2">
+                        Tomten heter offisielt Kilevika, men i dagligtale kaller vi den ofte
+                        Sommervika.
+                      </p>
+                    </div>
+                
+                    <div>
+                      <h3 className="font-semibold mb-2">Adkomst</h3>
+                      <p>
+                        Hytta ligger i den lune viken Kilen på Helgøya, midt i Ny-Hellesund.
+                        Vanlig adkomst er med båt fra Solta Båthavn i Høllen, hvor det også finnes
+                        mulighet for parkering mot betaling. Ta kontakt med oss for detaljer om
+                        båtplass og nøkler.
+                      </p>
+                      <p className="mt-2">
+                        Det går også passasjerferge flere ganger daglig fra Høllen til Helgøya.{" "}
+                        <a
+                          href="https://www.akt.no/_f/p1/i84326d30-9668-4820-bc65-6ca70588fa28/92-hollen-boroya-skarpoya-ny-hellsund-fra-01072025.pdf"
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-sky-600 underline"
+                        >
+                          Se rutetabell her
+                        </a>
+                        .
+                      </p>
+                    </div>
+                
+                    <img
+                      src="/20250812_114536.jpg"
+                      alt="Kilevika – hytta ved sjøen"
+                      className="w-full rounded-2xl ring-1 ring-black/5"
+                      loading="lazy"
+                    />
+                  </div>
                 </CardSection>
+
               </Card>
             </section>
           )}
