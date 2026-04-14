@@ -4,7 +4,8 @@
 -- =========================================================================
 
 -- 1) Aktiver pgcrypto for passord-hashing (bcrypt).
-create extension if not exists pgcrypto;
+-- Supabase installerer extensions i `extensions`-skjema.
+create extension if not exists pgcrypto with schema extensions;
 
 -- 2) Tabell for flyreiser.
 create table if not exists public.flights (
@@ -30,7 +31,7 @@ create table if not exists public.app_config (
 -- 4) Sett familie-passordet. ENDRE 'ditt-hemmelige-passord' før du kjører.
 --    (Dobbel-kjøring overskriver forrige hash.)
 insert into public.app_config (key, value)
-values ('family_password_hash', crypt('ditt-hemmelige-passord', gen_salt('bf')))
+values ('family_password_hash', extensions.crypt('ditt-hemmelige-passord', extensions.gen_salt('bf')))
 on conflict (key) do update set value = excluded.value;
 
 -- 5) RLS: alle kan lese, ingen kan skrive direkte (kun via RPC under).
@@ -57,7 +58,7 @@ create or replace function public.add_flight(
 returns uuid
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare
   v_hash text;
@@ -79,7 +80,7 @@ create or replace function public.delete_flight(p_password text, p_id uuid)
 returns void
 language plpgsql
 security definer
-set search_path = public
+set search_path = public, extensions
 as $$
 declare v_hash text;
 begin
