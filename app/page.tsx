@@ -60,6 +60,51 @@ type Dict = {
   co2FlightsBody: string;
   co2LearnMore: string;
   footer: string;
+  // History
+  historyIntro: string;
+  historyDatesHeading: string;
+  historyDates: string[];
+  historyTracesHeading: string;
+  historyTracesBody: string;
+  historyProtectedHeading: string;
+  historyProtectedBody: string;
+  historyWarHeading: string;
+  historyWarP1: React.ReactNode;
+  historyWarP2: React.ReactNode;
+  historyWarP3: string;
+  historyMineMapHeading: string;
+  historyMineMapBody: string;
+  historyMineMapCaption: string;
+  history1990Heading: string;
+  history1990Body: string;
+  // Area
+  areaIntro: string;
+  areaSailHeading: string;
+  areaSailP1: string;
+  areaSailP2: string;
+  areaBuildingsHeading: string;
+  areaBuildings: React.ReactNode[];
+  areaModernHeading: string;
+  areaModernP1: string;
+  areaModernP2: string;
+  areaModernLinkPre: string;
+  areaModernLink: string;
+  areaHikesHeading: string;
+  areaHikesIntro: string;
+  areaHikes: string[];
+  areaHikesOutro: string;
+  // Rules
+  rulesHeading: string;
+  rulesCabinHeading: string;
+  rulesCabin: string[];
+  rulesBoatHeading: string;
+  rulesBoat: string[];
+  rulesSwimHeading: string;
+  rulesSwim: string[];
+  rulesUtilityHeading: string;
+  rulesUtility: string[];
+  rulesGeneralHeading: string;
+  rulesGeneral: string[];
 };
 
 const T: Record<Lang, Dict> = {
@@ -123,6 +168,112 @@ const T: Record<Lang, Dict> = {
       "For lengre reiser til og fra Kristiansand i forbindelse med hytta offsetter vi flyutslippene på samme måte som båtdrivstoffet — gjennom DAC hos Climeworks.",
     co2LearnMore: "Les mer om Climeworks",
     footer: "Kilevika – Helgøya, Ny-Hellesund",
+    historyIntro:
+      "Helgøya 8 – Kilevika består av hytta Kilenstua og båthuset Sjøbua.",
+    historyDatesHeading: "Viktige årstall",
+    historyDates: [
+      "1968 – Kilenstua og Sjøbua ble bygget som sommersted.",
+      "1991 – Sjøbua ble skadet i en storm og gjenoppbygd.",
+      "2013 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.",
+    ],
+    historyTracesHeading: "Spor fra fortiden",
+    historyTracesBody:
+      "Bak hytta kan man se murrester etter et gammelt hus – et glimt inn i hverdagslivet på Helgøya før fritidsbebyggelsen.",
+    historyProtectedHeading: "Fredet kulturmiljø",
+    historyProtectedBody:
+      "I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012 ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.",
+    historyWarHeading: "Krigshistorie",
+    historyWarP1: (
+      <>
+        Under andre verdenskrig gikk den tyske gangveien <em>Langfeldstieg</em> forbi eiendommen. Den ble anlagt sommeren og høsten 1942 som en transportvei mellom kaianlegget, leiren til Organisation Todt (ved dagens Helgøya&nbsp;10) og kystfortet.
+      </>
+    ),
+    historyWarP2: (
+      <>
+        Området var dessuten svært farlig. Her lå fire minefelt (<em>Teilfeld&nbsp;L</em>) med til sammen 115 antipersonellminer.
+      </>
+    ),
+    historyWarP3:
+      "I dag er det fortsatt mulig å se enkelte trappetrinn og betongflater langs traseen som kan stamme fra krigstiden. Alle miner ble naturligvis ryddet bort etter krigen, og området er helt trygt å ferdes i.",
+    historyMineMapHeading: "Minekart fra andre verdenskrig",
+    historyMineMapBody:
+      "Kartet viser tyske miner og sperringer i Ny-Hellesund-området under okkupasjonen.",
+    historyMineMapCaption: "Kilde: Forsvarshistorisk forening i Kristiansandsregionen",
+    history1990Heading: "Kilevika i 1990",
+    history1990Body:
+      "Bildet viser hytta slik den så ut rundt 1990, før utbygging og renovering av sjøbua.",
+    areaIntro:
+      "Ny-Hellesund er en av Sørlandets best bevarte uthavner, kjent for sin vakre natur og rike historie. Havnen består av øyene Helgøya, Kapelløya og Monsøya, bundet sammen av trange sund.",
+    areaSailHeading: "Fra seilskutetid til kystkultur",
+    areaSailP1:
+      "Allerede på 1600-tallet var Ny-Hellesund en travel uthavn der seilskuter fra fjern og nær søkte ly for vær og vind. Den smale innseilingen gjorde stedet trygt, og havnen ble et viktig stoppested på leia mellom Østlandet og Vestlandet.",
+    areaSailP2:
+      "Gjennom tidene hadde Ny-Hellesund både tollstasjon, gjestgiveri og verft, og utviklet seg til et lite sentrum i skjærgården. Mange familier levde som loser, og losstasjonen her var blant de viktigste på Sørlandskysten. Fisket ga også livsgrunnlag, og det ble drevet både handel og småindustri knyttet til sjøen.",
+    areaBuildingsHeading: "Historiske bygg og steder",
+    areaBuildings: [
+      "Olavsundet – et smalt sund mellom Kapelløya og Helgøya, oppkalt etter sagnet om at Olav den hellige seilte gjennom her på flukt fra fiender.",
+      "Kjøbmandskjær og gjestgiveriet – på 1700- og 1800-tallet lå det et gjestgiveri her hvor sjøfolk fikk husly og proviant.",
+      "Sjøbuer og uthus – mange av de gamle sjøbuene, brukt til lagring av fiskeredskaper og varer, står fortsatt langs sundet.",
+      "Kapelløya – har navn etter et kapell som stod her på 1500-tallet. Ruinene er borte, men navnet lever videre.",
+      "Kystfortet på Helgøya – anlagt av tyskerne i 1942–43 som del av Atlanterhavsvollen. Her finnes fortsatt kanonstillinger, tunneler og bygninger fra krigsårene.",
+    ],
+    areaModernHeading: "Moderne tid og vern",
+    areaModernP1:
+      "Etter seilskutetiden gikk aktiviteten gradvis ned, og mange av bygningene ble tatt i bruk som sommerhus. Den unike kombinasjonen av natur, kultur og historie førte til at hele Ny-Hellesund ble fredet som kulturmiljø ved kongelig resolusjon i 2016.",
+    areaModernP2:
+      "I dag regnes uthavnen som en levende kulturarv – et sted der man kan oppleve både naturens ro og sporene etter flere hundre års kysthistorie.",
+    areaModernLinkPre: "Les mer om Ny-Hellesund på",
+    areaModernLink: "Riksantikvaren sin hjemmeside",
+    areaHikesHeading: "Turmuligheter rett fra hytta",
+    areaHikesIntro:
+      "Helgøya byr på mange fine stier og små eventyr rett utenfor døra. Fra Kilevika kan du velge flere ruter:",
+    areaHikes: [
+      "Vestover: Følg stien vestover fra hytta, og ta første sti til venstre over fjellet. Da kommer du ned til fergekaia og veien videre mot festningsanleggene.",
+      "Østover: Gå via naboens plen til den såkalte \"Tyskerbrygga\". Herfra kan du følge grusveien opp til festningene eller ned til ferjeleiet.",
+      "Snarveien nordover: For de som ikke er redd for litt småklatring – ta turen rett nordover fra hytta, gjennom hagen, over saugjerdet og forbi et par store steiner. Da kommer du rett ned til ferjeleia.",
+      "Med båt til Kapelløya: Hvis du vil utforske mer av Ny-Hellesund, er det flott å ta båten bort til Verftet på Kapelløya. Her finner du en koselig sommerkafé og gode muligheter for å fortsette turen videre til fots.",
+    ],
+    areaHikesOutro:
+      "Alle rutene gir et lite innblikk i Helgøyas natur og historie – og flere leder til de gamle tyske festningene fra andre verdenskrig, som er vel verdt et besøk.",
+    rulesHeading: "Regler for lån av Kilevika",
+    rulesCabinHeading: "Hytta og uteområdet",
+    rulesCabin: [
+      "Kilenstua, Sjøbua og båtene skal forlates i samme stand som da du kom – eller gjerne litt bedre.",
+      "Alt søppel tas med hjem eller leveres i godkjent avfallsstasjon. Ikke la noe stå igjen.",
+      "Kjøleskap og matskap tømmes for lett bedervelige varer.",
+      "Gulv, bad og kjøkken vaskes/støvsuges før avreise.",
+      "Vi setter pris på at dere tar med eget sengetøy og håndklær.",
+      "Plenen klippes dersom det trengs. Å fjerne litt ugress er fint.",
+      "Puter til utemøbler skal alltid ryddes inn om natta, i regnvær og når du drar.",
+      "Gå ikke inn med sko.",
+    ],
+    rulesBoatHeading: "Båt og sjøliv",
+    rulesBoat: [
+      "Sørg for at båtene alltid er godt fortøyd – en fender eller to ekstra skader ingen.",
+      "Pluggen for selvlensing skal stå åpen i Pepsi når du drar, men stenges ved bruk.",
+      "Ta vare på årer, vester og annet utstyr – legg det på plass i Sjøbua etter bruk.",
+      "Alle skal bruke redningsvest i båt.",
+      "Kjør hensynsfullt. Det er mange båer og skjær i Ny-Hellesund, så ta en ekstra titt på kartet.",
+    ],
+    rulesSwimHeading: "Bad og fiske",
+    rulesSwim: [
+      "Ikke sitt i møbler med våte klær eller badetøy.",
+      "Fiskeutstyr i Sjøbua kan lånes – legg det tilbake etter bruk.",
+    ],
+    rulesUtilityHeading: "Strøm, vann og sikkerhet",
+    rulesUtility: [
+      "Slå av alle lys, elektriske apparater og steng vannet ved avreise.",
+      "Gi beskjed hvis det er lite gass igjen i grillen, slik at neste kan ta med seg.",
+      "Hytta har pumpestasjon for avløp – kun toalettpapir i do.",
+    ],
+    rulesGeneralHeading: "Generelt",
+    rulesGeneral: [
+      "Vis hensyn til naboer og naturen.",
+      "Røyking innendørs er ikke tillatt.",
+      "Husdyr skal ikke tas med til Kilevika.",
+      "Eventuelle skader eller mangler meldes fra så snart som mulig.",
+      "Skriv gjerne noen linjer i hytteboka før du drar.",
+    ],
   },
   en: {
     subtitle: "Family cabin – Helgøya / Ny-Hellesund",
@@ -184,6 +335,113 @@ const T: Record<Lang, Dict> = {
       "For longer trips to and from Kristiansand in connection with the cabin we offset the flight emissions the same way as the boat fuel — through DAC at Climeworks.",
     co2LearnMore: "Read more about Climeworks",
     footer: "Kilevika – Helgøya, Ny-Hellesund",
+    historyIntro:
+      "Helgøya 8 – Kilevika comprises the cabin Kilenstua and the boathouse Sjøbua.",
+    historyDatesHeading: "Key dates",
+    historyDates: [
+      "1968 – Kilenstua and Sjøbua were built as a summer place.",
+      "1991 – Sjøbua was damaged in a storm and rebuilt.",
+      "2013 – Kilenstua was extended and modernised, in consultation with the county heritage authority.",
+    ],
+    historyTracesHeading: "Traces of the past",
+    historyTracesBody:
+      "Behind the cabin you can still see the stone foundations of an old house – a glimpse of everyday life on Helgøya before the holiday-home era.",
+    historyProtectedHeading: "Protected cultural environment",
+    historyProtectedBody:
+      "In 2016 Ny-Hellesund was protected by royal decree. The 2012 extension was done in dialogue with the county heritage authority so it would fit the landscape.",
+    historyWarHeading: "Wartime history",
+    historyWarP1: (
+      <>
+        During World War II the German footpath <em>Langfeldstieg</em> ran past the property. It was built in the summer and autumn of 1942 as a transport route between the pier, the Organisation Todt camp (at what is today Helgøya&nbsp;10) and the coastal fort.
+      </>
+    ),
+    historyWarP2: (
+      <>
+        The area was also very dangerous. Four minefields (<em>Teilfeld&nbsp;L</em>) lay here, with a total of 115 anti-personnel mines.
+      </>
+    ),
+    historyWarP3:
+      "Today you can still see individual steps and concrete surfaces along the route that likely date from the war. All mines were of course cleared after the war, and the area is completely safe to walk in.",
+    historyMineMapHeading: "Minefield map from World War II",
+    historyMineMapBody:
+      "The map shows German mines and barriers in the Ny-Hellesund area during the occupation.",
+    historyMineMapCaption:
+      "Source: Forsvarshistorisk forening i Kristiansandsregionen (Defence History Association of the Kristiansand region)",
+    history1990Heading: "Kilevika in 1990",
+    history1990Body:
+      "The photo shows the cabin as it looked around 1990, before the extension and the renovation of the boathouse.",
+    areaIntro:
+      "Ny-Hellesund is one of the best-preserved outports on the Sørlandet coast, known for its beautiful nature and rich history. The harbour consists of the islands Helgøya, Kapelløya and Monsøya, connected by narrow sounds.",
+    areaSailHeading: "From the age of sail to coastal culture",
+    areaSailP1:
+      "As early as the 17th century, Ny-Hellesund was a busy outport where sailing ships from near and far sought shelter from wind and weather. The narrow entrance made it safe, and the harbour became an important stop along the coastal route between eastern and western Norway.",
+    areaSailP2:
+      "Over the centuries Ny-Hellesund had a customs station, an inn and a shipyard, and grew into a small centre in the archipelago. Many families made their living as pilots, and the pilot station here was among the most important on the Sørlandet coast. Fishing also provided a livelihood, and both trade and small-scale sea-related industry took place.",
+    areaBuildingsHeading: "Historic buildings and sites",
+    areaBuildings: [
+      "Olavsundet – a narrow sound between Kapelløya and Helgøya, named after the legend that Olav the Holy sailed through here while fleeing his enemies.",
+      "Kjøbmandskjær and the inn – in the 18th and 19th centuries there was an inn here where sailors found lodging and provisions.",
+      "Boathouses and outbuildings – many of the old boathouses, used for storing fishing gear and goods, still stand along the sound.",
+      "Kapelløya – named after a chapel that stood here in the 16th century. The ruins are gone, but the name lives on.",
+      "The coastal fort on Helgøya – built by the Germans in 1942–43 as part of the Atlantic Wall. Gun emplacements, tunnels and wartime buildings can still be seen.",
+    ],
+    areaModernHeading: "Modern times and protection",
+    areaModernP1:
+      "After the age of sail, activity gradually declined and many of the buildings were taken into use as summer homes. The unique combination of nature, culture and history led to all of Ny-Hellesund being protected as a cultural environment by royal decree in 2016.",
+    areaModernP2:
+      "Today the outport is considered living cultural heritage – a place where you can experience both the calm of nature and traces of several hundred years of coastal history.",
+    areaModernLinkPre: "Read more about Ny-Hellesund on",
+    areaModernLink: "the Directorate for Cultural Heritage's website",
+    areaHikesHeading: "Walks right from the cabin",
+    areaHikesIntro:
+      "Helgøya offers plenty of lovely paths and small adventures just outside the door. From Kilevika you can choose several routes:",
+    areaHikes: [
+      "Westward: Follow the path west from the cabin and take the first path on the left over the hill. It brings you down to the ferry quay and the track on toward the fortifications.",
+      "Eastward: Walk via the neighbour's lawn to the so-called \"German dock\" (Tyskerbrygga). From there you can follow the gravel road up to the forts or down to the ferry landing.",
+      "The shortcut north: For those not afraid of a little scrambling – head straight north from the cabin, through the garden, over the sheep fence and past a couple of large rocks. That brings you straight down to the ferry landing.",
+      "By boat to Kapelløya: If you want to explore more of Ny-Hellesund, it's a treat to take the boat over to Verftet on Kapelløya. Here you'll find a cosy summer café and good options for continuing on foot.",
+    ],
+    areaHikesOutro:
+      "All the routes give a little insight into Helgøya's nature and history – and several lead to the old German WWII fortifications, which are well worth a visit.",
+    rulesHeading: "House rules for Kilevika",
+    rulesCabinHeading: "The cabin and outdoor area",
+    rulesCabin: [
+      "Leave Kilenstua, Sjøbua and the boats in the same condition as you found them – or a little better.",
+      "Take all rubbish home with you or drop it at an approved waste station. Don't leave anything behind.",
+      "Empty the fridge and food cupboards of anything perishable.",
+      "Floors, bathroom and kitchen should be washed/vacuumed before you leave.",
+      "We appreciate it if you bring your own bed linen and towels.",
+      "Mow the lawn if it needs it. Pulling a bit of weed is welcome.",
+      "Outdoor cushions should always be brought in at night, in rain and when you leave.",
+      "Don't walk indoors with shoes on.",
+    ],
+    rulesBoatHeading: "Boat and sea",
+    rulesBoat: [
+      "Make sure the boats are always properly moored – an extra fender or two never hurts.",
+      "The self-bailing plug in Pepsi should be open when you leave, and closed when in use.",
+      "Look after oars, life jackets and other gear – put it back in Sjøbua after use.",
+      "Everyone must wear a life jacket in the boat.",
+      "Drive considerately. There are many shallows and rocks in Ny-Hellesund, so take an extra look at the chart.",
+    ],
+    rulesSwimHeading: "Swimming and fishing",
+    rulesSwim: [
+      "Don't sit on the furniture in wet clothes or swimwear.",
+      "Fishing gear in Sjøbua can be borrowed – put it back after use.",
+    ],
+    rulesUtilityHeading: "Electricity, water and safety",
+    rulesUtility: [
+      "Turn off all lights and electrical appliances and shut off the water when you leave.",
+      "Let us know if the grill is low on gas so the next guest can bring some.",
+      "The cabin has a pump station for sewage – only toilet paper in the toilet.",
+    ],
+    rulesGeneralHeading: "General",
+    rulesGeneral: [
+      "Be considerate of the neighbours and nature.",
+      "Smoking indoors is not permitted.",
+      "Pets should not be brought to Kilevika.",
+      "Report any damage or defects as soon as possible.",
+      "Please write a few lines in the cabin guestbook before you leave.",
+    ],
   },
 };
 
@@ -433,7 +691,7 @@ export default function Page() {
             </section>
           )}
 
-          {/* Historien — TODO: i18n */}
+          {/* History */}
           {tab === "historie" && (
             <section className="mt-6">
               <Card>
@@ -442,87 +700,54 @@ export default function Page() {
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    <p>
-                      Helgøya 8 – Kilevika består av hytta Kilenstua og
-                      båthuset Sjøbua.
-                    </p>
+                    <p>{t.historyIntro}</p>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Viktige årstall</h3>
+                      <h3 className="font-semibold mb-2">{t.historyDatesHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>1968 – Kilenstua og Sjøbua ble bygget som sommersted.</li>
-                        <li>1991 – Sjøbua ble skadet i en storm og gjenoppbygd.</li>
-                        <li>2013 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
+                        {t.historyDates.map((d, i) => (
+                          <li key={i}>{d}</li>
+                        ))}
                       </ul>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Spor fra fortiden</h3>
-                      <p>
-                        Bak hytta kan man se murrester etter et gammelt hus – et glimt inn i
-                        hverdagslivet på Helgøya før fritidsbebyggelsen.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.historyTracesHeading}</h3>
+                      <p>{t.historyTracesBody}</p>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Fredet kulturmiljø</h3>
-                      <p>
-                        I 2016 ble Ny-Hellesund fredet ved kongelig resolusjon. Utvidelsen i 2012
-                        ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.historyProtectedHeading}</h3>
+                      <p>{t.historyProtectedBody}</p>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Krigshistorie</h3>
-                      <p>
-                        Under andre verdenskrig gikk den tyske gangveien <em>Langfeldstieg</em>
-                        forbi eiendommen. Den ble anlagt sommeren og høsten 1942 som en
-                        transportvei mellom kaianlegget, leiren til Organisation Todt (ved dagens
-                        Helgøya&nbsp;10) og kystfortet.
-                      </p>
-                      <p>
-                        Området var dessuten svært farlig. Her lå fire minefelt
-                        (<em>Teilfeld&nbsp;L</em>) med til sammen 115 antipersonellminer.
-                      </p>
-                      <p>
-                        I dag er det fortsatt mulig å se enkelte trappetrinn og betongflater
-                        langs traseen som kan stamme fra krigstiden. Alle miner ble naturligvis
-                        ryddet bort etter krigen, og området er helt trygt å ferdes i.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.historyWarHeading}</h3>
+                      <p>{t.historyWarP1}</p>
+                      <p>{t.historyWarP2}</p>
+                      <p>{t.historyWarP3}</p>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">
-                        Minekart fra andre verdenskrig
-                      </h3>
-                      <p className="mb-4">
-                        Kartet viser tyske miner og sperringer i Ny-Hellesund-området under
-                        okkupasjonen.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.historyMineMapHeading}</h3>
+                      <p className="mb-4">{t.historyMineMapBody}</p>
 
                       <img
                         src="/ww2.jpg"
-                        alt="Minekart fra andre verdenskrig"
+                        alt={t.historyMineMapHeading}
                         className="w-full rounded-2xl ring-1 ring-black/5"
                         loading="lazy"
                       />
-                      <p className="mt-2 text-sm text-slate-500">
-                        Kilde: Forsvarshistorisk forening i Kristiansandsregionen
-                      </p>
+                      <p className="mt-2 text-sm text-slate-500">{t.historyMineMapCaption}</p>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">
-                        Kilevika i 1990
-                      </h3>
-                      <p className="mb-4">
-                        Bildet viser hytta slik den så ut rundt 1990, før utbygging og
-                        renovering av sjøbua.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.history1990Heading}</h3>
+                      <p className="mb-4">{t.history1990Body}</p>
 
                       <img
                         src="/Kilevika1990.png"
-                        alt="Kilevika i 1990"
+                        alt={t.history1990Heading}
                         className="w-full rounded-2xl ring-1 ring-black/5"
                         loading="lazy"
                       />
@@ -533,7 +758,7 @@ export default function Page() {
             </section>
           )}
 
-          {/* Området Ny-Hellesund — TODO: i18n */}
+          {/* Area */}
           {tab === "omrade" && (
             <section className="mt-6">
               <Card>
@@ -542,62 +767,49 @@ export default function Page() {
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    <p>
-                      Ny-Hellesund er en av Sørlandets best bevarte uthavner, kjent for sin vakre natur og rike historie. Havnen består av øyene Helgøya, Kapelløya og Monsøya, bundet sammen av trange sund.
-                    </p>
+                    <p>{t.areaIntro}</p>
                     <div>
-                      <h3 className="font-semibold mb-2">Fra seilskutetid til kystkultur</h3>
-                      <p>
-                        Allerede på 1600-tallet var Ny-Hellesund en travel uthavn der seilskuter fra fjern og nær søkte ly for vær og vind. Den smale innseilingen gjorde stedet trygt, og havnen ble et viktig stoppested på leia mellom Østlandet og Vestlandet.
-                      </p>
-                      <p>
-                        Gjennom tidene hadde Ny-Hellesund både tollstasjon, gjestgiveri og verft, og utviklet seg til et lite sentrum i skjærgården. Mange familier levde som loser, og losstasjonen her var blant de viktigste på Sørlandskysten. Fisket ga også livsgrunnlag, og det ble drevet både handel og småindustri knyttet til sjøen.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.areaSailHeading}</h3>
+                      <p>{t.areaSailP1}</p>
+                      <p>{t.areaSailP2}</p>
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-2">Historiske bygg og steder</h3>
+                      <h3 className="font-semibold mb-2">{t.areaBuildingsHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Olavsundet – et smalt sund mellom Kapelløya og Helgøya, oppkalt etter sagnet om at Olav den hellige seilte gjennom her på flukt fra fiender.</li>
-                        <li>Kjøbmandskjær og gjestgiveriet – på 1700- og 1800-tallet lå det et gjestgiveri her hvor sjøfolk fikk husly og proviant.</li>
-                        <li>Sjøbuer og uthus – mange av de gamle sjøbuene, brukt til lagring av fiskeredskaper og varer, står fortsatt langs sundet.</li>
-                        <li>Kapelløya – har navn etter et kapell som stod her på 1500-tallet. Ruinene er borte, men navnet lever videre.</li>
-                        <li>Kystfortet på Helgøya – anlagt av tyskerne i 1942–43 som del av Atlanterhavsvollen. Her finnes fortsatt kanonstillinger, tunneler og bygninger fra krigsårene.</li>
+                        {t.areaBuildings.map((b, i) => (
+                          <li key={i}>{b}</li>
+                        ))}
                       </ul>
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-2">Moderne tid og vern</h3>
-                      <p>
-                        Etter seilskutetiden gikk aktiviteten gradvis ned, og mange av bygningene ble tatt i bruk som sommerhus. Den unike kombinasjonen av natur, kultur og historie førte til at hele Ny-Hellesund ble fredet som kulturmiljø ved kongelig resolusjon i 2016.
-                      </p>
-                      <p>
-                        I dag regnes uthavnen som en levende kulturarv – et sted der man kan oppleve både naturens ro og sporene etter flere hundre års kysthistorie.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.areaModernHeading}</h3>
+                      <p>{t.areaModernP1}</p>
+                      <p>{t.areaModernP2}</p>
                       <p className="mt-2">
-                        Les mer om Ny-Hellesund på{" "}
+                        {t.areaModernLinkPre}{" "}
                         <a
                           href="https://riksantikvaren.no/kulturhistorie/ny-hellesund-med-armene-mot-verden/"
                           target="_blank"
                           rel="noreferrer"
                           className="text-sky-600 underline"
                         >
-                          Riksantikvaren sin hjemmeside
+                          {t.areaModernLink}
                         </a>
                         .
                       </p>
                     </div>
                     <div>
-                      <h3 className="font-semibold mb-2">Turmuligheter rett fra hytta</h3>
-                      <p>Helgøya byr på mange fine stier og små eventyr rett utenfor døra. Fra Kilevika kan du velge flere ruter:</p>
+                      <h3 className="font-semibold mb-2">{t.areaHikesHeading}</h3>
+                      <p>{t.areaHikesIntro}</p>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Vestover: Følg stien vestover fra hytta, og ta første sti til venstre over fjellet. Da kommer du ned til fergekaia og veien videre mot festningsanleggene.</li>
-                        <li>Østover: Gå via naboens plen til den såkalte "Tyskerbrygga". Herfra kan du følge grusveien opp til festningene eller ned til ferjeleiet.</li>
-                        <li>Snarveien nordover: For de som ikke er redd for litt småklatring – ta turen rett nordover fra hytta, gjennom hagen, over saugjerdet og forbi et par store steiner. Da kommer du rett ned til ferjeleia.</li>
-                        <li>Med båt til Kapelløya: Hvis du vil utforske mer av Ny-Hellesund, er det flott å ta båten bort til Verftet på Kapelløya. Her finner du en koselig sommerkafé og gode muligheter for å fortsette turen videre til fots.</li>
+                        {t.areaHikes.map((h, i) => (
+                          <li key={i}>{h}</li>
+                        ))}
                       </ul>
-                      <p>Alle rutene gir et lite innblikk i Helgøyas natur og historie – og flere leder til de gamle tyske festningene fra andre verdenskrig, som er vel verdt et besøk.</p>
+                      <p>{t.areaHikesOutro}</p>
                       <img
                         src="/helgoya-stikart2.png"
-                        alt="Turkart – Helgøya"
+                        alt={t.areaHikesHeading}
                         className="mt-4 w-full rounded-2xl ring-1 ring-black/5"
                         loading="lazy"
                       />
@@ -608,65 +820,57 @@ export default function Page() {
             </section>
           )}
 
-          {/* Regler for lån — TODO: i18n */}
+          {/* Rules */}
           {tab === "regler" && (
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Regler for lån av Kilevika</Title>
+                  <Title>{t.rulesHeading}</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <div>
-                      <h3 className="font-semibold mb-2">Hytta og uteområdet</h3>
+                      <h3 className="font-semibold mb-2">{t.rulesCabinHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Kilenstua, Sjøbua og båtene skal forlates i samme stand som da du kom – eller gjerne litt bedre.</li>
-                        <li>Alt søppel tas med hjem eller leveres i godkjent avfallsstasjon. Ikke la noe stå igjen.</li>
-                        <li>Kjøleskap og matskap tømmes for lett bedervelige varer.</li>
-                        <li>Gulv, bad og kjøkken vaskes/støvsuges før avreise.</li>
-                        <li>Vi setter pris på at dere tar med eget sengetøy og håndklær.</li>
-                        <li>Plenen klippes dersom det trengs. Å fjerne litt ugress er fint.</li>
-                        <li>Puter til utemøbler skal alltid ryddes inn om natta, i regnvær og når du drar.</li>
-                        <li>Gå ikke inn med sko.</li>
+                        {t.rulesCabin.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
                       </ul>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Båt og sjøliv</h3>
+                      <h3 className="font-semibold mb-2">{t.rulesBoatHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Sørg for at båtene alltid er godt fortøyd – en fender eller to ekstra skader ingen.</li>
-                        <li>Pluggen for selvlensing skal stå åpen i Pepsi når du drar, men stenges ved bruk.</li>
-                        <li>Ta vare på årer, vester og annet utstyr – legg det på plass i Sjøbua etter bruk.</li>
-                        <li>Alle skal bruke redningsvest i båt.</li>
-                        <li>Kjør hensynsfullt. Det er mange båer og skjær i Ny-Hellesund, så ta en ekstra titt på kartet.</li>
+                        {t.rulesBoat.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
                       </ul>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Bad og fiske</h3>
+                      <h3 className="font-semibold mb-2">{t.rulesSwimHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Ikke sitt i møbler med våte klær eller badetøy.</li>
-                        <li>Fiskeutstyr i Sjøbua kan lånes – legg det tilbake etter bruk.</li>
+                        {t.rulesSwim.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
                       </ul>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Strøm, vann og sikkerhet</h3>
+                      <h3 className="font-semibold mb-2">{t.rulesUtilityHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Slå av alle lys, elektriske apparater og steng vannet ved avreise.</li>
-                        <li>Gi beskjed hvis det er lite gass igjen i grillen, slik at neste kan ta med seg.</li>
-                        <li>Hytta har pumpestasjon for avløp – kun toalettpapir i do.</li>
+                        {t.rulesUtility.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
                       </ul>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Generelt</h3>
+                      <h3 className="font-semibold mb-2">{t.rulesGeneralHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Vis hensyn til naboer og naturen.</li>
-                        <li>Røyking innendørs er ikke tillatt.</li>
-                        <li>Husdyr skal ikke tas med til Kilevika.</li>
-                        <li>Eventuelle skader eller mangler meldes fra så snart som mulig.</li>
-                        <li>Skriv gjerne noen linjer i hytteboka før du drar.</li>
+                        {t.rulesGeneral.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
                       </ul>
                     </div>
                   </div>
