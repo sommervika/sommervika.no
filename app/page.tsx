@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import React, { useEffect, useMemo, useState, useCallback } from "react";
@@ -8,6 +5,9 @@ import React, { useEffect, useMemo, useState, useCallback } from "react";
 const HERO_URL = "/20250812_1200591.jpg";
 const CAL_URL =
   "https://calendar.google.com/calendar/embed?src=a45e6e94dd613dc1f703fc885132a94aa4b7271c0fc6f5f2ae7bc5c5251fae35%40group.calendar.google.com&ctz=Europe%2FLondon";
+
+const LANG_KEY = "sommervika:lang";
+type Lang = "no" | "en";
 
 function Container({ children }: { children: React.ReactNode }) {
   return <div className="mx-auto max-w-6xl px-4">{children}</div>;
@@ -22,21 +22,198 @@ function Title({ children }: { children: React.ReactNode }) {
   return <h2 className="text-xl font-semibold tracking-tight">{children}</h2>;
 }
 
-const TABS = [
-  { id: "kilevika", label: "Kilevika" },
-  { id: "praktisk", label: "Praktisk informasjon" },
-  { id: "historie", label: "Historien om Kilevika" },
-  { id: "omrade", label: "Området Ny-Hellesund" },
-  { id: "regler", label: "Regler for lån" },
-  { id: "bilder", label: "Bilder" },
-  { id: "kart", label: "Kart" },
-  { id: "kalender", label: "Kalender" },
+// --- i18n ---------------------------------------------------------------
+type Dict = {
+  subtitle: string;
+  tabs: Record<string, string>;
+  kilevikaHeading: string;
+  welcomeHeading: string;
+  welcomeP1: string;
+  welcomeP2: string;
+  accessHeading: string;
+  accessP1: string;
+  accessP2Pre: string;
+  accessLink: string;
+  practicalHeading: string;
+  boatHeading: string;
+  boatItems: string[];
+  shopsHeading: string;
+  shopsBody: string;
+  foodHeading: string;
+  foodKapel: string;
+  foodKapelLink: string;
+  foodGeit: string;
+  foodGeitLink: string;
+  // CO2 section (under Practical)
+  co2Heading: string;
+  co2Intro: string;
+  co2GoalHeading: string;
+  co2GoalBody: string;
+  co2FuelHeading: string;
+  co2FuelBody: string;
+  co2FuelLink: string;
+  co2ElectricityHeading: string;
+  co2ElectricityBody: string;
+  co2WoodHeading: string;
+  co2WoodBody: string;
+  co2FlightsHeading: string;
+  co2FlightsBody: string;
+  co2LearnMore: string;
+  footer: string;
+};
+
+const T: Record<Lang, Dict> = {
+  no: {
+    subtitle: "Familiehytte – Helgøya / Ny-Hellesund",
+    tabs: {
+      kilevika: "Kilevika",
+      praktisk: "Praktisk informasjon",
+      historie: "Historien om Kilevika",
+      omrade: "Området Ny-Hellesund",
+      regler: "Regler for lån",
+      bilder: "Bilder",
+      kart: "Kart",
+      kalender: "Kalender",
+    },
+    kilevikaHeading: "Kilevika",
+    welcomeHeading: "Velkommen til Kilevika",
+    welcomeP1:
+      "Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her ligger Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett utenfor døra. På denne siden finner du praktisk informasjon om bruk av hytta, regler for lån, historie og litt om området rundt.",
+    welcomeP2:
+      "Hytta er en privat familiehytte. Vi låner den ut til familie og nære venner, men vi driver dessverre ikke med utleie. Tomten heter offisielt Kilevika, men i dagligtale kaller vi den ofte Sommervika.",
+    accessHeading: "Adkomst",
+    accessP1:
+      "Vanlig adkomst er med båt fra Solta Båthavn i Høllen, hvor det også finnes mulighet for parkering mot betaling. Ta kontakt med oss for detaljer om båtplass og nøkler.",
+    accessP2Pre: "Det går også passasjerferge flere ganger daglig fra Høllen til Helgøya.",
+    accessLink: "Se rutetabell her",
+    practicalHeading: "Praktisk informasjon",
+    boatHeading: "Båt, bad og brygge",
+    boatItems: [
+      "Alle skal bruke redningsvest i båt.",
+      "Vester og årer til Solo og Pepsi finnes i Sjøbua.",
+      "Bensinkanne og reservekanne til Pepsi er også i Sjøbua.",
+    ],
+    shopsHeading: "Butikker",
+    shopsBody:
+      "Det finnes ingen matbutikker i Ny-Hellesund. Enkleste alternativ er å ta båten til Høllen, hvor det ligger en liten kolonial. Det er også gangavstand derfra til en god Bunnpris. Alternativt kan du ta båten til Langenes, hvor det ligger en stor Kiwi-butikk fem minutters gange fra gjestebrygga.",
+    foodHeading: "Spisesteder",
+    foodKapel: "På Kapelløya finner du en koselig sommerkafé med mat og drikke.",
+    foodKapelLink: "Se Facebook-siden for meny og åpningstider",
+    foodGeit:
+      "Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt uttaskjærs, så det krever godt vær.",
+    foodGeitLink: "Se hjemmesiden for meny og åpningstider",
+    co2Heading: "CO₂ og klima",
+    co2Intro:
+      "Vi er glad i kysten og naturen vår, og prøver å ta noen grep for å minimere klimaavtrykket ved bruk av Kilevika.",
+    co2GoalHeading: "Målet vårt",
+    co2GoalBody:
+      "All CO₂ vi kan spore til Kilevika — båtdrivstoff, flyreiser til og fra Kristiansand, oppvarming — skal fjernes fra atmosfæren. Vi kompenserer ikke med trær eller kvoter, men kjøper fysisk fjerning via Direct Air Capture (DAC) hos Climeworks på Island.",
+    co2FuelHeading: "Fossilt drivstoff til båtene",
+    co2FuelBody:
+      "Hver fylling av bensin på Yamarin og Pepsi logges, og tilsvarende mengde CO₂ fjernes via DAC. Vi fører åpen logg slik at alle som bruker hytta kan se utslippene og offsetten.",
+    co2FuelLink: "Se CO₂-loggen for båtene →",
+    co2ElectricityHeading: "Strøm og oppvarming",
+    co2ElectricityBody:
+      "Strømmen på hytta er opprinnelsesgarantert fornybar, og oppvarmingen er elektrisk. Det betyr at den daglige driften i praksis er utslippsfri.",
+    co2WoodHeading: "Ved",
+    co2WoodBody:
+      "All ved til peisen er lokal og selvhogd. Den ligger innenfor naturens kortsyklede karbonkretsløp og regnes som klimanøytral.",
+    co2FlightsHeading: "Flyreiser",
+    co2FlightsBody:
+      "For lengre reiser til og fra Kristiansand i forbindelse med hytta offsetter vi flyutslippene på samme måte som båtdrivstoffet — gjennom DAC hos Climeworks.",
+    co2LearnMore: "Les mer om Climeworks",
+    footer: "Kilevika – Helgøya, Ny-Hellesund",
+  },
+  en: {
+    subtitle: "Family cabin – Helgøya / Ny-Hellesund",
+    tabs: {
+      kilevika: "Kilevika",
+      praktisk: "Practical info",
+      historie: "History of Kilevika",
+      omrade: "The Ny-Hellesund area",
+      regler: "House rules",
+      bilder: "Photos",
+      kart: "Maps",
+      kalender: "Calendar",
+    },
+    kilevikaHeading: "Kilevika",
+    welcomeHeading: "Welcome to Kilevika",
+    welcomeP1:
+      "Kilevika sits in the sheltered cove of Kilen on Helgøya, in Ny-Hellesund. Kilenstua (the main cabin) and Sjøbua (the boathouse) stand right by the sea, with the dock and smooth coastal rocks just outside the door. On this page you'll find practical information about using the cabin, rules for borrowing it, history, and a bit about the surrounding area.",
+    welcomeP2:
+      "The cabin is a private family cabin. We lend it to family and close friends, but unfortunately we don't rent it out. The property is officially called Kilevika, but in everyday speech we often just call it Sommervika.",
+    accessHeading: "Getting there",
+    accessP1:
+      "The usual way to reach the cabin is by boat from Solta Båthavn in Høllen, where paid parking is also available. Get in touch with us for details about boat moorings and keys.",
+    accessP2Pre: "There's also a passenger ferry several times a day from Høllen to Helgøya.",
+    accessLink: "See the timetable here",
+    practicalHeading: "Practical information",
+    boatHeading: "Boat, swimming and dock",
+    boatItems: [
+      "Everyone must wear a life jacket in the boat.",
+      "Life jackets and oars for Solo and Pepsi are in Sjøbua.",
+      "The fuel can and reserve can for Pepsi are also in Sjøbua.",
+    ],
+    shopsHeading: "Shops",
+    shopsBody:
+      "There are no grocery stores in Ny-Hellesund. The easiest option is to take the boat to Høllen, where there's a small grocery shop. There's also walking distance from there to a good Bunnpris. Alternatively, take the boat to Langenes, where a large Kiwi store sits five minutes on foot from the visitor dock.",
+    foodHeading: "Places to eat",
+    foodKapel: "On Kapelløya you'll find a cosy summer café with food and drink.",
+    foodKapelLink: "See the Facebook page for menu and opening hours",
+    foodGeit:
+      "A bit further away is Geitodden Café on Flekkerøya. The trip there goes by boat on the open sea, so it needs good weather.",
+    foodGeitLink: "See the website for menu and opening hours",
+    co2Heading: "CO₂ and climate",
+    co2Intro:
+      "We care about the coast and the nature around us, and try to take a few steps to minimize the climate footprint of using Kilevika.",
+    co2GoalHeading: "Our goal",
+    co2GoalBody:
+      "All CO₂ we can trace to Kilevika — boat fuel, flights to and from Kristiansand, heating — is removed from the atmosphere. We don't offset with trees or credits; we buy physical removal via Direct Air Capture (DAC) from Climeworks in Iceland.",
+    co2FuelHeading: "Fossil fuel for the boats",
+    co2FuelBody:
+      "Every refill of petrol on Yamarin and Pepsi is logged, and the equivalent amount of CO₂ is removed via DAC. We keep an open log so everyone using the cabin can see both the emissions and the offset.",
+    co2FuelLink: "See the boat CO₂ log →",
+    co2ElectricityHeading: "Electricity and heating",
+    co2ElectricityBody:
+      "The cabin's electricity is guaranteed-of-origin renewable, and heating is electric. That means day-to-day operation is effectively emission-free.",
+    co2WoodHeading: "Firewood",
+    co2WoodBody:
+      "All firewood for the stove is local and cut by us. It sits within nature's short-cycle carbon loop and is considered climate-neutral.",
+    co2FlightsHeading: "Flights",
+    co2FlightsBody:
+      "For longer trips to and from Kristiansand in connection with the cabin we offset the flight emissions the same way as the boat fuel — through DAC at Climeworks.",
+    co2LearnMore: "Read more about Climeworks",
+    footer: "Kilevika – Helgøya, Ny-Hellesund",
+  },
+};
+
+const TAB_IDS = [
+  "kilevika",
+  "praktisk",
+  "historie",
+  "omrade",
+  "regler",
+  "bilder",
+  "kart",
+  "kalender",
 ] as const;
-type TabId = typeof TABS[number]["id"];
+type TabId = typeof TAB_IDS[number];
 
 export default function Page() {
+  const [lang, setLang] = useState<Lang>("no");
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(LANG_KEY) as Lang | null;
+      if (stored === "no" || stored === "en") setLang(stored);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try {
+      localStorage.setItem(LANG_KEY, lang);
+    } catch {}
+  }, [lang]);
+  const t = T[lang];
 
-  
   const [tab, setTab] = useState<TabId>("kilevika");
   const year = useMemo(() => new Date().getFullYear(), []);
 
@@ -46,13 +223,35 @@ export default function Page() {
         <Container>
           <div className="py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
-             <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
-              <img src="/logo-hytte-icon-sketch.jpg" alt="Kilevika" className="h-full w-full object-cover" />
-            </div>
+              <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
+                <img src="/logo-hytte-icon-sketch.jpg" alt="Kilevika" className="h-full w-full object-cover" />
+              </div>
               <div>
                 <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Kilevika</h1>
-                <p className="text-xs text-slate-500 -mt-0.5">Familiehytte – Helgøya / Ny-Hellesund</p>
+                <p className="text-xs text-slate-500 -mt-0.5">{t.subtitle}</p>
               </div>
+            </div>
+            <div className="flex items-center gap-1 rounded-full bg-slate-100 p-0.5 text-xs">
+              <button
+                onClick={() => setLang("no")}
+                className={
+                  "rounded-full px-2.5 py-1 transition " +
+                  (lang === "no" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
+                }
+                aria-pressed={lang === "no"}
+              >
+                NO
+              </button>
+              <button
+                onClick={() => setLang("en")}
+                className={
+                  "rounded-full px-2.5 py-1 transition " +
+                  (lang === "en" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
+                }
+                aria-pressed={lang === "en"}
+              >
+                EN
+              </button>
             </div>
           </div>
         </Container>
@@ -71,7 +270,7 @@ export default function Page() {
       <main className="py-8">
         <Container>
           <nav className="grid grid-cols-2 sm:grid-cols-8 gap-2 bg-slate-100 p-2 rounded-2xl">
-            {TABS.map(({ id, label }) => (
+            {TAB_IDS.map((id) => (
               <button
                 key={id}
                 onClick={() => setTab(id)}
@@ -80,65 +279,51 @@ export default function Page() {
                 }`}
                 aria-current={tab === id}
               >
-                {label}
+                {t.tabs[id]}
               </button>
             ))}
           </nav>
 
-                    {/* Kilevika */}
+          {/* Kilevika */}
           {tab === "kilevika" && (
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Kilevika</Title>
+                  <Title>{t.kilevikaHeading}</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
                     <div>
-                          <h3 className="font-semibold mb-2">Velkommen til Kilevika</h3>
-                          <p>
-                            Kilevika ligger i den lune viken Kilen på Helgøya, i Ny-Hellesund. Her ligger
-                            Kilenstua og Sjøbua tett på sjøen, med brygga og svabergene rett utenfor døra.
-                            På denne siden finner du praktisk informasjon om bruk av hytta, regler for
-                            lån, historie og litt om området rundt.
-                          </p>
-                          <p className="mt-2">
-                            Hytta er en privat familiehytte. Vi låner den ut til familie og nære venner,
-                            men vi driver dessverre ikke med utleie. Tomten heter offisielt Kilevika, men
-                            i dagligtale kaller vi den ofte Sommervika.
-                          </p>
-                        </div>
-                
+                      <h3 className="font-semibold mb-2">{t.welcomeHeading}</h3>
+                      <p>{t.welcomeP1}</p>
+                      <p className="mt-2">{t.welcomeP2}</p>
+                    </div>
+
                     <div>
-                      <h3 className="font-semibold mb-2">Adkomst</h3>
-                      <p>
-                        Vanlig adkomst er med båt fra Solta Båthavn i Høllen, hvor det også finnes
-                        mulighet for parkering mot betaling. Ta kontakt med oss for detaljer om
-                        båtplass og nøkler.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.accessHeading}</h3>
+                      <p>{t.accessP1}</p>
                       <p className="mt-2">
-                        Det går også passasjerferge flere ganger daglig fra Høllen til Helgøya.{" "}
+                        {t.accessP2Pre}{" "}
                         <a
                           href="https://www.akt.no/_f/p1/i84326d30-9668-4820-bc65-6ca70588fa28/92-hollen-boroya-skarpoya-ny-hellsund-fra-01072025.pdf"
                           target="_blank"
                           rel="noreferrer"
                           className="text-sky-600 underline"
                         >
-                          Se rutetabell her
+                          {t.accessLink}
                         </a>
                         .
                       </p>
                     </div>
-                
+
                     <img
                       src="/20250812_114536.jpg"
-                      alt="Kilevika – hytta ved sjøen"
+                      alt="Kilevika"
                       className="w-full rounded-2xl ring-1 ring-black/5"
                       loading="lazy"
                     />
                   </div>
                 </CardSection>
-
               </Card>
             </section>
           )}
@@ -148,56 +333,99 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Praktisk informasjon</Title>
+                  <Title>{t.practicalHeading}</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    
-
                     <div>
-                      <h3 className="font-semibold mb-2">Båt, bad og brygge</h3>
+                      <h3 className="font-semibold mb-2">{t.boatHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
-                        <li>Alle skal bruke redningsvest i båt.</li>
-                        <li>Vester og årer til Solo og Pepsi finnes i Sjøbua.</li>
-                        <li>Bensinkanne og reservekanne til Pepsi er også i Sjøbua.</li>
+                        {t.boatItems.map((it, i) => (
+                          <li key={i}>{it}</li>
+                        ))}
                       </ul>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Butikker</h3>
-                      <p>
-                        Det finnes ingen matbutikker i Ny-Hellesund. Enkleste alternativ er å ta båten til Høllen, hvor det ligger en liten kolonial. Det er også gangavstand derfra til en god Bunnpris. Alternativt kan du ta båten til Langenes, hvor det ligger en stor Kiwi-butikk fem minutters gange fra gjestebrygga.
-                      </p>
+                      <h3 className="font-semibold mb-2">{t.shopsHeading}</h3>
+                      <p>{t.shopsBody}</p>
                     </div>
 
                     <div>
-                      <h3 className="font-semibold mb-2">Spisesteder</h3>
+                      <h3 className="font-semibold mb-2">{t.foodHeading}</h3>
                       <ul className="list-disc pl-6 space-y-1">
                         <li>
-                          På Kapelløya finner du en koselig sommerkafé med mat og drikke.{" "}
+                          {t.foodKapel}{" "}
                           <a
                             href="https://www.facebook.com/cafeverftetnyhellesund/?locale=en_GB"
                             target="_blank"
                             rel="noreferrer"
                             className="text-sky-600 underline"
                           >
-                            Se Facebook-siden for meny og åpningstider
+                            {t.foodKapelLink}
                           </a>
                           .
                         </li>
                         <li>
-                        Litt lenger unna finner du Geitodden Café på Flekkerøya. Turen dit går med båt
-                        uttaskjærs, så det krever godt vær.{" "}
-                        <a
-                          href="https://www.geitodden.no/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-sky-600 underline"
-                        >
-                          Se hjemmesiden for meny og åpningstider
-                        </a>
-                      </li>
+                          {t.foodGeit}{" "}
+                          <a
+                            href="https://www.geitodden.no/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sky-600 underline"
+                          >
+                            {t.foodGeitLink}
+                          </a>
+                        </li>
                       </ul>
+                    </div>
+
+                    {/* CO2 and climate */}
+                    <div className="pt-2 border-t border-slate-200">
+                      <h3 className="font-semibold mb-2 mt-4">{t.co2Heading}</h3>
+                      <p className="text-slate-700">{t.co2Intro}</p>
+
+                      <div className="mt-4">
+                        <h4 className="font-medium">{t.co2GoalHeading}</h4>
+                        <p className="mt-1">{t.co2GoalBody}</p>
+                      </div>
+
+                      <div className="mt-4">
+                        <h4 className="font-medium">{t.co2FuelHeading}</h4>
+                        <p className="mt-1">{t.co2FuelBody}</p>
+                        <p className="mt-2">
+                          <a href="/co2baat" className="text-sky-600 underline">
+                            {t.co2FuelLink}
+                          </a>
+                        </p>
+                      </div>
+
+                      <div className="mt-4">
+                        <h4 className="font-medium">{t.co2ElectricityHeading}</h4>
+                        <p className="mt-1">{t.co2ElectricityBody}</p>
+                      </div>
+
+                      <div className="mt-4">
+                        <h4 className="font-medium">{t.co2WoodHeading}</h4>
+                        <p className="mt-1">{t.co2WoodBody}</p>
+                      </div>
+
+                      <div className="mt-4">
+                        <h4 className="font-medium">{t.co2FlightsHeading}</h4>
+                        <p className="mt-1">{t.co2FlightsBody}</p>
+                      </div>
+
+                      <p className="mt-4 text-sm">
+                        <a
+                          href="https://climeworks.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-slate-700 hover:text-slate-900 underline underline-offset-2"
+                        >
+                          {t.co2LearnMore}
+                          <span aria-hidden="true">→</span>
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </CardSection>
@@ -205,12 +433,12 @@ export default function Page() {
             </section>
           )}
 
-          {/* Historien */}
+          {/* Historien — TODO: i18n */}
           {tab === "historie" && (
             <section className="mt-6">
               <Card>
-               <CardSection>
-                  <Title>Historien om Kilevika</Title>
+                <CardSection>
+                  <Title>{t.tabs.historie}</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
@@ -218,7 +446,7 @@ export default function Page() {
                       Helgøya 8 – Kilevika består av hytta Kilenstua og
                       båthuset Sjøbua.
                     </p>
-                
+
                     <div>
                       <h3 className="font-semibold mb-2">Viktige årstall</h3>
                       <ul className="list-disc pl-6 space-y-1">
@@ -227,7 +455,7 @@ export default function Page() {
                         <li>2013 – Kilenstua ble utvidet og modernisert, i samråd med fylkeskonservatoren.</li>
                       </ul>
                     </div>
-                
+
                     <div>
                       <h3 className="font-semibold mb-2">Spor fra fortiden</h3>
                       <p>
@@ -235,7 +463,7 @@ export default function Page() {
                         hverdagslivet på Helgøya før fritidsbebyggelsen.
                       </p>
                     </div>
-                
+
                     <div>
                       <h3 className="font-semibold mb-2">Fredet kulturmiljø</h3>
                       <p>
@@ -243,8 +471,7 @@ export default function Page() {
                         ble gjort i dialog med fylkeskonservatoren for å tilpasses landskapet.
                       </p>
                     </div>
-                
-                    {/* Krigshistorie */}
+
                     <div>
                       <h3 className="font-semibold mb-2">Krigshistorie</h3>
                       <p>
@@ -263,8 +490,7 @@ export default function Page() {
                         ryddet bort etter krigen, og området er helt trygt å ferdes i.
                       </p>
                     </div>
-                
-                    {/* Minekart */}
+
                     <div>
                       <h3 className="font-semibold mb-2">
                         Minekart fra andre verdenskrig
@@ -273,7 +499,7 @@ export default function Page() {
                         Kartet viser tyske miner og sperringer i Ny-Hellesund-området under
                         okkupasjonen.
                       </p>
-                
+
                       <img
                         src="/ww2.jpg"
                         alt="Minekart fra andre verdenskrig"
@@ -284,8 +510,7 @@ export default function Page() {
                         Kilde: Forsvarshistorisk forening i Kristiansandsregionen
                       </p>
                     </div>
-                
-                    {/* 1990-bildet */}
+
                     <div>
                       <h3 className="font-semibold mb-2">
                         Kilevika i 1990
@@ -294,7 +519,7 @@ export default function Page() {
                         Bildet viser hytta slik den så ut rundt 1990, før utbygging og
                         renovering av sjøbua.
                       </p>
-                
+
                       <img
                         src="/Kilevika1990.png"
                         alt="Kilevika i 1990"
@@ -308,12 +533,12 @@ export default function Page() {
             </section>
           )}
 
-          {/* Området Ny-Hellesund */}
+          {/* Området Ny-Hellesund — TODO: i18n */}
           {tab === "omrade" && (
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Området Ny-Hellesund</Title>
+                  <Title>{t.tabs.omrade}</Title>
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
@@ -376,7 +601,6 @@ export default function Page() {
                         className="mt-4 w-full rounded-2xl ring-1 ring-black/5"
                         loading="lazy"
                       />
-                      
                     </div>
                   </div>
                 </CardSection>
@@ -384,7 +608,7 @@ export default function Page() {
             </section>
           )}
 
-          {/* Regler for lån */}
+          {/* Regler for lån — TODO: i18n */}
           {tab === "regler" && (
             <section className="mt-6">
               <Card>
@@ -456,51 +680,51 @@ export default function Page() {
             <section className="mt-6">
               <Card>
                 <CardSection>
-                  <Title>Bilder</Title>
+                  <Title>{t.tabs.bilder}</Title>
                 </CardSection>
                 <CardSection>
-                  <Gallery />
+                  <Gallery lang={lang} />
                 </CardSection>
               </Card>
             </section>
           )}
 
           {/* Kart */}
-{tab === "kart" && (
-  <section className="mt-6">
-    <Card>
-      <CardSection>
-        <Title>Kart</Title>
-      </CardSection>
-      <CardSection>
-        <div className="space-y-6">
-          <img
-            src="/kart_helgoya.png"
-            alt="Kart Helgøya og Ny-Hellesund"
-            className="w-full rounded-2xl ring-1 ring-black/5"
-          />
-          <img
-            src="/kart_2.png"
-            alt="Kart område 2"
-            className="w-full rounded-2xl ring-1 ring-black/5"
-          />
-          <img
-            src="/sjokart-Kilen.png"
-            alt="Sjøkart over Kilen"
-            className="mt-6 w-full rounded-2xl ring-1 ring-black/5"
-          />
-        </div>
-      </CardSection>
-    </Card>
-  </section>
-)}
+          {tab === "kart" && (
+            <section className="mt-6">
+              <Card>
+                <CardSection>
+                  <Title>{t.tabs.kart}</Title>
+                </CardSection>
+                <CardSection>
+                  <div className="space-y-6">
+                    <img
+                      src="/kart_helgoya.png"
+                      alt="Kart Helgøya og Ny-Hellesund"
+                      className="w-full rounded-2xl ring-1 ring-black/5"
+                    />
+                    <img
+                      src="/kart_2.png"
+                      alt="Kart område 2"
+                      className="w-full rounded-2xl ring-1 ring-black/5"
+                    />
+                    <img
+                      src="/sjokart-Kilen.png"
+                      alt="Sjøkart over Kilen"
+                      className="mt-6 w-full rounded-2xl ring-1 ring-black/5"
+                    />
+                  </div>
+                </CardSection>
+              </Card>
+            </section>
+          )}
 
           {/* Kalender */}
           {tab === "kalender" && (
             <section className="mt-6" id="kalender">
               <Card>
                 <CardSection>
-                  <Title>Kalender</Title>
+                  <Title>{t.tabs.kalender}</Title>
                 </CardSection>
                 <CardSection>
                   <div className="aspect-video w-full overflow-hidden rounded-2xl ring-1 ring-black/5 mt-2">
@@ -522,7 +746,7 @@ export default function Page() {
       <footer className="border-t bg-white/70 backdrop-blur">
         <Container>
           <div className="py-8 text-sm flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p>© {year} Kilevika – Helgøya, Ny-Hellesund</p>
+            <p>© {year} {t.footer}</p>
           </div>
         </Container>
       </footer>
@@ -531,10 +755,14 @@ export default function Page() {
 }
 
 /* ------- Galleri med responsiv lysboks ------- */
-function Gallery() {
+function Gallery({ lang }: { lang: Lang }) {
   const images = Array.from({ length: 20 }, (_, i) => `/gallery-${i + 1}.webp`);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
+
+  const labels = lang === "no"
+    ? { close: "Lukk", prev: "Forrige", next: "Neste", openImg: "Åpne bilde", help: "Bruk piltastene eller knappene for å navigere. Esc for å lukke." }
+    : { close: "Close", prev: "Previous", next: "Next", openImg: "Open photo", help: "Use arrow keys or buttons to navigate. Esc to close." };
 
   const openAt = (i: number) => {
     setIndex(i);
@@ -557,11 +785,11 @@ function Gallery() {
 
   useEffect(() => {
     if (open) {
-    const original = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = original;
-    };
+      const original = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = original;
+      };
     }
   }, [open]);
 
@@ -573,7 +801,7 @@ function Gallery() {
             key={src}
             onClick={() => openAt(i)}
             className="group block overflow-hidden rounded-2xl ring-1 ring-black/5 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            aria-label={`Åpne bilde ${i + 1}`}
+            aria-label={`${labels.openImg} ${i + 1}`}
           >
             <img
               src={src}
@@ -590,10 +818,10 @@ function Gallery() {
           <div className="flex items-center justify-between p-3">
             <button
               onClick={close}
-              aria-label="Lukk"
+              aria-label={labels.close}
               className="rounded-lg px-3 py-1 bg-white/10 text-white hover:bg-white/20"
             >
-              Lukk
+              {labels.close}
             </button>
             <div className="text-white text-sm">
               {index + 1} / {images.length}
@@ -603,7 +831,7 @@ function Gallery() {
           <div className="flex-1 relative">
             <button
               onClick={prev}
-              aria-label="Forrige"
+              aria-label={labels.prev}
               className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full bg-white/10 hover:bg-white/20 p-3 text-white"
             >
               ‹
@@ -615,7 +843,7 @@ function Gallery() {
             />
             <button
               onClick={next}
-              aria-label="Neste"
+              aria-label={labels.next}
               className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-white/10 hover:bg-white/20 p-3 text-white"
             >
               ›
@@ -623,7 +851,7 @@ function Gallery() {
           </div>
 
           <div className="p-3 text-center text-xs text-white/80">
-            Bruk piltastene eller knappene for å navigere. Esc for å lukke.
+            {labels.help}
           </div>
         </div>
       )}
