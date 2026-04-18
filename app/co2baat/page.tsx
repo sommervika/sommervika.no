@@ -21,22 +21,173 @@ import {
 // ----------------------------------------------------------------------------
 
 type Boat = "Yamarin" | "Pepsi";
+type Lang = "no" | "en";
 
 // --- Constants ----------------------------------------------------------
 const CO2_PER_LITER = 2.31;                  // kg CO₂ per liter 95-oktan
-const PRICE_PER_LITER_NOK = 23.9;            // indikativ prisboble
 const DAC_PRICE_PER_TON_NOK = 4750;          // ≈ 500 USD/t
 
 const LOCAL_FUEL_KEY = "sommervika:co2baat:fuel:v1";
 const LOCAL_DAC_KEY = "sommervika:co2baat:dac:v1";
 const PW_KEY = "sommervika:co2:pw"; // delt med /co2 – samme familiepassord
+const LANG_KEY = "sommervika:co2baat:lang";
+
+// --- i18n ---------------------------------------------------------------
+type Dict = Record<string, string>;
+const T: Record<Lang, Dict> = {
+  no: {
+    headerTitle: "CO₂-logg · båt",
+    headerSub: "Yamarin & Pepsi · delt drivstoff-logg",
+    backHome: "← Til Kilevika",
+    notConfigured: "Server-lagring er ikke konfigurert.",
+    notConfiguredDetail: "Data lagres midlertidig i din egen nettleser. Administrator må sette",
+    and: "og",
+    inNetlify: "i Netlify.",
+    totalFuel: "Totalt drivstoff",
+    co2Emissions: "CO₂-utslipp",
+    confirmedRemoved: "Bekreftet fjernet via DAC",
+    ofLabel: "av",
+    allYears: "Alle år",
+    bothBoats: "Begge båter",
+    logFuel: "Logg drivstoffylling",
+    autoCalc: "CO₂ beregnes automatisk:",
+    date: "Dato",
+    boat: "Båt",
+    liters: "Liter",
+    location: "Sted / marina",
+    filler: "Fyller",
+    name: "Navn",
+    co2Short: "CO₂",
+    dacOffset: "DAC-offset",
+    saving: "Lagrer…",
+    logFuelBtn: "Logg påfylling",
+    pwStored: "Passord lagret i denne sesjonen",
+    pwAsked: "Du blir bedt om familie-passord ved lagring",
+    registerDac: "Registrer DAC-kjøp",
+    dacDesc: "Fjerning kjøpt hos Climeworks. Trekkes fra utslippet i oversikten.",
+    co2Removed: "CO₂ fjernet (kg)",
+    buyer: "Kjøper",
+    reference: "Referanse / ordrenr",
+    estimatedCost: "Estimert kostnad",
+    indicativePrice: "Indikativ pris:",
+    perTon: "kr/t",
+    registerDacBtn: "Registrer DAC-kjøp",
+    errorLabel: "Feil:",
+    fuelHistory: "Historikk – drivstoffyllinger",
+    loading: "Laster…",
+    noFuel: "Ingen fyllinger registrert ennå.",
+    fill: "fylling",
+    fills: "fyllinger",
+    dacHistory: "Historikk – DAC-kjøp",
+    noDac: "Ingen DAC-kjøp registrert ennå.",
+    purchase: "kjøp",
+    colDate: "Dato",
+    colBoat: "Båt",
+    colLiters: "Liter",
+    colCo2: "CO₂",
+    colLocFiller: "Sted · fyller",
+    colCost: "Kostnad",
+    colBuyerRef: "Kjøper · referanse",
+    deleteFuel: "Slette denne fyllingen?",
+    deleteDac: "Slette dette DAC-kjøpet?",
+    delete: "Slett",
+    aboutDac: "Om Direct Air Capture",
+    aboutDacBody:
+      "All CO₂ som logges på Yamarin og Pepsi skal fjernes fra atmosfæren — ikke kompenseres med trær eller kvoter, men fysisk trukket ut av lufta og lagret permanent som stein. Climeworks driver DAC-anlegg på Island som fanger CO₂ direkte fra uteluft og pumper den ned i basaltberggrunn, der den mineraliserer til karbonat i løpet av noen år.",
+    indicativeFull1: "Indikativ pris brukt i kalkylen:",
+    indicativeFull2: "kr/tonn",
+    indicativeFull3: "CO₂ (≈ 500 USD/tonn). Oppdateres årlig.",
+    learnMore: "Les mer hos Climeworks",
+    pwPrompt: "Familie-passord:",
+    savePlaceholder: "0",
+    marinaPlaceholder: "Høllen Marina",
+    crefPlaceholder: "CW-2026-…",
+    saveErrNoLiters: "Skriv inn antall liter.",
+    saveErrNoKg: "Skriv inn antall kg CO₂.",
+    couldNotSave: "Kunne ikke lagre:",
+  },
+  en: {
+    headerTitle: "CO₂ log · boats",
+    headerSub: "Yamarin & Pepsi · shared fuel log",
+    backHome: "← To Kilevika",
+    notConfigured: "Server storage not configured.",
+    notConfiguredDetail: "Data is kept temporarily in your browser only. Admin must set",
+    and: "and",
+    inNetlify: "in Netlify.",
+    totalFuel: "Total fuel",
+    co2Emissions: "CO₂ emissions",
+    confirmedRemoved: "Confirmed removed via DAC",
+    ofLabel: "of",
+    allYears: "All years",
+    bothBoats: "Both boats",
+    logFuel: "Log fuel refill",
+    autoCalc: "CO₂ is calculated automatically:",
+    date: "Date",
+    boat: "Boat",
+    liters: "Liters",
+    location: "Location / marina",
+    filler: "Filler",
+    name: "Name",
+    co2Short: "CO₂",
+    dacOffset: "DAC offset",
+    saving: "Saving…",
+    logFuelBtn: "Log refill",
+    pwStored: "Password stored for this session",
+    pwAsked: "You'll be asked for the family password on save",
+    registerDac: "Register DAC purchase",
+    dacDesc: "Removal bought from Climeworks. Subtracted from emissions in the summary.",
+    co2Removed: "CO₂ removed (kg)",
+    buyer: "Buyer",
+    reference: "Reference / order no.",
+    estimatedCost: "Estimated cost",
+    indicativePrice: "Indicative price:",
+    perTon: "kr/t",
+    registerDacBtn: "Register DAC purchase",
+    errorLabel: "Error:",
+    fuelHistory: "History – fuel refills",
+    loading: "Loading…",
+    noFuel: "No refills logged yet.",
+    fill: "refill",
+    fills: "refills",
+    dacHistory: "History – DAC purchases",
+    noDac: "No DAC purchases logged yet.",
+    purchase: "purchase",
+    colDate: "Date",
+    colBoat: "Boat",
+    colLiters: "Liters",
+    colCo2: "CO₂",
+    colLocFiller: "Location · filler",
+    colCost: "Cost",
+    colBuyerRef: "Buyer · reference",
+    deleteFuel: "Delete this refill?",
+    deleteDac: "Delete this DAC purchase?",
+    delete: "Delete",
+    aboutDac: "About Direct Air Capture",
+    aboutDacBody:
+      "All CO₂ logged on Yamarin and Pepsi is to be removed from the atmosphere — not offset via trees or credits, but physically pulled from the air and stored permanently as stone. Climeworks runs DAC plants in Iceland that capture CO₂ directly from ambient air and pump it into basalt bedrock, where it mineralizes into carbonate over a few years.",
+    indicativeFull1: "Indicative price used in the calculation:",
+    indicativeFull2: "NOK/ton",
+    indicativeFull3: "CO₂ (≈ 500 USD/ton). Updated annually.",
+    learnMore: "Learn more at Climeworks",
+    pwPrompt: "Family password:",
+    savePlaceholder: "0",
+    marinaPlaceholder: "Høllen Marina",
+    crefPlaceholder: "CW-2026-…",
+    saveErrNoLiters: "Enter the number of liters.",
+    saveErrNoKg: "Enter the amount of CO₂ in kg.",
+    couldNotSave: "Could not save:",
+  },
+};
 
 // --- Helpers ------------------------------------------------------------
-const nfmt = (n: number, d = 0) =>
-  n.toLocaleString("nb-NO", { minimumFractionDigits: d, maximumFractionDigits: d });
-const fmtKg = (kg: number) => `${nfmt(kg, 0)} kg`;
-const fmtL = (l: number) => `${nfmt(l, 1)} L`;
-const fmtNok = (n: number) => `${nfmt(n, 0)} kr`;
+const nfmt = (n: number, d = 0, lang: Lang = "no") =>
+  n.toLocaleString(lang === "no" ? "nb-NO" : "en-GB", {
+    minimumFractionDigits: d,
+    maximumFractionDigits: d,
+  });
+const fmtKg = (kg: number, lang: Lang = "no") => `${nfmt(kg, 0, lang)} kg`;
+const fmtL = (l: number, lang: Lang = "no") => `${nfmt(l, 1, lang)} L`;
+const fmtNok = (n: number, lang: Lang = "no") => `${nfmt(n, 0, lang)} kr`;
 
 function toLocalDateInputValue(d: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
@@ -62,6 +213,20 @@ function Title({ children }: { children: React.ReactNode }) {
 
 export default function Co2BaatPage() {
   const configured = isSupabaseConfigured();
+
+  const [lang, setLang] = useState<Lang>("no");
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(LANG_KEY) as Lang | null;
+      if (stored === "no" || stored === "en") setLang(stored);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    try {
+      localStorage.setItem(LANG_KEY, lang);
+    } catch {}
+  }, [lang]);
+  const t = T[lang];
 
   const [fuel, setFuel] = useState<FuelEntry[]>([]);
   const [dac, setDac] = useState<DacPurchase[]>([]);
@@ -98,12 +263,9 @@ export default function Co2BaatPage() {
       const pw = sessionStorage.getItem(PW_KEY);
       if (pw) setPassword(pw);
     } catch {}
-  }, []);
 
-  useEffect(() => {
     let cancelled = false;
-    async function load() {
-      setLoading(true);
+    (async () => {
       try {
         if (configured) {
           const [f, d] = await Promise.all([fetchFuelEntries(), fetchDacPurchases()]);
@@ -118,19 +280,17 @@ export default function Co2BaatPage() {
           if (dRaw) setDac(JSON.parse(dRaw));
         }
         setError(null);
-      } catch (e) {
-        setError((e as Error).message);
+      } catch (err) {
+        setError((err as Error).message);
       } finally {
         if (!cancelled) setLoading(false);
       }
-    }
-    load();
+    })();
     return () => {
       cancelled = true;
     };
   }, [configured]);
 
-  // Persist to localStorage as fallback / backup
   useEffect(() => {
     if (!configured) localStorage.setItem(LOCAL_FUEL_KEY, JSON.stringify(fuel));
   }, [fuel, configured]);
@@ -164,11 +324,9 @@ export default function Co2BaatPage() {
   const totals = useMemo(() => {
     const litersSum = filteredFuel.reduce((s, e) => s + Number(e.liters), 0);
     const co2Kg = litersSum * CO2_PER_LITER;
-    const costNok = litersSum * PRICE_PER_LITER_NOK;
     const offsetKg = filteredDac.reduce((s, p) => s + Number(p.co2_kg), 0);
     const offsetPct = co2Kg > 0 ? (offsetKg / co2Kg) * 100 : 0;
-    const offsetCostNok = (co2Kg / 1000) * DAC_PRICE_PER_TON_NOK;
-    return { litersSum, co2Kg, costNok, offsetKg, offsetPct, offsetCostNok };
+    return { litersSum, co2Kg, offsetKg, offsetPct };
   }, [filteredFuel, filteredDac]);
 
   // Grouping helpers
@@ -229,7 +387,7 @@ export default function Co2BaatPage() {
   // --- Actions ---------------------------------------------------------
 
   function promptPw(): string | null {
-    const pw = window.prompt("Familie-passord:");
+    const pw = window.prompt(t.pwPrompt);
     if (pw) {
       sessionStorage.setItem(PW_KEY, pw);
       setPassword(pw);
@@ -241,7 +399,7 @@ export default function Co2BaatPage() {
     e.preventDefault();
     const litersNum = Number(liters);
     if (!litersNum || litersNum <= 0) {
-      alert("Skriv inn antall liter.");
+      alert(t.saveErrNoLiters);
       return;
     }
     const entry: NewFuelEntry = {
@@ -282,11 +440,11 @@ export default function Co2BaatPage() {
     } catch (err) {
       const msg = (err as Error).message;
       setError(msg);
-      if (msg.toLowerCase().includes("passord")) {
+      if (msg.toLowerCase().includes("passord") || msg.toLowerCase().includes("password")) {
         sessionStorage.removeItem(PW_KEY);
         setPassword("");
       } else {
-        alert("Kunne ikke lagre: " + msg);
+        alert(t.couldNotSave + " " + msg);
       }
     } finally {
       setSavingFuel(false);
@@ -297,7 +455,7 @@ export default function Co2BaatPage() {
     e.preventDefault();
     const kg = Number(dacKg);
     if (!kg || kg <= 0) {
-      alert("Skriv inn antall kg CO₂.");
+      alert(t.saveErrNoKg);
       return;
     }
     const purchase: NewDacPurchase = {
@@ -337,11 +495,11 @@ export default function Co2BaatPage() {
     } catch (err) {
       const msg = (err as Error).message;
       setError(msg);
-      if (msg.toLowerCase().includes("passord")) {
+      if (msg.toLowerCase().includes("passord") || msg.toLowerCase().includes("password")) {
         sessionStorage.removeItem(PW_KEY);
         setPassword("");
       } else {
-        alert("Kunne ikke lagre: " + msg);
+        alert(t.couldNotSave + " " + msg);
       }
     } finally {
       setSavingDac(false);
@@ -349,7 +507,7 @@ export default function Co2BaatPage() {
   }
 
   async function removeFuel(id: string) {
-    if (!window.confirm("Slette denne fyllingen?")) return;
+    if (!window.confirm(t.deleteFuel)) return;
     try {
       if (configured) {
         let pw = password || sessionStorage.getItem(PW_KEY) || "";
@@ -363,12 +521,12 @@ export default function Co2BaatPage() {
         setFuel((cur) => cur.filter((e) => e.id !== id));
       }
     } catch (err) {
-      alert("Kunne ikke slette: " + (err as Error).message);
+      alert(t.couldNotSave + " " + (err as Error).message);
     }
   }
 
   async function removeDac(id: string) {
-    if (!window.confirm("Slette dette DAC-kjøpet?")) return;
+    if (!window.confirm(t.deleteDac)) return;
     try {
       if (configured) {
         let pw = password || sessionStorage.getItem(PW_KEY) || "";
@@ -382,7 +540,7 @@ export default function Co2BaatPage() {
         setDac((cur) => cur.filter((p) => p.id !== id));
       }
     } catch (err) {
-      alert("Kunne ikke slette: " + (err as Error).message);
+      alert(t.couldNotSave + " " + (err as Error).message);
     }
   }
 
@@ -403,10 +561,11 @@ export default function Co2BaatPage() {
     });
   }
 
-  // --- Render ----------------------------------------------------------
+  const dateLocale = lang === "no" ? "nb-NO" : "en-GB";
 
+  // --- Render ----------------------------------------------------------
   return (
-    <div className="min-h-screen w-full bg-slate-50">
+    <div className="min-h-screen bg-slate-50 text-slate-900">
       <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b">
         <Container>
           <div className="py-3 flex items-center justify-between">
@@ -415,11 +574,33 @@ export default function Co2BaatPage() {
                 <img src="/logo-hytte-icon-sketch.jpg" alt="Kilevika" className="h-full w-full object-cover" />
               </div>
               <div>
-                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">CO₂-logg · båt</h1>
-                <p className="text-xs text-slate-500 -mt-0.5">Yamarin & Pepsi · delt drivstoff-logg</p>
+                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">{t.headerTitle}</h1>
+                <p className="text-xs text-slate-500 -mt-0.5">{t.headerSub}</p>
               </div>
             </div>
-            <a href="/" className="text-sm text-slate-600 hover:text-slate-900 underline">← Til Kilevika</a>
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-1 rounded-full bg-slate-100 p-0.5 text-xs">
+                <button
+                  onClick={() => setLang("no")}
+                  className={
+                    "rounded-full px-2.5 py-1 transition " +
+                    (lang === "no" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
+                  }
+                >
+                  NO
+                </button>
+                <button
+                  onClick={() => setLang("en")}
+                  className={
+                    "rounded-full px-2.5 py-1 transition " +
+                    (lang === "en" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
+                  }
+                >
+                  EN
+                </button>
+              </div>
+              <a href="/" className="text-sm text-slate-600 hover:text-slate-900 underline">{t.backHome}</a>
+            </div>
           </div>
         </Container>
       </header>
@@ -428,31 +609,31 @@ export default function Co2BaatPage() {
         <Container>
           {!configured && (
             <div className="mb-6 rounded-2xl bg-amber-50 ring-1 ring-amber-200 p-4 text-sm text-amber-900">
-              <strong>Server-lagring er ikke konfigurert.</strong> Data lagres midlertidig i din egen nettleser.
-              Administrator må sette <code className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</code> og{" "}
-              <code className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> i Netlify.
+              <strong>{t.notConfigured}</strong> {t.notConfiguredDetail}{" "}
+              <code className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_URL</code> {t.and}{" "}
+              <code className="font-mono text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> {t.inNetlify}
             </div>
           )}
 
           {/* Summary */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            <StatCard label="Totalt drivstoff" value={fmtL(totals.litersSum)} />
-            <StatCard label="CO₂-utslipp" value={fmtKg(totals.co2Kg)} sub={`${nfmt(CO2_PER_LITER, 2)} kg/L`} />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <StatCard label={t.totalFuel} value={fmtL(totals.litersSum, lang)} />
+            <StatCard label={t.co2Emissions} value={fmtKg(totals.co2Kg, lang)} sub={`${nfmt(CO2_PER_LITER, 2, lang)} kg/L`} />
             <StatCard
-              label="Bekreftet fjernet via DAC"
-              value={fmtKg(totals.offsetKg)}
-              sub={`${nfmt(totals.offsetPct, 0)} % av ${nfmt(totals.co2Kg, 0)} kg`}
+              label={t.confirmedRemoved}
+              value={fmtKg(totals.offsetKg, lang)}
+              sub={`${nfmt(totals.offsetPct, 0, lang)} % ${t.ofLabel} ${nfmt(totals.co2Kg, 0, lang)} kg`}
             />
           </div>
 
           {/* Filters */}
           <div className="mt-6 flex flex-wrap gap-2">
-            <FilterChip active={filterYear === "all"} onClick={() => setFilterYear("all")}>Alle år</FilterChip>
+            <FilterChip active={filterYear === "all"} onClick={() => setFilterYear("all")}>{t.allYears}</FilterChip>
             {years.map((y) => (
               <FilterChip key={y} active={filterYear === y} onClick={() => setFilterYear(y)}>{y}</FilterChip>
             ))}
             <span className="mx-2 w-px bg-slate-200" />
-            <FilterChip active={filterBoat === "all"} onClick={() => setFilterBoat("all")}>Begge båter</FilterChip>
+            <FilterChip active={filterBoat === "all"} onClick={() => setFilterBoat("all")}>{t.bothBoats}</FilterChip>
             <FilterChip active={filterBoat === "Yamarin"} onClick={() => setFilterBoat("Yamarin")}>Yamarin</FilterChip>
             <FilterChip active={filterBoat === "Pepsi"} onClick={() => setFilterBoat("Pepsi")}>Pepsi</FilterChip>
           </div>
@@ -462,12 +643,12 @@ export default function Co2BaatPage() {
             <div className="lg:col-span-2">
               <Card>
                 <CardSection>
-                  <Title>Logg drivstoffylling</Title>
-                  <p className="text-sm text-slate-500 mt-1">CO₂ beregnes automatisk: <strong>2,31 kg/L</strong>.</p>
+                  <Title>{t.logFuel}</Title>
+                  <p className="text-sm text-slate-500 mt-1">{t.autoCalc} <strong>{nfmt(CO2_PER_LITER, 2, lang)} kg/L</strong>.</p>
                   <form onSubmit={submitFuel} className="mt-4 space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-slate-600 mb-1">Dato</label>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">{t.date}</label>
                         <input
                           type="date"
                           value={filledAt}
@@ -476,7 +657,7 @@ export default function Co2BaatPage() {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-slate-600 mb-1">Båt</label>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">{t.boat}</label>
                         <div className="flex gap-2">
                           {(["Yamarin", "Pepsi"] as Boat[]).map((b) => (
                             <button
@@ -499,7 +680,7 @@ export default function Co2BaatPage() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-slate-600 mb-1">Liter</label>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">{t.liters}</label>
                         <input
                           type="number"
                           inputMode="decimal"
@@ -507,27 +688,27 @@ export default function Co2BaatPage() {
                           min={0}
                           value={liters}
                           onChange={(e) => setLiters(e.target.value)}
-                          placeholder="0"
+                          placeholder={t.savePlaceholder}
                           className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-slate-600 mb-1">Sted / marina</label>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">{t.location}</label>
                         <input
                           type="text"
                           value={location}
                           onChange={(e) => setLocation(e.target.value)}
-                          placeholder="Høllen Marina"
+                          placeholder={t.marinaPlaceholder}
                           className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                         />
                       </div>
                       <div>
-                        <label className="block text-xs font-medium text-slate-600 mb-1">Fyller</label>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">{t.filler}</label>
                         <input
                           type="text"
                           value={filler}
                           onChange={(e) => setFiller(e.target.value)}
-                          placeholder="Navn"
+                          placeholder={t.name}
                           className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                         />
                       </div>
@@ -535,8 +716,8 @@ export default function Co2BaatPage() {
 
                     <div className="rounded-2xl bg-slate-100 p-4 text-sm">
                       <div className="flex flex-wrap gap-x-6 gap-y-1">
-                        <span>CO₂: <strong>{fmtKg(livePreview.co2)}</strong></span>
-                        <span>DAC-offset: <strong>{fmtNok(livePreview.offset)}</strong></span>
+                        <span>{t.co2Short}: <strong>{fmtKg(livePreview.co2, lang)}</strong></span>
+                        <span>{t.dacOffset}: <strong>{fmtNok(livePreview.offset, lang)}</strong></span>
                       </div>
                     </div>
 
@@ -546,11 +727,11 @@ export default function Co2BaatPage() {
                         disabled={savingFuel}
                         className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
                       >
-                        {savingFuel ? "Lagrer…" : "Logg påfylling"}
+                        {savingFuel ? t.saving : t.logFuelBtn}
                       </button>
                       {configured && (
                         <span className="text-xs text-slate-500">
-                          {password ? "Passord lagret i denne sesjonen" : "Du blir bedt om familie-passord ved lagring"}
+                          {password ? t.pwStored : t.pwAsked}
                         </span>
                       )}
                     </div>
@@ -563,13 +744,11 @@ export default function Co2BaatPage() {
             <div>
               <Card>
                 <CardSection>
-                  <Title>Registrer DAC-kjøp</Title>
-                  <p className="text-sm text-slate-500 mt-1">
-                    Fjerning kjøpt hos Climeworks. Trekkes fra utslippet i oversikten.
-                  </p>
+                  <Title>{t.registerDac}</Title>
+                  <p className="text-sm text-slate-500 mt-1">{t.dacDesc}</p>
                   <form onSubmit={submitDac} className="mt-4 space-y-4">
                     <div>
-                      <label className="block text-xs font-medium text-slate-600 mb-1">Dato</label>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">{t.date}</label>
                       <input
                         type="date"
                         value={dacDate}
@@ -578,7 +757,7 @@ export default function Co2BaatPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-600 mb-1">CO₂ fjernet (kg)</label>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">{t.co2Removed}</label>
                       <input
                         type="number"
                         inputMode="decimal"
@@ -586,37 +765,37 @@ export default function Co2BaatPage() {
                         min={0}
                         value={dacKg}
                         onChange={(e) => setDacKg(e.target.value)}
-                        placeholder="0"
+                        placeholder={t.savePlaceholder}
                         className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-600 mb-1">Kjøper</label>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">{t.buyer}</label>
                       <input
                         type="text"
                         value={dacBuyer}
                         onChange={(e) => setDacBuyer(e.target.value)}
-                        placeholder="Navn"
+                        placeholder={t.name}
                         className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-600 mb-1">Referanse / ordrenr</label>
+                      <label className="block text-xs font-medium text-slate-600 mb-1">{t.reference}</label>
                       <input
                         type="text"
                         value={dacRef}
                         onChange={(e) => setDacRef(e.target.value)}
-                        placeholder="CW-2026-…"
+                        placeholder={t.crefPlaceholder}
                         className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
                       />
                     </div>
 
                     <div className="rounded-2xl bg-slate-100 p-4 text-sm flex items-center justify-between">
-                      <span>Estimert kostnad</span>
-                      <strong>{fmtNok(dacLivePreview.cost)}</strong>
+                      <span>{t.estimatedCost}</span>
+                      <strong>{fmtNok(dacLivePreview.cost, lang)}</strong>
                     </div>
                     <p className="text-xs text-slate-500">
-                      Indikativ pris: <strong>{nfmt(DAC_PRICE_PER_TON_NOK, 0)} kr/t</strong> (≈ 500 USD/t).
+                      {t.indicativePrice} <strong>{nfmt(DAC_PRICE_PER_TON_NOK, 0, lang)} {t.perTon}</strong> (≈ 500 USD/t).
                     </p>
 
                     <button
@@ -624,7 +803,7 @@ export default function Co2BaatPage() {
                       disabled={savingDac}
                       className="w-full rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
                     >
-                      {savingDac ? "Lagrer…" : "Registrer DAC-kjøp"}
+                      {savingDac ? t.saving : t.registerDacBtn}
                     </button>
                   </form>
                 </CardSection>
@@ -634,7 +813,7 @@ export default function Co2BaatPage() {
 
           {error && (
             <div className="mt-4 rounded-2xl bg-red-50 ring-1 ring-red-200 p-4 text-sm text-red-700">
-              Feil: {error}
+              {t.errorLabel} {error}
             </div>
           )}
 
@@ -642,11 +821,11 @@ export default function Co2BaatPage() {
           <div className="mt-8">
             <Card>
               <CardSection>
-                <Title>Historikk – drivstoffyllinger</Title>
+                <Title>{t.fuelHistory}</Title>
                 {loading ? (
-                  <p className="mt-2 text-sm text-slate-500">Laster…</p>
+                  <p className="mt-2 text-sm text-slate-500">{t.loading}</p>
                 ) : fuelByYear.length === 0 ? (
-                  <p className="mt-2 text-sm text-slate-500">Ingen fyllinger registrert ennå.</p>
+                  <p className="mt-2 text-sm text-slate-500">{t.noFuel}</p>
                 ) : (
                   <div className="mt-4 space-y-5">
                     {fuelByYear.map(([y, entries]) => {
@@ -665,10 +844,10 @@ export default function Co2BaatPage() {
                                 {collapsed ? "+" : "−"}
                               </span>
                               <span className="text-base font-semibold">{y}</span>
-                              <span className="text-xs text-slate-500">{entries.length} {entries.length === 1 ? "fylling" : "fyllinger"}</span>
+                              <span className="text-xs text-slate-500">{entries.length} {entries.length === 1 ? t.fill : t.fills}</span>
                             </span>
                             <span className="text-xs font-mono text-slate-500">
-                              {fmtL(yLiters)} · {fmtKg(yCo2)}
+                              {fmtL(yLiters, lang)} · {fmtKg(yCo2, lang)}
                             </span>
                           </button>
                           {!collapsed && (
@@ -676,18 +855,18 @@ export default function Co2BaatPage() {
                               <table className="w-full text-sm">
                                 <thead>
                                   <tr className="text-xs text-slate-500 text-left">
-                                    <th className="py-2 font-medium">Tidspunkt</th>
-                                    <th className="py-2 font-medium">Båt</th>
-                                    <th className="py-2 font-medium text-right">Liter</th>
-                                    <th className="py-2 font-medium text-right">CO₂</th>
-                                    <th className="py-2 font-medium">Sted · fyller</th>
+                                    <th className="py-2 font-medium">{t.colDate}</th>
+                                    <th className="py-2 font-medium">{t.colBoat}</th>
+                                    <th className="py-2 font-medium text-right">{t.colLiters}</th>
+                                    <th className="py-2 font-medium text-right">{t.colCo2}</th>
+                                    <th className="py-2 font-medium">{t.colLocFiller}</th>
                                     <th className="py-2 font-medium w-10"></th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {entries.map((e) => {
                                     const d = new Date(e.filled_at);
-                                    const dateStr = d.toLocaleDateString("nb-NO", { day: "2-digit", month: "short" });
+                                    const dateStr = d.toLocaleDateString(dateLocale, { day: "2-digit", month: "short" });
                                     const co2 = Number(e.liters) * CO2_PER_LITER;
                                     return (
                                       <tr key={e.id} className="border-t border-slate-100">
@@ -702,8 +881,8 @@ export default function Co2BaatPage() {
                                             {e.boat}
                                           </span>
                                         </td>
-                                        <td className="py-2 text-right font-mono">{nfmt(Number(e.liters), 1)} L</td>
-                                        <td className="py-2 text-right font-mono">{nfmt(co2, 0)} kg</td>
+                                        <td className="py-2 text-right font-mono">{nfmt(Number(e.liters), 1, lang)} L</td>
+                                        <td className="py-2 text-right font-mono">{nfmt(co2, 0, lang)} kg</td>
                                         <td className="py-2 text-slate-600">
                                           {e.location || "—"}
                                           {e.filler && <span className="text-slate-400"> · {e.filler}</span>}
@@ -712,7 +891,7 @@ export default function Co2BaatPage() {
                                           <button
                                             onClick={() => removeFuel(e.id)}
                                             className="text-xs text-slate-400 hover:text-red-600"
-                                            title="Slett"
+                                            title={t.delete}
                                           >
                                             ×
                                           </button>
@@ -737,11 +916,11 @@ export default function Co2BaatPage() {
           <div className="mt-6">
             <Card>
               <CardSection>
-                <Title>Historikk – DAC-kjøp</Title>
+                <Title>{t.dacHistory}</Title>
                 {loading ? (
-                  <p className="mt-2 text-sm text-slate-500">Laster…</p>
+                  <p className="mt-2 text-sm text-slate-500">{t.loading}</p>
                 ) : dacByYear.length === 0 ? (
-                  <p className="mt-2 text-sm text-slate-500">Ingen DAC-kjøp registrert ennå.</p>
+                  <p className="mt-2 text-sm text-slate-500">{t.noDac}</p>
                 ) : (
                   <div className="mt-4 space-y-5">
                     {dacByYear.map(([y, items]) => {
@@ -760,10 +939,10 @@ export default function Co2BaatPage() {
                                 {collapsed ? "+" : "−"}
                               </span>
                               <span className="text-base font-semibold">{y}</span>
-                              <span className="text-xs text-slate-500">{items.length} {items.length === 1 ? "kjøp" : "kjøp"}</span>
+                              <span className="text-xs text-slate-500">{items.length} {t.purchase}</span>
                             </span>
                             <span className="text-xs font-mono text-slate-500">
-                              {fmtKg(yKg)} · {fmtNok(yCost)}
+                              {fmtKg(yKg, lang)} · {fmtNok(yCost, lang)}
                             </span>
                           </button>
                           {!collapsed && (
@@ -771,22 +950,22 @@ export default function Co2BaatPage() {
                               <table className="w-full text-sm">
                                 <thead>
                                   <tr className="text-xs text-slate-500 text-left">
-                                    <th className="py-2 font-medium">Dato</th>
-                                    <th className="py-2 font-medium text-right">CO₂</th>
-                                    <th className="py-2 font-medium text-right">Kostnad</th>
-                                    <th className="py-2 font-medium">Kjøper · referanse</th>
+                                    <th className="py-2 font-medium">{t.colDate}</th>
+                                    <th className="py-2 font-medium text-right">{t.colCo2}</th>
+                                    <th className="py-2 font-medium text-right">{t.colCost}</th>
+                                    <th className="py-2 font-medium">{t.colBuyerRef}</th>
                                     <th className="py-2 font-medium w-10"></th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   {items.map((p) => {
-                                    const dateStr = new Date(p.purchased_at).toLocaleDateString("nb-NO", { day: "2-digit", month: "short", year: "numeric" });
+                                    const dateStr = new Date(p.purchased_at).toLocaleDateString(dateLocale, { day: "2-digit", month: "short", year: "numeric" });
                                     const cost = (Number(p.co2_kg) / 1000) * DAC_PRICE_PER_TON_NOK;
                                     return (
                                       <tr key={p.id} className="border-t border-slate-100">
                                         <td className="py-2 font-mono text-xs text-slate-600">{dateStr}</td>
-                                        <td className="py-2 text-right font-mono">{nfmt(Number(p.co2_kg), 0)} kg</td>
-                                        <td className="py-2 text-right font-mono">{nfmt(cost, 0)} kr</td>
+                                        <td className="py-2 text-right font-mono">{nfmt(Number(p.co2_kg), 0, lang)} kg</td>
+                                        <td className="py-2 text-right font-mono">{nfmt(cost, 0, lang)} kr</td>
                                         <td className="py-2 text-slate-600">
                                           {p.buyer || "—"}
                                           {p.reference && <span className="text-slate-400"> · {p.reference}</span>}
@@ -795,7 +974,7 @@ export default function Co2BaatPage() {
                                           <button
                                             onClick={() => removeDac(p.id)}
                                             className="text-xs text-slate-400 hover:text-red-600"
-                                            title="Slett"
+                                            title={t.delete}
                                           >
                                             ×
                                           </button>
@@ -820,16 +999,23 @@ export default function Co2BaatPage() {
           <div className="mt-6">
             <Card>
               <CardSection>
-                <Title>Om Direct Air Capture</Title>
+                <Title>{t.aboutDac}</Title>
                 <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-                  All CO₂ som logges på Yamarin og Pepsi skal fjernes fra atmosfæren — ikke kompenseres med
-                  trær eller kvoter, men fysisk trukket ut av lufta og lagret permanent som stein.
-                  Climeworks driver DAC-anlegg på Island som fanger CO₂ direkte fra uteluft og pumper den ned
-                  i basaltberggrunn, der den mineraliserer til karbonat i løpet av noen år.
+                  {t.aboutDacBody}
                 </p>
                 <p className="mt-3 text-xs text-slate-500">
-                  Indikativ pris brukt i kalkylen: <strong>{nfmt(DAC_PRICE_PER_TON_NOK, 0)} kr/tonn</strong> CO₂
-                  (≈ 500 USD/tonn). Oppdateres årlig.
+                  {t.indicativeFull1} <strong>{nfmt(DAC_PRICE_PER_TON_NOK, 0, lang)} {t.indicativeFull2}</strong> {t.indicativeFull3}
+                </p>
+                <p className="mt-4 text-sm">
+                  <a
+                    href="https://climeworks.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-slate-700 hover:text-slate-900 underline underline-offset-2"
+                  >
+                    {t.learnMore}
+                    <span aria-hidden="true">→</span>
+                  </a>
                 </p>
               </CardSection>
             </Card>
