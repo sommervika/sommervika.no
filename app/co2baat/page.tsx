@@ -38,9 +38,9 @@ const fmtKg = (kg: number) => `${nfmt(kg, 0)} kg`;
 const fmtL = (l: number) => `${nfmt(l, 1)} L`;
 const fmtNok = (n: number) => `${nfmt(n, 0)} kr`;
 
-function toLocalDatetimeInputValue(d: Date): string {
+function toLocalDateInputValue(d: Date): string {
   const pad = (n: number) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 }
 
 // --- Small presentational components -----------------------------------
@@ -70,7 +70,7 @@ export default function Co2BaatPage() {
   const [password, setPassword] = useState<string>("");
 
   // Fuel form
-  const [filledAt, setFilledAt] = useState<string>(() => toLocalDatetimeInputValue(new Date()));
+  const [filledAt, setFilledAt] = useState<string>(() => toLocalDateInputValue(new Date()));
   const [boat, setBoat] = useState<Boat>("Yamarin");
   const [liters, setLiters] = useState<string>("");
   const [location, setLocation] = useState<string>("");
@@ -217,7 +217,6 @@ export default function Co2BaatPage() {
     const L = Number(liters) || 0;
     return {
       co2: L * CO2_PER_LITER,
-      cost: L * PRICE_PER_LITER_NOK,
       offset: (L * CO2_PER_LITER / 1000) * DAC_PRICE_PER_TON_NOK,
     };
   }, [liters]);
@@ -246,7 +245,7 @@ export default function Co2BaatPage() {
       return;
     }
     const entry: NewFuelEntry = {
-      filled_at: new Date(filledAt).toISOString(),
+      filled_at: new Date(filledAt + "T12:00:00").toISOString(),
       boat,
       liters: litersNum,
       location: location.trim() || null,
@@ -278,7 +277,7 @@ export default function Co2BaatPage() {
       setLiters("");
       setLocation("");
       setFiller("");
-      setFilledAt(toLocalDatetimeInputValue(new Date()));
+      setFilledAt(toLocalDateInputValue(new Date()));
       setError(null);
     } catch (err) {
       const msg = (err as Error).message;
@@ -439,7 +438,6 @@ export default function Co2BaatPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <StatCard label="Totalt drivstoff" value={fmtL(totals.litersSum)} />
             <StatCard label="CO₂-utslipp" value={fmtKg(totals.co2Kg)} sub={`${nfmt(CO2_PER_LITER, 2)} kg/L`} />
-            <StatCard label="Kostnad" value={fmtNok(totals.costNok)} sub={`${nfmt(PRICE_PER_LITER_NOK, 2)} kr/L`} />
             <StatCard
               label="Bekreftet fjernet via DAC"
               value={fmtKg(totals.offsetKg)}
@@ -469,9 +467,9 @@ export default function Co2BaatPage() {
                   <form onSubmit={submitFuel} className="mt-4 space-y-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-medium text-slate-600 mb-1">Tidspunkt</label>
+                        <label className="block text-xs font-medium text-slate-600 mb-1">Dato</label>
                         <input
-                          type="datetime-local"
+                          type="date"
                           value={filledAt}
                           onChange={(e) => setFilledAt(e.target.value)}
                           className="w-full rounded-xl border border-slate-300 px-3 py-2 text-sm"
@@ -538,7 +536,6 @@ export default function Co2BaatPage() {
                     <div className="rounded-2xl bg-slate-100 p-4 text-sm">
                       <div className="flex flex-wrap gap-x-6 gap-y-1">
                         <span>CO₂: <strong>{fmtKg(livePreview.co2)}</strong></span>
-                        <span>Kostnad: <strong>{fmtNok(livePreview.cost)}</strong></span>
                         <span>DAC-offset: <strong>{fmtNok(livePreview.offset)}</strong></span>
                       </div>
                     </div>
@@ -683,7 +680,6 @@ export default function Co2BaatPage() {
                                     <th className="py-2 font-medium">Båt</th>
                                     <th className="py-2 font-medium text-right">Liter</th>
                                     <th className="py-2 font-medium text-right">CO₂</th>
-                                    <th className="py-2 font-medium text-right">Kostnad</th>
                                     <th className="py-2 font-medium">Sted · fyller</th>
                                     <th className="py-2 font-medium w-10"></th>
                                   </tr>
@@ -692,12 +688,10 @@ export default function Co2BaatPage() {
                                   {entries.map((e) => {
                                     const d = new Date(e.filled_at);
                                     const dateStr = d.toLocaleDateString("nb-NO", { day: "2-digit", month: "short" });
-                                    const timeStr = d.toLocaleTimeString("nb-NO", { hour: "2-digit", minute: "2-digit" });
                                     const co2 = Number(e.liters) * CO2_PER_LITER;
-                                    const cost = Number(e.liters) * PRICE_PER_LITER_NOK;
                                     return (
                                       <tr key={e.id} className="border-t border-slate-100">
-                                        <td className="py-2 font-mono text-xs text-slate-600">{dateStr} · {timeStr}</td>
+                                        <td className="py-2 font-mono text-xs text-slate-600">{dateStr}</td>
                                         <td className="py-2">
                                           <span className={
                                             "inline-block rounded-full px-2 py-0.5 text-xs " +
@@ -710,7 +704,6 @@ export default function Co2BaatPage() {
                                         </td>
                                         <td className="py-2 text-right font-mono">{nfmt(Number(e.liters), 1)} L</td>
                                         <td className="py-2 text-right font-mono">{nfmt(co2, 0)} kg</td>
-                                        <td className="py-2 text-right font-mono text-slate-600">{nfmt(cost, 0)} kr</td>
                                         <td className="py-2 text-slate-600">
                                           {e.location || "—"}
                                           {e.filler && <span className="text-slate-400"> · {e.filler}</span>}
