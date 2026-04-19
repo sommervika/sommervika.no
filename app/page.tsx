@@ -105,6 +105,41 @@ type Dict = {
   rulesUtility: string[];
   rulesGeneralHeading: string;
   rulesGeneral: string[];
+  // Fleet
+  fleetHeading: string;
+  fleetIntro: string;
+  fleetLabels: {
+    type: string;
+    registration: string;
+    propulsion: string;
+    motor: string;
+    maxPersons: string;
+    topSpeed: string;
+    equipment: string;
+    material: string;
+    level: string;
+    requirements: string;
+    usage: string;
+  };
+  fleetBoats: {
+    id: string;
+    name: string;
+    image: string;
+    description: React.ReactNode;
+    type: string;
+    registration?: string;
+    propulsion?: string;
+    motor?: string;
+    maxPersons: string;
+    topSpeed: string;
+    equipment?: string;
+    material?: string;
+    level?: string;
+    requirements?: string;
+    usage: string;
+    warning?: React.ReactNode;
+    protocol?: React.ReactNode;
+  }[];
 };
 
 const T: Record<Lang, Dict> = {
@@ -115,6 +150,7 @@ const T: Record<Lang, Dict> = {
       praktisk: "Praktisk informasjon",
       historie: "Historien om Kilevika",
       omrade: "Området Ny-Hellesund",
+      flaaten: "Flåten",
       regler: "Regler for lån",
       bilder: "Bilder",
       kart: "Kart",
@@ -274,6 +310,115 @@ const T: Record<Lang, Dict> = {
       "Eventuelle skader eller mangler meldes fra så snart som mulig.",
       "Skriv gjerne noen linjer i hytteboka før du drar.",
     ],
+    fleetHeading: "Flåten på Sommervika",
+    fleetIntro:
+      "Til Kilevika hører det med en del båter, fra familiens elskede Solo til flaggskipet HMS Farris. Alle har fått navn fra drikke-verdenen, til ære for Solo.",
+    fleetLabels: {
+      type: "Type",
+      registration: "Registreringsnr.",
+      propulsion: "Framdrift",
+      motor: "Motor",
+      maxPersons: "Maks personer",
+      topSpeed: "Toppfart",
+      equipment: "Utstyr",
+      material: "Materiale",
+      level: "Nivå",
+      requirements: "Krav",
+      usage: "Bruk",
+    },
+    fleetBoats: [
+      {
+        id: "solo",
+        name: "Solo",
+        image: "/solo.jpg",
+        description: (
+          <>
+            Den gule jolla er familieklenodiet – en liten <strong>Pioner 8</strong> uten motor som har vært i familien i over 30 år. Opprinnelig fast robåt på <em>Ellingsvika</em>, Rolf og &quot;Molle&quot; Hogners familiehytte i Kragerø, hvor Eirik og de andre barna rodde rundt i skjærgården. Solo er tøff nok til å dras opp på svaberg og skjær, og passer perfekt til korte turer, bading og nostalgiske stunder.
+            <br /><br />
+            Hun har også en heltehistorie bak seg: under den store tordenstormen i august 2010 tjente Solo som evakueringsflåte for Eirik og Peter midt i Skagerrak.
+          </>
+        ),
+        type: "Pioner 8 (jolle)",
+        propulsion: "Årer",
+        maxPersons: "2 (3 små)",
+        topSpeed: "ca. 3 knop (med motiverte årer og medstrøm)",
+        usage: "Robåt, lek, tåler å dras på land",
+      },
+      {
+        id: "pepsi",
+        name: "M/B Pepsi",
+        image: "/pepsi.jpg",
+        description: (
+          <>
+            Den svarte <strong>Pioner 14 Active</strong> er fiskebåten vår. Med 8 hk påhengsmotor kommer du deg raskt dit fisken står, men den er også fin å ro hvis du foretrekker stillheten. Et bærbart ekkolodd hører med, så du finner både dyp og fiskestim uten problemer. På godværsdager er hun også et fint alternativ for en rolig tur inn til Langenes for å handle.
+          </>
+        ),
+        type: "Pioner 14 Active",
+        motor: "Mercruiser 8 hk (bensin 95 oktan)",
+        maxPersons: "4",
+        topSpeed: "ca. 10 knop (med én liten passasjer og god medvind)",
+        equipment: "Bærbart ekkolodd, årer",
+        usage: "Fiske, korte turer, handleturer til Langenes i fint vær",
+      },
+      {
+        id: "farris",
+        name: "HMS Farris",
+        image: "/farris.jpg",
+        description: (
+          <>
+            Flaggskipet i flåten – en <strong>Yamarin 63 DC</strong> med 150 hk Yamaha utenbordsmotor. Dette er båten for dagsturer i skjærgården, bading i yndlingsvikene og hygge om bord med venner og familie.
+          </>
+        ),
+        protocol: (
+          <>
+            <strong>⚓ Protokoll om bord:</strong> Når <em>Norges Dronning</em> eller <em>Dronningen av Kilevika</em> går om bord, stiller mannskapet i rett. Flagget heises når HMS Farris er i fart! 🇳🇴
+          </>
+        ),
+        type: "Yamarin 63 DC (daycruiser)",
+        registration: "ADC 380",
+        motor: "Yamaha F150 (bensin 95 oktan)",
+        maxPersons: "6–8",
+        topSpeed: "43 knop",
+        requirements: "Gyldig båtførerbevis for alle født etter 1. januar 1980",
+        usage: "Dagsturer, bading, hygge om bord",
+      },
+      {
+        id: "urge",
+        name: "K1 Urge",
+        image: "/urge.jpg",
+        description: (
+          <>
+            Den blå <strong>Riot Edge</strong> er nybegynnerkajakken vår. Stabil, tilgivende og laget i solid plast – den tåler lek, moro og en god dose hard behandling. Perfekt for de som skal lære seg å padle, eller bare vil ha det gøy i bukta. (Men prøv å unngå de hardeste kollisjonene – den er tøff, men ikke uovervinnelig.)
+          </>
+        ),
+        type: "Riot Edge (ener-kajakk, plast)",
+        maxPersons: "1",
+        topSpeed: "ca. 5 knop (avhengig av padler)",
+        level: "Nybegynner",
+        usage: "Lek, læring, tåler en trøkk",
+      },
+      {
+        id: "imsdal",
+        name: "K1 Imsdal",
+        image: "/imsdal.jpg",
+        description: (
+          <>
+            Den hvite <strong>Wig Rapid Kevlar 522</strong> er fartskajakken i flåten. Lett og rask takket være kevlar-konstruksjonen, men også mer krevende å håndtere.
+          </>
+        ),
+        warning: (
+          <>
+            <strong>⚠️ Viktig:</strong> Vær særlig forsiktig ved inn- og utstigning fra land. Kajakken skal <strong>aldri</strong> dras opp på strand eller svaberg – det ødelegger fartsegenskapene og skroget. Løft den alltid inn og ut av vannet.
+          </>
+        ),
+        type: "Wig Rapid Kevlar 522 (ener-kajakk)",
+        material: "Kevlar (lett og skjørt)",
+        maxPersons: "1",
+        topSpeed: "ca. 8 knop (for en trent padler)",
+        level: "Øvet padler",
+        usage: "Fartsorientert padling, trening",
+      },
+    ],
   },
   en: {
     subtitle: "Family cabin – Helgøya / Ny-Hellesund",
@@ -282,6 +427,7 @@ const T: Record<Lang, Dict> = {
       praktisk: "Practical info",
       historie: "History of Kilevika",
       omrade: "The Ny-Hellesund area",
+      flaaten: "The fleet",
       regler: "House rules",
       bilder: "Photos",
       kart: "Maps",
@@ -442,6 +588,115 @@ const T: Record<Lang, Dict> = {
       "Report any damage or defects as soon as possible.",
       "Please write a few lines in the cabin guestbook before you leave.",
     ],
+    fleetHeading: "The Sommervika fleet",
+    fleetIntro:
+      "Kilevika comes with a number of boats, from the family's beloved Solo to the flagship HMS Farris. All are named after drinks, in honour of Solo.",
+    fleetLabels: {
+      type: "Type",
+      registration: "Registration no.",
+      propulsion: "Propulsion",
+      motor: "Engine",
+      maxPersons: "Max persons",
+      topSpeed: "Top speed",
+      equipment: "Equipment",
+      material: "Material",
+      level: "Level",
+      requirements: "Requirements",
+      usage: "Use",
+    },
+    fleetBoats: [
+      {
+        id: "solo",
+        name: "Solo",
+        image: "/solo.jpg",
+        description: (
+          <>
+            The yellow dinghy is the family heirloom – a small <strong>Pioner 8</strong> without an engine that has been in the family for more than 30 years. Originally the permanent rowing boat at <em>Ellingsvika</em>, Rolf and &quot;Molle&quot; Hogner&apos;s family cabin in Kragerø, where Eirik and the other children rowed around the archipelago. Solo is tough enough to be dragged up onto rocks and skerries, and is perfect for short trips, swimming and nostalgic moments.
+            <br /><br />
+            She also has a tale of heroism behind her: during the great thunderstorm in August 2010 Solo served as an evacuation raft for Eirik and Peter in the middle of the Skagerrak.
+          </>
+        ),
+        type: "Pioner 8 (dinghy)",
+        propulsion: "Oars",
+        maxPersons: "2 (3 small children)",
+        topSpeed: "approx. 3 knots (with motivated rowers and a favourable current)",
+        usage: "Rowing, play, tolerates being dragged ashore",
+      },
+      {
+        id: "pepsi",
+        name: "M/B Pepsi",
+        image: "/pepsi.jpg",
+        description: (
+          <>
+            The black <strong>Pioner 14 Active</strong> is our fishing boat. With an 8 hp outboard you get to the fish quickly, but she also rows nicely if you prefer the quiet. A portable fishfinder is part of the kit, so finding depth and schools of fish is no problem. On fine-weather days she&apos;s also a pleasant option for a slow trip into Langenes for grocery shopping.
+          </>
+        ),
+        type: "Pioner 14 Active",
+        motor: "Mercruiser 8 hp (95 octane petrol)",
+        maxPersons: "4",
+        topSpeed: "approx. 10 knots (with one small passenger and a good tailwind)",
+        equipment: "Portable fishfinder, oars",
+        usage: "Fishing, short trips, shopping runs to Langenes in fine weather",
+      },
+      {
+        id: "farris",
+        name: "HMS Farris",
+        image: "/farris.jpg",
+        description: (
+          <>
+            The flagship of the fleet – a <strong>Yamarin 63 DC</strong> with a 150 hp Yamaha outboard. This is the boat for day trips in the archipelago, swimming in favourite coves and good times on board with friends and family.
+          </>
+        ),
+        protocol: (
+          <>
+            <strong>⚓ Protocol on board:</strong> When <em>the Queen of Norway</em> or <em>the Queen of Kilevika</em> comes on board, the crew stands at attention. The flag is hoisted whenever HMS Farris is under way! 🇳🇴
+          </>
+        ),
+        type: "Yamarin 63 DC (day cruiser)",
+        registration: "ADC 380",
+        motor: "Yamaha F150 (95 octane petrol)",
+        maxPersons: "6–8",
+        topSpeed: "43 knots",
+        requirements: "Valid boating licence required for anyone born after 1 January 1980",
+        usage: "Day trips, swimming, socialising on board",
+      },
+      {
+        id: "urge",
+        name: "K1 Urge",
+        image: "/urge.jpg",
+        description: (
+          <>
+            The blue <strong>Riot Edge</strong> is our beginner kayak. Stable, forgiving and built from solid plastic – it handles play, fun and a good dose of rough treatment. Perfect for those learning to paddle, or just wanting to have fun in the bay. (That said, try to avoid the hardest collisions – it&apos;s tough, but not invincible.)
+          </>
+        ),
+        type: "Riot Edge (single kayak, plastic)",
+        maxPersons: "1",
+        topSpeed: "approx. 5 knots (depending on the paddler)",
+        level: "Beginner",
+        usage: "Play, learning, takes a knock",
+      },
+      {
+        id: "imsdal",
+        name: "K1 Imsdal",
+        image: "/imsdal.jpg",
+        description: (
+          <>
+            The white <strong>Wig Rapid Kevlar 522</strong> is the speed kayak in the fleet. Light and fast thanks to its kevlar construction, but also more demanding to handle.
+          </>
+        ),
+        warning: (
+          <>
+            <strong>⚠️ Important:</strong> Be especially careful getting in and out from shore. The kayak must <strong>never</strong> be dragged up onto a beach or rock – it ruins the speed characteristics and the hull. Always lift it in and out of the water.
+          </>
+        ),
+        type: "Wig Rapid Kevlar 522 (single kayak)",
+        material: "Kevlar (light and fragile)",
+        maxPersons: "1",
+        topSpeed: "approx. 8 knots (for a trained paddler)",
+        level: "Experienced paddler",
+        usage: "Speed paddling, training",
+      },
+    ],
   },
 };
 
@@ -450,6 +705,7 @@ const TAB_IDS = [
   "praktisk",
   "historie",
   "omrade",
+  "flaaten",
   "regler",
   "bilder",
   "kart",
@@ -814,6 +1070,129 @@ export default function Page() {
                         loading="lazy"
                       />
                     </div>
+                  </div>
+                </CardSection>
+              </Card>
+            </section>
+          )}
+
+          {/* Fleet */}
+          {tab === "flaaten" && (
+            <section className="mt-6">
+              <Card>
+                <CardSection>
+                  <Title>{t.fleetHeading}</Title>
+                </CardSection>
+                <CardSection>
+                  <div className="space-y-8 leading-relaxed">
+                    <p>{t.fleetIntro}</p>
+                    {t.fleetBoats.map((boat) => (
+                      <div
+                        key={boat.id}
+                        className="pt-6 border-t border-slate-200 first:border-t-0 first:pt-0"
+                      >
+                        <h3 className="text-lg font-semibold mb-3">{boat.name}</h3>
+                        <img
+                          src={boat.image}
+                          alt={boat.name}
+                          className="w-full rounded-2xl ring-1 ring-black/5 mb-4"
+                          loading="lazy"
+                        />
+                        <p className="mb-3">{boat.description}</p>
+                        {boat.protocol && (
+                          <div className="my-4 rounded-2xl bg-sky-50 p-4 ring-1 ring-sky-100">
+                            <p>{boat.protocol}</p>
+                          </div>
+                        )}
+                        {boat.warning && (
+                          <div className="my-4 rounded-2xl bg-amber-50 p-4 ring-1 ring-amber-100">
+                            <p>{boat.warning}</p>
+                          </div>
+                        )}
+                        <dl className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5 text-sm">
+                          <div className="flex gap-2">
+                            <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                              {t.fleetLabels.type}:
+                            </dt>
+                            <dd>{boat.type}</dd>
+                          </div>
+                          {boat.registration && (
+                            <div className="flex gap-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.registration}:
+                              </dt>
+                              <dd>{boat.registration}</dd>
+                            </div>
+                          )}
+                          {boat.propulsion && (
+                            <div className="flex gap-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.propulsion}:
+                              </dt>
+                              <dd>{boat.propulsion}</dd>
+                            </div>
+                          )}
+                          {boat.motor && (
+                            <div className="flex gap-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.motor}:
+                              </dt>
+                              <dd>{boat.motor}</dd>
+                            </div>
+                          )}
+                          <div className="flex gap-2">
+                            <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                              {t.fleetLabels.maxPersons}:
+                            </dt>
+                            <dd>{boat.maxPersons}</dd>
+                          </div>
+                          <div className="flex gap-2">
+                            <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                              {t.fleetLabels.topSpeed}:
+                            </dt>
+                            <dd>{boat.topSpeed}</dd>
+                          </div>
+                          {boat.equipment && (
+                            <div className="flex gap-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.equipment}:
+                              </dt>
+                              <dd>{boat.equipment}</dd>
+                            </div>
+                          )}
+                          {boat.material && (
+                            <div className="flex gap-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.material}:
+                              </dt>
+                              <dd>{boat.material}</dd>
+                            </div>
+                          )}
+                          {boat.level && (
+                            <div className="flex gap-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.level}:
+                              </dt>
+                              <dd>{boat.level}</dd>
+                            </div>
+                          )}
+                          {boat.requirements && (
+                            <div className="flex gap-2 sm:col-span-2">
+                              <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                                {t.fleetLabels.requirements}:
+                              </dt>
+                              <dd>{boat.requirements}</dd>
+                            </div>
+                          )}
+                          <div className="flex gap-2 sm:col-span-2">
+                            <dt className="font-medium text-slate-600 min-w-[7.5rem]">
+                              {t.fleetLabels.usage}:
+                            </dt>
+                            <dd>{boat.usage}</dd>
+                          </div>
+                        </dl>
+                      </div>
+                    ))}
                   </div>
                 </CardSection>
               </Card>
