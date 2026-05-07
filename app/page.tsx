@@ -350,10 +350,10 @@ const T: Record<Lang, Dict> = {
         image: "/pepsi.jpg",
         description: (
           <>
-            Den svarte <strong>Pioner 14 Active</strong> er fiskebåten vår. Med 8 hk påhengsmotor kommer du deg raskt dit fisken står, men den er også fin å ro hvis du foretrekker stillheten. Et bærbart ekkolodd hører med, så du finner både dyp og fiskestim uten problemer. På godværsdager er hun også et fint alternativ for en rolig tur inn til Langenes for å handle.
+            Den svarte <strong>Pioner 13 </strong> er fiskebåten vår. Med 8 hk påhengsmotor kommer du deg raskt dit fisken står, men den er også fin å ro hvis du foretrekker stillheten. Et bærbart ekkolodd hører med, så du finner både dyp og fiskestim uten problemer. På godværsdager er hun også et fint alternativ for en rolig tur inn til Langenes for å handle.
           </>
         ),
-        type: "Pioner 14 Active",
+        type: "Pioner 13",
         motor: "Mercruiser 8 hk (bensin 95 oktan)",
         maxPersons: "4",
         topSpeed: "ca. 10 knop (med én liten passasjer og god medvind)",
@@ -628,10 +628,10 @@ const T: Record<Lang, Dict> = {
         image: "/pepsi.jpg",
         description: (
           <>
-            The black <strong>Pioner 14 Active</strong> is our fishing boat. With an 8 hp outboard you get to the fish quickly, but she also rows nicely if you prefer the quiet. A portable fishfinder is part of the kit, so finding depth and schools of fish is no problem. On fine-weather days she&apos;s also a pleasant option for a slow trip into Langenes for grocery shopping.
+            The black <strong>Pioner 13</strong> is our fishing boat. With an 8 hp outboard you get to the fish quickly, but she also rows nicely if you prefer the quiet. A portable fishfinder is part of the kit, so finding depth and schools of fish is no problem. On fine-weather days she&apos;s also a pleasant option for a slow trip into Langenes for grocery shopping.
           </>
         ),
-        type: "Pioner 14 Active",
+        type: "Pioner 13",
         motor: "Mercruiser 8 hp (95 octane petrol)",
         maxPersons: "4",
         topSpeed: "approx. 10 knots (with one small passenger and a good tailwind)",
