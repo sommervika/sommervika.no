@@ -834,13 +834,10 @@ export default function Page() {
                     <TempStatusCard
                       locale={lang === "no" ? "nb-NO" : "en-GB"}
                       labels={{
-                        heading: t.tempHeading,
                         vann: t.tempVann,
                         luft: t.tempLuft,
                         sol: t.tempSol,
                         updated: t.tempUpdated,
-                        error: t.tempError,
-                        placeholder: t.tempPlaceholder,
                       }}
                     />
                     <div>
