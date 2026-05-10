@@ -757,42 +757,56 @@ export default function Page() {
   return (
     <div className="min-h-screen w-full">
       <header className="sticky top-0 z-40 bg-white/70 backdrop-blur border-b">
-        <Container>
-          <div className="py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
-                <img src="/logo-hytte-icon-sketch.jpg" alt="Kilevika" className="h-full w-full object-cover" />
-              </div>
-              <div>
-                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Kilevika</h1>
-                <p className="text-xs text-slate-500 -mt-0.5">{t.subtitle}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-1 rounded-full bg-slate-100 p-0.5 text-xs">
-              <button
-                onClick={() => setLang("no")}
-                className={
-                  "rounded-full px-2.5 py-1 transition " +
-                  (lang === "no" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
-                }
-                aria-pressed={lang === "no"}
-              >
-                NO
-              </button>
-              <button
-                onClick={() => setLang("en")}
-                className={
-                  "rounded-full px-2.5 py-1 transition " +
-                  (lang === "en" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
-                }
-                aria-pressed={lang === "en"}
-              >
-                EN
-              </button>
-            </div>
-          </div>
-        </Container>
-      </header>
+  <Container>
+    <div className="py-3 flex items-center justify-between gap-4">
+      {/* Venstre: logo + tittel */}
+      <div className="flex items-center gap-3">
+        <div className="h-9 w-9 rounded-xl overflow-hidden shadow-sm ring-1 ring-black/5">
+          <img src="/logo-hytte-icon-sketch.jpg" alt="Kilevika" className="h-full w-full object-cover" />
+        </div>
+        <div>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Kilevika</h1>
+          <p className="text-xs text-slate-500 -mt-0.5">{t.subtitle}</p>
+        </div>
+      </div>
+
+      {/* Midten: temperatur (kun fra tablet og opp) */}
+      <div className="hidden md:flex">
+        <TempStatusCard
+          labels={{
+            vann: t.tempVann,
+            luft: t.tempLuft,
+            sol: t.tempSol,
+          }}
+        />
+      </div>
+
+      {/* Høyre: språkbryter */}
+      <div className="flex items-center gap-1 rounded-full bg-slate-100 p-0.5 text-xs">
+        <button
+          onClick={() => setLang("no")}
+          className={
+            "rounded-full px-2.5 py-1 transition " +
+            (lang === "no" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
+          }
+          aria-pressed={lang === "no"}
+        >
+          NO
+        </button>
+        <button
+          onClick={() => setLang("en")}
+          className={
+            "rounded-full px-2.5 py-1 transition " +
+            (lang === "en" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700")
+          }
+          aria-pressed={lang === "en"}
+        >
+          EN
+        </button>
+      </div>
+    </div>
+  </Container>
+</header>
 
       <section className="relative">
         <Container>
