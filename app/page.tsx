@@ -806,19 +806,6 @@ export default function Page() {
     </div>
   </Container>
 </header>
-
-      {/* Mobil: temperatur-linje under header */}
-<div className="md:hidden border-b bg-white/70 backdrop-blur sticky top-[57px] z-30">
-  <Container>
-    <div className="py-2 flex justify-center">
-      <TempStatusCard
-        labels={{
-          vann: t.tempVann,
-          luft: t.tempLuft,
-          sol: t.tempSol,
-        }}
-      />
-    </div>
   </Container>
 </div>
 
