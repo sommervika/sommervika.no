@@ -148,7 +148,7 @@ tempSol: string;
 
 const T: Record<Lang, Dict> = {
   no: {
-    subtitle: "Familiehytte – Helgøya / Ny-Hellesund",
+    subtitle: "Helgøya / Ny-Hellesund",
 tempVann: "Sjøvann",
 tempLuft: "Luft",
 tempSol: "Sol",
@@ -429,7 +429,7 @@ tempSol: "Sol",
     ],
   },
   en: {
-    subtitle: "Family cabin – Helgøya / Ny-Hellesund",
+    subtitle: "Helgøya / Ny-Hellesund",
 tempVann: "Sea",
 tempLuft: "Air",
 tempSol: "Sun",
