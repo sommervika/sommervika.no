@@ -844,16 +844,6 @@ export default function Page() {
                 </CardSection>
                 <CardSection>
                   <div className="space-y-6 leading-relaxed">
-                    {/* NYTT: live status-kort */}
-                    <TempStatusCard
-                      locale={lang === "no" ? "nb-NO" : "en-GB"}
-                      labels={{
-                        vann: t.tempVann,
-                        luft: t.tempLuft,
-                        sol: t.tempSol,
-                        updated: t.tempUpdated,
-                      }}
-                    />
                     <div>
                       <h3 className="font-semibold mb-2">{t.welcomeHeading}</h3>
                       <p>{t.welcomeP1}</p>
