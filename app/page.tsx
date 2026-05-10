@@ -26,13 +26,9 @@ function Title({ children }: { children: React.ReactNode }) {
 // --- i18n ---------------------------------------------------------------
 type Dict = {
   subtitle: string;
-  tempHeading: string;
 tempVann: string;
 tempLuft: string;
 tempSol: string;
-tempUpdated: string;
-tempError: string;
-tempPlaceholder: string;
   tabs: Record<string, string>;
   kilevikaHeading: string;
   welcomeHeading: string;
@@ -153,13 +149,9 @@ tempPlaceholder: string;
 const T: Record<Lang, Dict> = {
   no: {
     subtitle: "Familiehytte – Helgøya / Ny-Hellesund",
-    tempHeading: "Akkurat nå i Kilevika",
 tempVann: "Sjøvann",
 tempLuft: "Luft",
 tempSol: "Sol",
-tempUpdated: "Oppdatert",
-tempError: "Kunne ikke hente data",
-tempPlaceholder: "demo – ekte målinger kommer",
 
     tabs: {
       kilevika: "Kilevika",
@@ -438,13 +430,9 @@ tempPlaceholder: "demo – ekte målinger kommer",
   },
   en: {
     subtitle: "Family cabin – Helgøya / Ny-Hellesund",
-    tempHeading: "Right now at Kilevika",
 tempVann: "Sea",
 tempLuft: "Air",
 tempSol: "Sun",
-tempUpdated: "Updated",
-tempError: "Could not fetch data",
-tempPlaceholder: "demo – live readings coming soon",
     tabs: {
       kilevika: "Kilevika",
       praktisk: "Practical info",
