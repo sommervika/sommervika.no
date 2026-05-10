@@ -754,7 +754,18 @@ export default function Page() {
         </div>
         <div>
           <h1 className="text-xl sm:text-2xl font-semibold tracking-tight">Kilevika</h1>
-          <p className="text-xs text-slate-500 -mt-0.5">{t.subtitle}</p>
+          {/* Desktop: undertittel */}
+          <p className="hidden md:block text-xs text-slate-500 -mt-0.5">{t.subtitle}</p>
+          {/* Mobil: temperatur i samme posisjon */}
+          <div className="md:hidden -mt-0.5">
+            <TempStatusCard
+              labels={{
+                vann: t.tempVann,
+                luft: t.tempLuft,
+                sol: t.tempSol,
+              }}
+            />
+          </div>
         </div>
       </div>
 
