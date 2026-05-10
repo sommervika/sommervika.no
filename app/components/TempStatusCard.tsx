@@ -1,7 +1,7 @@
 // app/components/TempStatusCard.tsx
 //
-// Minimal status-linje for Kilevika med sjøvann, luft og sol.
-// Kun tekst, ingen ikoner eller farger - lar seg integrere diskret.
+// Kompakt status-linje for header-plassering.
+// Tre tall pa en rad, ingen header, ingen tidsstempel.
 
 "use client";
 
@@ -11,23 +11,15 @@ type TempData = {
   vann: number | null;
   luft: number | null;
   sol: number | null;
-  timestamp: number;
 };
 
 type Labels = {
   vann: string;
   luft: string;
   sol: string;
-  updated: string;
 };
 
-export default function TempStatusCard({
-  labels,
-  locale,
-}: {
-  labels: Labels;
-  locale: string;
-}) {
+export default function TempStatusCard({ labels }: { labels: Labels }) {
   const [data, setData] = useState<TempData | null>(null);
 
   useEffect(() => {
@@ -39,7 +31,7 @@ export default function TempStatusCard({
         const j = (await r.json()) as TempData;
         if (!cancelled) setData(j);
       } catch {
-        // stille feilhåndtering - viser bare ingenting hvis det feiler
+        // stille feilhandtering
       }
     }
     load();
@@ -56,36 +48,26 @@ export default function TempStatusCard({
     v == null ? "–" : `${v.toFixed(1)}°C`;
   const fmtPct = (v: number | null) => (v == null ? "–" : `${v}%`);
 
-  const updatedAt = new Date(data.timestamp * 1000).toLocaleTimeString(locale, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
-
   return (
-    <div className="text-sm text-slate-600">
-      <div className="flex flex-wrap gap-x-6 gap-y-1">
-        <span>
-          {labels.vann}{" "}
-          <span className="font-medium text-slate-900 tabular-nums">
-            {fmtTemp(data.vann)}
-          </span>
+    <div className="flex items-center gap-4 text-xs text-slate-500">
+      <span>
+        {labels.vann}{" "}
+        <span className="font-medium text-slate-900 tabular-nums">
+          {fmtTemp(data.vann)}
         </span>
-        <span>
-          {labels.luft}{" "}
-          <span className="font-medium text-slate-900 tabular-nums">
-            {fmtTemp(data.luft)}
-          </span>
+      </span>
+      <span>
+        {labels.luft}{" "}
+        <span className="font-medium text-slate-900 tabular-nums">
+          {fmtTemp(data.luft)}
         </span>
-        <span>
-          {labels.sol}{" "}
-          <span className="font-medium text-slate-900 tabular-nums">
-            {fmtPct(data.sol)}
-          </span>
+      </span>
+      <span>
+        {labels.sol}{" "}
+        <span className="font-medium text-slate-900 tabular-nums">
+          {fmtPct(data.sol)}
         </span>
-      </div>
-      <p className="text-xs text-slate-400 mt-1">
-        {labels.updated} {updatedAt}
-      </p>
+      </span>
     </div>
   );
 }
