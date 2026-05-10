@@ -806,7 +806,6 @@ export default function Page() {
     </div>
   </Container>
 </header>
-  </Container>
 </div>
 
       <section className="relative">
