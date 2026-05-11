@@ -9,14 +9,12 @@
 // Når Shelly-hardware er på plass, bytt ut vann-funksjonen med en
 // fetch mot Shelly Cloud (se kommentar nederst).
 
-// app/api/temperatur/route.ts
 import { NextResponse } from "next/server";
 
-// Tving fresh respons hver gang - data genereres ved request
+// Tving fresh respons hver gang - data genereres ved request.
+// Met.no-kallet inni har egen revalidate=600, så det kalles maks hvert 10. min.
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
-
-export const revalidate = 300; // 5 min server-cache
 
 // Helgøya, Ny-Hellesund (Søgne)
 const LAT = 58.0566;
@@ -85,7 +83,7 @@ export async function GET() {
           // Met.no krever en meningsfull User-Agent med kontaktinfo
           "User-Agent": "sommervika.no/1.0 github.com/sommervika",
         },
-        next: { revalidate: 600 }, // cache met.no 10 min
+        next: { revalidate: 600 }, // cache met.no 10 min (respekt for rate limit)
       }
     );
     if (r.ok) {
@@ -103,26 +101,27 @@ export async function GET() {
     // bruk fallback
   }
 
-return NextResponse.json(
-  {
-    vann: Number(vannTemp(now).toFixed(1)),
-    luft: Number(luft.toFixed(1)),
-    sol: Math.round(solStyrke(now, cloudCover)),
-    cloudCover: Math.round(cloudCover),
-    timestamp: Math.floor(now.getTime() / 1000),
-    placeholder: true,
-    sources: {
-      vann: "placeholder (10°C → 22°C mot 15. juli)",
-      luft: metSource ? "met.no (live)" : "placeholder",
-      sol: metSource ? "met.no skydekke + sol-vinkel" : "placeholder",
+  return NextResponse.json(
+    {
+      vann: Number(vannTemp(now).toFixed(1)),
+      luft: Number(luft.toFixed(1)),
+      sol: Math.round(solStyrke(now, cloudCover)),
+      cloudCover: Math.round(cloudCover),
+      timestamp: Math.floor(now.getTime() / 1000),
+      placeholder: true, // sett til false nar Shelly er live
+      sources: {
+        vann: "placeholder (10°C → 22°C mot 15. juli)",
+        luft: metSource ? "met.no (live)" : "placeholder",
+        sol: metSource ? "met.no skydekke + sol-vinkel" : "placeholder",
+      },
     },
-  },
-  {
-    headers: {
-      "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-    },
-  }
-);
+    {
+      headers: {
+        "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+      },
+    }
+  );
+}
 
 // =============================================================
 // NÅR SHELLY ER LIVE: bytt vannTemp(now) ut med dette:
