@@ -1,20 +1,15 @@
 // app/api/temperatur/route.ts
 //
-// Returnerer aktuelle målinger for sjøvann, luft og sol-styrke til
-// Kilevika-frontend. Akkurat nå:
+// Returnerer aktuelle målinger for sjøvann, luft og sol-styrke.
 //   - vann: SYNTETISK placeholder (10°C nå -> 22°C 15. juli 2026)
 //   - luft: ekte data fra met.no (gratis, ingen API-nøkkel)
 //   - sol: ekte skydekke fra met.no + beregnet sol-vinkel
-//
-// Når Shelly-hardware er på plass, bytt ut vann-funksjonen med en
-// fetch mot Shelly Cloud (se kommentar nederst).
 
 import { NextResponse } from "next/server";
 
 // Tving fresh respons hver gang - data genereres ved request.
 // Met.no-kallet inni har egen revalidate=600, så det kalles maks hvert 10. min.
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 // Helgøya, Ny-Hellesund (Søgne)
 const LAT = 58.0566;
@@ -108,7 +103,7 @@ export async function GET() {
       sol: Math.round(solStyrke(now, cloudCover)),
       cloudCover: Math.round(cloudCover),
       timestamp: Math.floor(now.getTime() / 1000),
-      placeholder: true, // sett til false nar Shelly er live
+      placeholder: true,
       sources: {
         vann: "placeholder (10°C → 22°C mot 15. juli)",
         luft: metSource ? "met.no (live)" : "placeholder",
