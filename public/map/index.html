@@ -1,0 +1,1104 @@
+<!doctype html>
+<html lang="no">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Kilevika – Søgne · Ny-Hellesund · Helgøya</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+<style>
+  /* ===== Reset & base ===== */
+  *,*::before,*::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; width: 100%; overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1a1f2e; background: #d8e4ee; -webkit-font-smoothing: antialiased; }
+  button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+  a { color: #1e6091; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* ===== Map fills viewport ===== */
+  #map { position: absolute; inset: 0; z-index: 1; background: #c9dde9; }
+
+  /* ===== Top bar ===== */
+  .topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 70%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+  }
+  .topbar > * { pointer-events: auto; }
+  .brand {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(255,255,255,0.92); backdrop-filter: blur(10px);
+    padding: 10px 16px; border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(20,40,60,0.10), 0 1px 0 rgba(255,255,255,0.6) inset;
+  }
+  .brand-mark {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, #1b4965 0%, #2a6f97 50%, #4a90b8 100%);
+    display: grid; place-items: center; color: white; font-size: 18px;
+    box-shadow: 0 2px 6px rgba(27,73,101,0.35);
+  }
+  .brand-text { line-height: 1.1; }
+  .brand-text .t1 { font-weight: 700; font-size: 15px; letter-spacing: 0.2px; }
+  .brand-text .t2 { font-size: 11.5px; color: #6b7a8c; margin-top: 2px; letter-spacing: 0.4px; text-transform: uppercase; }
+
+  .topbar-right { display: flex; gap: 10px; }
+
+  /* ===== Pill controls ===== */
+  .pill {
+    background: rgba(255,255,255,0.94); backdrop-filter: blur(10px);
+    border-radius: 12px; padding: 6px;
+    box-shadow: 0 4px 14px rgba(20,40,60,0.10), 0 1px 0 rgba(255,255,255,0.6) inset;
+    display: inline-flex; gap: 2px;
+  }
+  .pill button {
+    padding: 7px 12px; border-radius: 8px; font-size: 13px; font-weight: 600;
+    color: #4a5868; transition: all 0.15s ease;
+  }
+  .pill button:hover { background: rgba(30,96,145,0.08); color: #1b4965; }
+  .pill button.active { background: #1b4965; color: white; box-shadow: 0 2px 4px rgba(27,73,101,0.3); }
+
+  /* ===== Category filter chips ===== */
+  .filter-bar {
+    position: absolute; left: 18px; top: 78px; z-index: 999;
+    display: flex; flex-direction: column; gap: 6px;
+    max-height: calc(100vh - 120px); overflow: visible;
+  }
+  .chip {
+    background: rgba(255,255,255,0.94); backdrop-filter: blur(10px);
+    border-radius: 11px; padding: 8px 12px 8px 8px;
+    box-shadow: 0 3px 10px rgba(20,40,60,0.08);
+    display: inline-flex; align-items: center; gap: 9px; cursor: pointer;
+    font-size: 13px; font-weight: 600; color: #2c3e50;
+    transition: all 0.15s ease; user-select: none;
+    min-width: 140px;
+  }
+  .chip:hover { transform: translateX(2px); box-shadow: 0 4px 14px rgba(20,40,60,0.14); }
+  .chip.muted { opacity: 0.4; filter: grayscale(0.4); }
+  .chip-icon {
+    width: 26px; height: 26px; border-radius: 7px;
+    display: grid; place-items: center; font-size: 14px; flex-shrink: 0;
+    color: white;
+  }
+  .chip-count {
+    margin-left: auto; font-size: 11px; font-weight: 700;
+    color: #8b96a5; background: #eef2f6; padding: 2px 7px; border-radius: 10px;
+  }
+
+  /* ===== Side panel ===== */
+  .sidepanel {
+    position: absolute; top: 0; right: 0; bottom: 0; width: 420px; max-width: 90vw;
+    z-index: 1001; background: white;
+    box-shadow: -10px 0 30px rgba(20,40,60,0.18);
+    transform: translateX(100%); transition: transform 0.32s cubic-bezier(.2,.8,.2,1);
+    display: flex; flex-direction: column;
+  }
+  .sidepanel.open { transform: translateX(0); }
+  .sidepanel-close {
+    position: absolute; top: 14px; right: 14px; z-index: 2;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.95); color: #4a5868;
+    display: grid; place-items: center; font-size: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .sidepanel-close:hover { background: white; color: #1b4965; }
+  .sidepanel-hero {
+    height: 200px; background: linear-gradient(135deg, #2a6f97 0%, #4a90b8 50%, #84c5e0 100%);
+    background-size: cover; background-position: center; flex-shrink: 0;
+    position: relative;
+  }
+  .sidepanel-hero::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.5) 100%);
+  }
+  .sidepanel-badge {
+    position: absolute; bottom: 16px; left: 20px; z-index: 1;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.96); padding: 6px 12px; border-radius: 20px;
+    font-size: 12px; font-weight: 700; color: #1b4965;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .sidepanel-body { padding: 22px 26px 24px; overflow-y: auto; flex: 1; }
+  .sidepanel-body h2 { margin: 0 0 4px; font-size: 24px; line-height: 1.2; color: #1a1f2e; }
+  .sidepanel-body .subtitle { color: #6b7a8c; font-size: 14px; margin-bottom: 18px; }
+  .sidepanel-body p { line-height: 1.6; color: #354152; margin: 0 0 14px; font-size: 14.5px; }
+  .sidepanel-meta {
+    margin-top: 18px; padding-top: 18px; border-top: 1px solid #eef2f6;
+    display: grid; gap: 10px; font-size: 13px;
+  }
+  .sidepanel-meta-row { display: flex; gap: 10px; color: #4a5868; }
+  .sidepanel-meta-row .label { font-weight: 600; min-width: 70px; color: #6b7a8c; }
+  .sidepanel-sources {
+    margin-top: 18px; padding-top: 18px; border-top: 1px solid #eef2f6;
+    font-size: 12.5px; color: #6b7a8c;
+  }
+  .sidepanel-sources strong { display: block; margin-bottom: 6px; color: #4a5868;
+    text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; }
+  .sidepanel-sources a { display: block; margin-bottom: 4px; word-break: break-all; }
+
+  /* ===== Map markers ===== */
+  .marker-pin {
+    width: 32px; height: 32px; border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.35), 0 0 0 2px white;
+    display: grid; place-items: center;
+    transition: transform 0.15s ease;
+  }
+  .marker-pin:hover { transform: rotate(-45deg) scale(1.12); }
+  .marker-pin .ico { transform: rotate(45deg); color: white; font-size: 14px; font-weight: 700; }
+  .marker-pin.cabin {
+    width: 44px; height: 44px;
+    background: #d62828; box-shadow: 0 3px 10px rgba(214,40,40,0.5), 0 0 0 3px white, 0 0 0 6px rgba(214,40,40,0.25);
+    animation: pulse-cabin 2.4s ease-in-out infinite;
+  }
+  .marker-pin.cabin .ico { font-size: 18px; }
+  @keyframes pulse-cabin {
+    0%,100% { box-shadow: 0 3px 10px rgba(214,40,40,0.5), 0 0 0 3px white, 0 0 0 6px rgba(214,40,40,0.25); }
+    50% { box-shadow: 0 3px 14px rgba(214,40,40,0.6), 0 0 0 3px white, 0 0 0 12px rgba(214,40,40,0.0); }
+  }
+
+  /* ===== Bottom-left attribution + scale ===== */
+  .leaflet-control-attribution {
+    background: rgba(255,255,255,0.85) !important;
+    font-size: 11px !important; padding: 3px 8px !important;
+    border-radius: 6px !important; margin: 0 0 6px 6px !important;
+  }
+  .leaflet-bar { box-shadow: 0 2px 8px rgba(20,40,60,0.18) !important; border: none !important; }
+  .leaflet-bar a { border-radius: 8px !important; }
+  .leaflet-bar a:first-child { border-top-left-radius: 8px !important; border-top-right-radius: 8px !important; }
+  .leaflet-bar a:last-child { border-bottom-left-radius: 8px !important; border-bottom-right-radius: 8px !important; }
+  .leaflet-control-zoom { margin: 14px !important; }
+
+  /* ===== Footer caption ===== */
+  .footer-cap {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); z-index: 998;
+    background: rgba(255,255,255,0.88); backdrop-filter: blur(8px);
+    padding: 6px 14px; border-radius: 20px; font-size: 11.5px; color: #4a5868;
+    box-shadow: 0 2px 8px rgba(20,40,60,0.10); white-space: nowrap;
+  }
+
+  /* ===== Mobile ===== */
+  @media (max-width: 720px) {
+    .filter-bar { left: 8px; top: 72px; gap: 4px; }
+    .chip { min-width: 0; padding: 6px 10px 6px 6px; font-size: 11.5px; }
+    .chip span.label { display: none; }
+    .chip-count { display: none; }
+    .sidepanel { width: 100%; }
+    .brand-text .t2 { display: none; }
+    .footer-cap { font-size: 10px; padding: 4px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<!-- Top bar -->
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">⚓</div>
+    <div class="brand-text">
+      <div class="t1" data-i18n="brand_title">Kilevika</div>
+      <div class="t2" data-i18n="brand_sub">Søgne · Ny-Hellesund · Helgøya</div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <div class="pill" id="layer-switch">
+      <button data-layer="topo" class="active" data-i18n="layer_topo">Terreng</button>
+      <button data-layer="sjokart" data-i18n="layer_sea">Sjøkart</button>
+      <button data-layer="turkart" data-i18n="layer_hike">Turkart</button>
+    </div>
+    <div class="pill" id="lang-switch">
+      <button data-lang="no" class="active">NO</button>
+      <button data-lang="en">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- Category filter -->
+<aside class="filter-bar" id="filter-bar"></aside>
+
+<!-- Side panel -->
+<aside class="sidepanel" id="sidepanel">
+  <button class="sidepanel-close" id="sidepanel-close" aria-label="Lukk">✕</button>
+  <div class="sidepanel-hero" id="sp-hero">
+    <div class="sidepanel-badge" id="sp-badge"></div>
+  </div>
+  <div class="sidepanel-body">
+    <h2 id="sp-title"></h2>
+    <div class="subtitle" id="sp-subtitle"></div>
+    <div id="sp-body"></div>
+    <div class="sidepanel-meta" id="sp-meta"></div>
+    <div class="sidepanel-sources" id="sp-sources"></div>
+  </div>
+</aside>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<script>
+/* ============================================================
+   Categories — icons, colors, NO/EN labels
+   ============================================================ */
+const CATEGORIES = {
+  cabin:      { ico: '🏠', color: '#d62828', label: { no: 'Hytte',         en: 'Cabin' } },
+  ferry:      { ico: '⛴',  color: '#1d4e89', label: { no: 'Båt & brygge',  en: 'Boat & pier' } },
+  moorage:    { ico: '⚓', color: '#13315c', label: { no: 'Båtplass',      en: 'Boat slip' } },
+  fuel:       { ico: '⛽', color: '#e07a3c', label: { no: 'Drivstoff',     en: 'Fuel' } },
+  parking:    { ico: 'P',  color: '#4a5568', label: { no: 'Parkering',     en: 'Parking' } },
+  food:       { ico: '🍽', color: '#bc4749', label: { no: 'Spisested',     en: 'Food' } },
+  shop:       { ico: '🛒', color: '#386641', label: { no: 'Butikk',        en: 'Shop' } },
+  history:    { ico: '🏛', color: '#7d4f1d', label: { no: 'Historie',      en: 'History' } },
+  trail:      { ico: '🥾', color: '#a05a2c', label: { no: 'Tursti',        en: 'Trail' } },
+  climbing:   { ico: '🧗', color: '#9b2226', label: { no: 'Klatring',      en: 'Climbing' } },
+  kayak:      { ico: '🛶', color: '#168aad', label: { no: 'Kajakk',        en: 'Kayak' } },
+  fishing:    { ico: '🎣', color: '#264653', label: { no: 'Fiske',         en: 'Fishing' } },
+  swim:       { ico: '🏖', color: '#e6a73b', label: { no: 'Badeplass',     en: 'Beach' } },
+  route:      { ico: '🚤', color: '#0a6e7a', label: { no: 'Båtrute',       en: 'Boat route' } },
+  recycling:  { ico: '♻️', color: '#2a9d8f', label: { no: 'Renovasjon',    en: 'Recycling' } }
+};
+
+/* ============================================================
+   UI translations
+   ============================================================ */
+const I18N = {
+  no: {
+    brand_title: 'Kilevika',
+    brand_sub: 'Søgne · Ny-Hellesund · Helgøya',
+    layer_topo: 'Terreng', layer_sea: 'Sjøkart', layer_hike: 'Turkart',
+    sources_label: 'Kilder',
+    cat_label: 'Kategori',
+    coord_label: 'Koord.',
+    close: 'Lukk'
+  },
+  en: {
+    brand_title: 'Kilevika',
+    brand_sub: 'Søgne · Ny-Hellesund · Helgøya',
+    layer_topo: 'Terrain', layer_sea: 'Sea chart', layer_hike: 'Hiking',
+    sources_label: 'Sources',
+    cat_label: 'Category',
+    coord_label: 'Coord.',
+    close: 'Close'
+  }
+};
+
+/* ============================================================
+   POI dataset — Phase 1, coordinates v2
+   Coordinates verified via OpenStreetMap (Overpass + Nominatim).
+   Island centroids (authoritative):
+     - Monsøya:   58.05670, 7.83352
+     - Kapelløya: 58.05018, 7.83803
+     - Helgøya:   58.05139, 7.85006
+     - Olavsundet (harbor strait): 58.05232, 7.84348
+   Anything still marked note_coords is a best estimate that
+   should be confirmed with local knowledge.
+   ============================================================ */
+const POIS = [
+  /* ===== Personal ===== */
+  {
+    id: 'cabin', cat: 'cabin', lat: 58.052783, lng: 7.847410,
+    name: { no: 'Hytta – Helgøya 8', en: 'The cabin – Helgøya 8' },
+    sub:  { no: 'Helgøya, Ny-Hellesund', en: 'Helgøya, Ny-Hellesund' },
+    body: {
+      no: 'Hytta vår på Helgøya 8, sentralt i Ny-Hellesund. Koordinatene er oppgitt direkte (UTM33: 78322,63 N / 6456965,84 Ø).',
+      en: 'Our cabin at Helgøya 8, in the heart of Ny-Hellesund. Coordinates supplied directly (UTM33: 78322.63 E / 6456965.84 N).'
+    },
+    sources: []
+  },
+
+  /* ===== Ferry / boat / pier ===== */
+  {
+    id: 'hollen-brygge', cat: 'ferry', lat: 58.076357, lng: 7.808493,
+    name: { no: 'Høllen brygge', en: 'Høllen pier' },
+    sub:  { no: 'Avgangsbrygge for rutebåt til Ny-Hellesund', en: 'Departure pier for the Ny-Hellesund ferry' },
+    body: {
+      no: 'Hovedavgangspunkt for rutebåten M/B Hannibal som går Høllen – Ny-Hellesund / Verftet (Kapelløya) – Skarpøya – Borøya. Båten har plass til ca. 30 passasjerer og turen tar ca. 20 minutter. Båten går hele året; oppdatert ruteplan finnes hos AKT og fergeruter.info.',
+      en: 'Main departure point for the M/B Hannibal scheduled boat: Høllen – Ny-Hellesund / Verftet (Kapelløya) – Skarpøya – Borøya. Capacity ~30 passengers, ~20 minute crossing. Operates year-round; current timetable at AKT and fergeruter.info.'
+    },
+    sources: [
+      { label: 'fergeruter.info – Høllen → Monsøya', url: 'https://www.fergeruter.info/boatroute/164/hollen_brygge-monsoya_ny_hellesund' },
+      { label: 'visitnorway – M/B Hannibal',         url: 'https://www.visitnorway.no/reisemal/sorlandet/kristiansand/listings-kristiansand/m-b-hannibal-rutebåt-i-søgne/205911/' }
+    ]
+  },
+  {
+    id: 'olavsundet-brygge', cat: 'ferry', lat: 58.049951, lng: 7.841125,
+    name: { no: 'Fergestopp Olavsundet', en: 'Olavsundet ferry stop' },
+    sub:  { no: 'Anløp på Kapelløya-siden', en: 'Landing on the Kapelløya side' },
+    body: {
+      no: 'Olavsundet er det vestre innløpet til naturhavnen mellom Kapelløya og Helgøya. Beste anløpspunkt for kystfortet. Rutebåten anløper her flere ganger daglig på forespørsel.',
+      en: 'Olavsundet is the western entrance to the natural harbour between Kapelløya and Helgøya. The best landing point for the coastal fort. The scheduled boat calls here several times daily on request.'
+    },
+    sources: [
+      { label: 'norskhavneguide – Ny-Hellesund Olavsundet', url: 'https://www.norskhavneguide.no/havn/ny-hellesund-olavsundet' },
+      { label: 'sogneguiden – Kystfortet på Helgøya',      url: 'https://sogneguiden.no/kystfortet-pa-helgoya-i-ny-hellesund/' }
+    ]
+  },
+  {
+    id: 'tyskerbrygga', cat: 'swim', lat: 58.05263, lng: 7.84999,
+    name: { no: 'Tyskerbrygga (Kilen)', en: '"Tyskerbrygga" (Kilen)' },
+    sub:  { no: 'Badeplass / strand på østsiden av Helgøya', en: 'Beach on the east side of Helgøya' },
+    body: {
+      no: 'Brygga i Kilen, anlagt under okkupasjonen, brukes i dag som badeplass og friareal. Skjermet vik på østsiden av Helgøya med fine svaberg.',
+      en: 'The pier in Kilen, built during the occupation, today serves as a beach and recreation area. Sheltered cove on the east side of Helgøya with good rock slabs.'
+    },
+    sources: [
+      { label: 'sogneguiden – Kystfortet', url: 'https://sogneguiden.no/kystfortet-pa-helgoya-i-ny-hellesund/' }
+    ]
+  },
+  {
+    id: 'krags-brygge', cat: 'ferry', lat: 58.05314, lng: 7.84085,
+    name: { no: 'Vilhelm Krags brygge', en: 'Vilhelm Krag pier' },
+    sub:  { no: 'Anløp Monsøya', en: 'Monsøya landing' },
+    body: {
+      no: 'Offentlig brygge på Monsøya, oppkalt etter dikteren Vilhelm Krag. 100 meter unna ligger Skolehuset med utedo. Adkomst for tur rundt Monsøya og opp til Loshytta.',
+      en: 'Public pier on Monsøya, named after the poet Vilhelm Krag. The schoolhouse with an outdoor toilet sits 100 m away. Access for the Monsøya loop and the climb to Loshytta.'
+    },
+    sources: [
+      { label: 'ut.no – Søgne · Ny-Hellesund · Monsøya', url: 'https://ut.no/turforslag/115377' }
+    ]
+  },
+  {
+    id: 'prestebukta', cat: 'kayak', lat: 58.06588, lng: 7.83217,
+    name: { no: 'Prestebukta – kajakkstart', en: 'Prestebukta – kayak launch' },
+    sub:  { no: 'Gratis parkering, utsett kajakk', en: 'Free parking, kayak put-in' },
+    body: {
+      no: 'Hovedutgangspunkt for padletur i Ny-Hellesund. Gratis parkering på fastlandet rett nord for arkipelet. Klassisk rute: nord om Monsøya, gjennom Olavsundet, rundt Skarvøya, videre til Indre/Ytre Hellersøyane og tilbake.',
+      en: 'Main starting point for paddling in Ny-Hellesund. Free parking on the mainland just north of the archipelago. Classic route: north of Monsøya, through Olavsundet, around Skarvøya, on to Indre/Ytre Hellersøyane, and back.'
+    },
+    sources: [
+      { label: 'padleperler.no – Ny-Hellesund padleeldorado', url: 'https://padleperler.no/2020/06/20/ny-hellesund-et-padleeldorado/' }
+    ]
+  },
+
+  /* ===== Food ===== */
+  {
+    id: 'cafe-verftet', cat: 'food', lat: 58.05145, lng: 7.83525,
+    name: { no: 'Cafe Verftet i Ny-Hellesund', en: 'Cafe Verftet i Ny-Hellesund' },
+    sub:  { no: 'Kafé & restaurant på Kapelløya', en: 'Café & restaurant on Kapelløya' },
+    body: {
+      no: 'Kafé, restaurant og gjestebrygge på det gamle skipsverftet Bentsen & Sønner (drevet 1909–2008, 99 år). I dag drives stedet med mat, leiligheter til utleie og kulturarrangementer. Telefon +47 916 96 889.',
+      en: 'Café, restaurant and guest pier at the old Bentsen & Sønner shipyard (operated 1909–2008, 99 years). Today it runs as a café/restaurant with rental apartments and cultural events. Phone +47 916 96 889.'
+    },
+    sources: [
+      { label: 'nyhellesund.com',                  url: 'https://www.nyhellesund.com' },
+      { label: 'visitsorlandet – Cafe Verftet',    url: 'https://en.visitsorlandet.com/kristiansand/listings-kristiansand/cafe-verftet-i-ny-hellesund/90110/' }
+    ]
+  },
+
+  /* ===== Shops ===== */
+  {
+    id: 'kiwi-tangvall', cat: 'shop', lat: 58.09753, lng: 7.81640,
+    name: { no: 'KIWI Tangvall', en: 'KIWI Tangvall' },
+    sub:  { no: 'Toftelandsveien · åpent man–lør 07–23', en: 'Toftelandsveien · open Mon–Sat 07:00–23:00' },
+    body: {
+      no: 'Lavpris dagligvare på Tangvall i Søgne sentrum, ca. 8 km fra Høllen brygge. Åpent man–lør 07:00–23:00, stengt søndag.',
+      en: 'Discount grocery at Tangvall in central Søgne, about 8 km from Høllen pier. Open Mon–Sat 07:00–23:00, closed Sundays.'
+    },
+    sources: [
+      { label: '1881 – KIWI Tangvall', url: 'https://www.1881.no/dagligvare/dagligvare-agder/dagligvare-soegne/kiwi-tangvall_100572116S1/' }
+    ]
+  },
+  {
+    id: 'coop-mega-tangvall', cat: 'shop', lat: 58.09742, lng: 7.81452,
+    name: { no: 'Coop Mega Søgne', en: 'Coop Mega Søgne' },
+    sub:  { no: 'Tangvall · stort utvalg', en: 'Tangvall · wide selection' },
+    body: {
+      no: 'Coop Mega på Tangvall – stort vareutvalg, ferskvaredisk, bakeri.',
+      en: 'Coop Mega at Tangvall — wide selection, fresh counter, bakery.'
+    },
+    sources: [{ label: '1881 – Dagligvare Søgne', url: 'https://www.1881.no/dagligvare/dagligvare-agder/dagligvare-soegne/' }]
+  },
+  {
+    id: 'rema-sogne', cat: 'shop', lat: 58.09778, lng: 7.81086,
+    name: { no: 'REMA 1000 Søgne', en: 'REMA 1000 Søgne' },
+    sub:  { no: 'Tangvall', en: 'Tangvall' },
+    body: {
+      no: 'REMA 1000 lavpris på Tangvall, gangavstand fra Coop og KIWI.',
+      en: 'REMA 1000 discount at Tangvall, walking distance from Coop and KIWI.'
+    },
+    sources: [{ label: '1881 – Dagligvare Søgne', url: 'https://www.1881.no/dagligvare/dagligvare-agder/dagligvare-soegne/' }]
+  },
+
+  /* ===== History ===== */
+  {
+    id: 'kystfortet', cat: 'history', lat: 58.049606, lng: 7.848002,
+    name: { no: 'Ny-Hellesund kystfort', en: 'Ny-Hellesund coastal fort' },
+    sub:  { no: '«Norges lille Gibraltar» – på Helgøya', en: '"Norway\'s little Gibraltar" — on Helgøya' },
+    body: {
+      no: 'Tysk kystfort fra okkupasjonen, anlagt fra 1942 for å sperre Høllefjorden mot alliert invasjon og beskytte vestre innseiling til Kristiansand. Toppen av Helgøya er gjennomboret av tunneler, ganger og kanonstillinger – mange er restaurert og tilgjengelige. Ta med lommelykt og solide sko.',
+      en: 'German coastal fort from the occupation, built from 1942 to block Høllefjorden against allied invasion and protect the western approach to Kristiansand. The top of Helgøya is honeycombed with tunnels, passages and gun emplacements — many restored and accessible. Bring a flashlight and sturdy shoes.'
+    },
+    sources: [
+      { label: 'visitnorway – Ny-Hellesund kystfort', url: 'https://www.visitnorway.no/reisemal/sorlandet/kristiansand/listings-kristiansand/ny-hellesund-kystfort/20004/' },
+      { label: 'sogneguiden – Kystfortet',           url: 'https://sogneguiden.no/kystfortet-pa-helgoya-i-ny-hellesund/' }
+    ]
+  },
+  {
+    id: 'hellevardene', cat: 'history', lat: 58.049688, lng: 7.847394,
+    name: { no: 'Hellevardene', en: 'Hellevardene cairns' },
+    sub:  { no: 'Steinvarder på toppen av Helgøya', en: 'Stone cairns on top of Helgøya' },
+    body: {
+      no: 'Karakteristiske steinvarder som har gitt navn og sjømerke til Ny-Hellesund. Synlige fra langt til havs og fra hele arkipelet.',
+      en: 'Distinctive stone cairns that gave Ny-Hellesund its name and served as seamarks. Visible from far at sea and across the archipelago.'
+    },
+    sources: [{ label: 'sogneguiden – Kystfortet', url: 'https://sogneguiden.no/kystfortet-pa-helgoya-i-ny-hellesund/' }]
+  },
+  {
+    id: 'verftet-shipyard', cat: 'history', lat: 58.05129, lng: 7.83513,
+    name: { no: 'Verftet (Bentsen & Sønner Slipp)', en: 'Verftet (Bentsen & Sons shipyard)' },
+    sub:  { no: 'Skipsverft 1909–2008', en: 'Shipyard 1909–2008' },
+    body: {
+      no: 'Det gamle skipsverftet drev i 99 år før det ble nedlagt i 2008. Bygningene er bevart og bygd om til kafé, restaurant og ferieleiligheter. Deler av Ny-Hellesund ble kulturmiljøfredet i 2016.',
+      en: 'The old shipyard ran for 99 years before closing in 2008. The buildings are preserved and converted into café, restaurant and holiday apartments. Parts of Ny-Hellesund received cultural-environment protection in 2016.'
+    },
+    sources: [{ label: 'nyhellesund.com – Om Verftet', url: 'https://www.nyhellesund.com/om-verftet-og-ny-hellesund' }]
+  },
+  {
+    id: 'loshytta', cat: 'history', lat: 58.05700, lng: 7.83340,
+    name: { no: 'Loshytta', en: 'The Pilot\'s lookout' },
+    sub:  { no: 'På toppen av Monsøya', en: 'On top of Monsøya' },
+    note_coords: 'estimate – Monsøya-toppen',
+    body: {
+      no: 'Gammel losutkikk på høyeste punkt på Monsøya, et minne om losstasjonen som var grunnlaget for Ny-Hellesunds blomstring fra 1700-tallet. Utsikten er fenomenal.',
+      en: 'Old pilots\' lookout at the highest point on Monsøya, a relic of the pilot station that fuelled Ny-Hellesund\'s heyday from the 1700s. Phenomenal views.'
+    },
+    sources: [{ label: 'ut.no – Monsøya', url: 'https://ut.no/turforslag/115377' }]
+  },
+  {
+    id: 'skolehuset', cat: 'history', lat: 58.05400, lng: 7.84020,
+    name: { no: 'Skolehuset på Monsøya', en: 'The Schoolhouse on Monsøya' },
+    sub:  { no: '100 m fra Krags brygge', en: '100 m from Krag\'s pier' },
+    note_coords: 'estimate – 100m fra Krags brygge',
+    body: {
+      no: 'Gammelt skolehus, i dag offentlig friluftsområde. Utedo og rasteplass. Området fra brygga til skolehuset er offentlig.',
+      en: 'Old schoolhouse, today a public outdoor area. Outdoor toilet and rest area. The path and grounds from the pier to the schoolhouse are public.'
+    },
+    sources: [{ label: 'ut.no – Monsøya', url: 'https://ut.no/turforslag/115377' }]
+  },
+  {
+    id: 'kapelloya-chapel', cat: 'history', lat: 58.04960, lng: 7.83780,
+    name: { no: 'Kapelløya – kapellstedet', en: 'Kapelløya – chapel site' },
+    sub:  { no: 'Kapell fra 1600–1700-tallet', en: 'Chapel from the 1600–1700s' },
+    note_coords: 'estimate – sørspissen av Kapelløya',
+    body: {
+      no: 'Kapelløya har navn etter et kapell som stod her på 1600- og 1700-tallet, sannsynligvis på den sørligste sletten på øya. I dag flott friluftsområde med offentlige brygger inn mot sundet.',
+      en: 'Kapelløya is named after a chapel that stood here in the 1600s and 1700s, probably on the southernmost meadow. Today a fine outdoor area with public jetties facing the strait.'
+    },
+    sources: [{ label: 'nyhellesund.com – Om Ny-Hellesund', url: 'https://www.nyhellesund.com/ny-hellesund-og-fredning' }]
+  },
+
+  /* ===== Trails ===== */
+  {
+    id: 'trail-kystfort', cat: 'trail', lat: 58.051036, lng: 7.849230,
+    name: { no: 'Tursti: Olavsundet → Kystfortet', en: 'Trail: Olavsundet → Coastal fort' },
+    sub:  { no: 'Ca. 1 km, lett til middels', en: '≈1 km, easy to moderate' },
+    body: {
+      no: 'Merket sti fra brygga i Olavsundet opp til kystfortet på toppen av Helgøya. Passer for de fleste, men vær forberedt på steinete partier. Ta med lommelykt for tunnelene.',
+      en: 'Marked trail from the Olavsundet pier up to the coastal fort on top of Helgøya. Suitable for most, but expect rocky sections. Bring a flashlight for the tunnels.'
+    },
+    sources: [{ label: 'ut.no – Helgøya (Kystfortet)', url: 'https://ut.no/turforslag/118867' }]
+  },
+  {
+    id: 'trail-kapelloya', cat: 'trail', lat: 58.05018, lng: 7.83803,
+    name: { no: 'Tursti: Kapelløya rundt', en: 'Trail: Kapelløya loop' },
+    sub:  { no: 'Lett rundtur', en: 'Easy loop' },
+    body: {
+      no: 'Kort rundtur på Kapelløya med utsikt over Olavsundet og fine svaberg for bading.',
+      en: 'Short loop on Kapelløya with views over Olavsundet and good rock slabs for swimming.'
+    },
+    sources: [{ label: 'ut.no – Kapelløya', url: 'https://ut.no/turforslag/118866/sgne-ny-hellesund-kapellya' }]
+  },
+  {
+    id: 'trail-monsoya', cat: 'trail', lat: 58.054536, lng: 7.836420,
+    name: { no: 'Tursti: Monsøya rundt', en: 'Trail: Monsøya loop' },
+    sub:  { no: 'Inkl. Loshytta og Skolehuset', en: 'Incl. Loshytta and the Schoolhouse' },
+    body: {
+      no: 'Klassisk rundtur på Monsøya. Innom Skolehuset, opp til Loshytta og tilbake. Stier og grusveier, passer for hele familien.',
+      en: 'Classic loop on Monsøya — past the Schoolhouse, up to Loshytta and back. Paths and gravel tracks, family-friendly.'
+    },
+    sources: [
+      { label: 'ut.no – Magiske Monsøya', url: 'https://ut.no/turforslag/118348888/rundtur-pa-magiske-monsya-i-ny-hellesund-sgne' },
+      { label: 'ut.no – Monsøya',         url: 'https://ut.no/turforslag/115377' }
+    ]
+  },
+  /* ===== Climbing ===== */
+  {
+    id: 'climbing-steinen', cat: 'climbing', lat: 58.050426, lng: 7.838814,
+    name: { no: 'Klatrefelt: Steinen & Sydvendt vegg', en: 'Crag: Steinen & South-facing wall' },
+    sub:  { no: '12 topptau-anker, bak brygga på Kapelløya', en: '12 top anchors, behind the dock on Kapelløya' },
+    body: {
+      no: 'Klatrefelt utviklet av Søgne klatreklubb og Børre Bergshaven. 12 topptau-anker fordelt på Steinen (god, solid stein med store grep, korte ledelinjer) og Sydvendt vegg (overhengende til lengre tau-lengder). Solen treffer veggen ca. kl. 14 om sommeren. 5 minutters merket sti fra brygga i Ny-Hellesund.',
+      en: 'Crag developed by Søgne climbing club and Børre Bergshaven. 12 top anchors split between Steinen (solid rock with big holds, short pitches) and the South-facing wall (overhanging to longer pitches). Sun hits the wall around 14:00 in summer. 5-minute marked walk from the Ny-Hellesund pier.'
+    },
+    sources: [
+      { label: 'Bratte Linjer – Sørlandet',                                        url: 'https://sorlandet.brattelinjer.no/areas' },
+      { label: 'Fritidsnytt – Søgne klatreklubb / klatrefestival',                 url: 'https://fritidsnytt.no/sogne-klatreklubb-inviterer-til-klatrefestival-siste-helgen-i-mai/' }
+    ]
+  },
+
+  /* ===== Beach / swim ===== */
+  {
+    id: 'hollesanden', cat: 'swim', lat: 58.07627, lng: 7.81221,
+    name: { no: 'Høllesanden badestrand', en: 'Høllesanden beach' },
+    sub:  { no: 'Sandstrand rett ved Høllen brygge', en: 'Sandy beach next to Høllen pier' },
+    body: {
+      no: 'Offentlig sandstrand med park, rett ved fergeavgangen i Høllen. Praktisk for siste bad før hjemreise.',
+      en: 'Public sandy beach with adjoining park, right next to the Høllen ferry. Handy for one last swim before heading home.'
+    },
+    sources: [{ label: 'OSM – Høllesanden', url: 'https://www.openstreetmap.org/' }]
+  },
+  {
+    id: 'saueviga', cat: 'swim', lat: 58.06694, lng: 7.81747,
+    name: { no: 'Saueviga – Åros', en: 'Saueviga – Åros' },
+    sub:  { no: 'Strand i Åros-området', en: 'Beach in the Åros area' },
+    body: {
+      no: 'En av flere små sandstrender i Åros/Høllen-området. Skjermet vik, fin for barn.',
+      en: 'One of several small sandy beaches in the Åros/Høllen area. Sheltered cove, good for kids.'
+    },
+    sources: [{ label: 'OSM – Saueviga', url: 'https://www.openstreetmap.org/' }]
+  },
+
+  /* ============================================================
+     POIer lagt til etter brukerens UTM33-koordinater
+     ============================================================ */
+
+  /* ===== Ekstra badeplass / sandstrand-friareal ===== */
+  {
+    id: 'sandstrand-friareal', cat: 'swim', lat: 58.050694, lng: 7.840425,
+    name: { no: 'Sandstrand-friareal', en: 'Sand beach – public access' },
+    sub:  { no: 'Friareal med sandstrand i Ny-Hellesund', en: 'Public beach in Ny-Hellesund' },
+    body: {
+      no: 'Sandstrand og offentlig friareal i Ny-Hellesund-havna. Lett tilgjengelig fra brygga, fin for barn.',
+      en: 'Sandy beach and public outdoor area in the Ny-Hellesund harbour. Easy access from the pier, good for kids.'
+    },
+    sources: []
+  },
+
+  /* ===== Padlesteder (kajakk-utsett/raste) ===== */
+  {
+    id: 'padle-1', cat: 'kayak', lat: 58.048871, lng: 7.842914,
+    name: { no: 'Padlested 1', en: 'Paddle spot 1' },
+    sub:  { no: 'Helgøya / Olavsundet', en: 'Helgøya / Olavsundet' },
+    body: { no: 'Kajakk-utsett eller rasteplass.', en: 'Kayak put-in or rest stop.' },
+    sources: []
+  },
+  {
+    id: 'padle-2', cat: 'kayak', lat: 58.043179, lng: 7.840432,
+    name: { no: 'Padlested 2', en: 'Paddle spot 2' },
+    sub:  { no: 'Sør for Helgøya', en: 'South of Helgøya' },
+    body: { no: 'Kajakk-utsett eller rasteplass.', en: 'Kayak put-in or rest stop.' },
+    sources: []
+  },
+  {
+    id: 'padle-3', cat: 'kayak', lat: 58.051181, lng: 7.856456,
+    name: { no: 'Padlested 3', en: 'Paddle spot 3' },
+    sub:  { no: 'Øst for Helgøya', en: 'East of Helgøya' },
+    body: { no: 'Kajakk-utsett eller rasteplass.', en: 'Kayak put-in or rest stop.' },
+    sources: []
+  },
+  {
+    id: 'padle-4', cat: 'kayak', lat: 58.056704, lng: 7.868773,
+    name: { no: 'Padlested 4', en: 'Paddle spot 4' },
+    sub:  { no: 'Mot Langenes/Herøya', en: 'Towards Langenes/Herøya' },
+    body: { no: 'Kajakk-utsett eller rasteplass.', en: 'Kayak put-in or rest stop.' },
+    sources: []
+  },
+
+  /* ===== Butikker i Høllen + Langenes ===== */
+  {
+    id: 'snarkjop-hollen', cat: 'shop', lat: 58.077562, lng: 7.809480,
+    name: { no: 'Snarkjøp Høllen', en: 'Snarkjøp Høllen' },
+    sub:  { no: 'Dagligvare · samme bygg som SkagenPub', en: 'Convenience store · same building as SkagenPub' },
+    body: {
+      no: 'Nærbutikk i Høllen, kort vei fra båtplassen. I samme bygg ligger SkagenPub.',
+      en: 'Convenience store in Høllen, walking distance from the boat slip. SkagenPub is in the same building.'
+    },
+    sources: []
+  },
+  {
+    id: 'bunnpris-hollen', cat: 'shop', lat: 58.081908, lng: 7.810071,
+    name: { no: 'Bunnpris Høllen', en: 'Bunnpris Høllen' },
+    sub:  { no: 'Dagligvare i Høllen', en: 'Supermarket in Høllen' },
+    body: { no: 'Bunnpris dagligvare i Høllen-området.', en: 'Bunnpris supermarket in the Høllen area.' },
+    sources: []
+  },
+  {
+    id: 'kiwi-langenes', cat: 'shop', lat: 58.074814, lng: 7.862432,
+    name: { no: 'KIWI Langenes', en: 'KIWI Langenes' },
+    sub:  { no: 'Dagligvare øst for Søgne', en: 'Grocery east of Søgne' },
+    body: { no: 'KIWI dagligvare i Langenes – nyttig stopp for båtfolket på vei østover.', en: 'KIWI grocery at Langenes — handy stop for boaters heading east.' },
+    sources: []
+  },
+
+  /* ===== Drivstoff ===== */
+  {
+    id: 'fuel-hollen', cat: 'fuel', lat: 58.077307, lng: 7.809132,
+    name: { no: 'Båtbensinpumpe Høllen', en: 'Boat fuel pump, Høllen' },
+    sub:  { no: 'Fyll båten i Høllen', en: 'Refuel the boat in Høllen' },
+    body: { no: 'Drivstoffpumpe for båt i Høllen, sentralt ved bryggeområdet.', en: 'Marine fuel pump in Høllen, central at the pier area.' },
+    sources: []
+  },
+
+  /* ===== Båtplasser (private/offentlige brygger) ===== */
+  {
+    id: 'hms-farris-slip', cat: 'moorage', lat: 58.077610, lng: 7.805765,
+    name: { no: 'Vår båtplass – HMS Farris', en: 'Our boat slip – HMS Farris' },
+    sub:  { no: 'Privat båtplass i Høllen', en: 'Private slip in Høllen' },
+    body: { no: 'Båtplassen vår i Høllen – startpunkt for turen til Helgøya 8.', en: 'Our boat slip in Høllen — starting point for the run out to Helgøya 8.' },
+    sources: []
+  },
+  {
+    id: 'langenes-brygge', cat: 'moorage', lat: 58.073557, lng: 7.866981,
+    name: { no: 'Langenes offentlige brygge', en: 'Langenes public pier' },
+    sub:  { no: 'Båtplass, ikke ferge', en: 'Boat berth, not ferry' },
+    body: { no: 'Offentlig båtbrygge på Langenes – båtplass, ikke fergeanløp.', en: 'Public boat pier at Langenes — moorage, not a ferry stop.' },
+    sources: []
+  },
+  {
+    id: 'fergestopp-verftet', cat: 'ferry', lat: 58.051649, lng: 7.835067,
+    name: { no: 'Fergestopp Verftet', en: 'Verftet ferry stop' },
+    sub:  { no: 'M/B Hannibal anløp', en: 'M/B Hannibal landing' },
+    body: { no: 'Fergeanløp ved Verftet på Kapelløya. Brukes av rutebåten M/B Hannibal.', en: 'Ferry landing at Verftet on Kapelløya. Served by M/B Hannibal.' },
+    sources: [{ label: 'fergeruter.info', url: 'https://www.fergeruter.info/boatroute/164/hollen_brygge-monsoya_ny_hellesund' }]
+  },
+  {
+    id: 'fergestopp-helgoya', cat: 'ferry', lat: 58.050639, lng: 7.844580,
+    name: { no: 'Fergestopp Helgøya', en: 'Helgøya ferry stop' },
+    sub:  { no: 'M/B Hannibal anløp på Helgøya', en: 'M/B Hannibal landing on Helgøya' },
+    body: { no: 'Fergeanløp på Helgøya, sentralt i Ny-Hellesund-havna. Brukes av rutebåten M/B Hannibal.', en: 'Ferry landing on Helgøya, central in the Ny-Hellesund harbour. Served by M/B Hannibal.' },
+    sources: [{ label: 'fergeruter.info', url: 'https://www.fergeruter.info/boatroute/164/hollen_brygge-monsoya_ny_hellesund' }]
+  },
+
+  /* ===== Parkering ===== */
+  {
+    id: 'parking-hollen-a', cat: 'parking', lat: 58.079796, lng: 7.805375,
+    name: { no: 'Parkering Høllen (A)', en: 'Parking Høllen (A)' },
+    sub:  { no: 'Bilparkering ved bryggeområdet', en: 'Car parking at the pier area' },
+    body: { no: 'Bilparkering i Høllen, kort vei til båtplass.', en: 'Car park in Høllen, short walk to the boat slip.' },
+    sources: []
+  },
+  {
+    id: 'parking-hollen-b', cat: 'parking', lat: 58.076990, lng: 7.809851,
+    name: { no: 'Parkering Høllen (B)', en: 'Parking Høllen (B)' },
+    sub:  { no: 'Alternativ bilparkering', en: 'Alternative car parking' },
+    body: { no: 'Alternativ bilparkering i Høllen.', en: 'Alternative car parking in Høllen.' },
+    sources: []
+  },
+
+  /* ===== Fiskeplasser ===== */
+  {
+    id: 'fisk-1', cat: 'fishing', lat: 58.047693, lng: 7.842566,
+    name: { no: 'Fiskeplass: Torsk, berggylt, lyr', en: 'Fishing: cod, ballan wrasse, pollack' },
+    sub:  { no: 'Sør for Ny-Hellesund', en: 'South of Ny-Hellesund' },
+    body: { no: 'God plass for torsk, berggylt og lyr.', en: 'Good spot for cod, ballan wrasse and pollack.' },
+    sources: []
+  },
+  {
+    id: 'fisk-2', cat: 'fishing', lat: 58.053905, lng: 7.877031,
+    name: { no: 'Fiskeplass: Torsk og lyr', en: 'Fishing: cod and pollack' },
+    sub:  { no: 'Øst for arkipelet', en: 'East of the archipelago' },
+    body: { no: 'Torsk og lyr.', en: 'Cod and pollack.' },
+    sources: []
+  },
+  {
+    id: 'fisk-3', cat: 'fishing', lat: 58.054841, lng: 7.823921,
+    name: { no: 'Fiskeplass: Lyr', en: 'Fishing: pollack' },
+    sub:  { no: 'Vest for arkipelet', en: 'West of the archipelago' },
+    body: { no: 'Lyr.', en: 'Pollack.' },
+    sources: []
+  },
+  {
+    id: 'fisk-4', cat: 'fishing', lat: 58.062889, lng: 7.867999,
+    name: { no: 'Fiskeplass: Lyr', en: 'Fishing: pollack' },
+    sub:  { no: 'Nordøst', en: 'Northeast' },
+    body: { no: 'Lyr.', en: 'Pollack.' },
+    sources: []
+  },
+  {
+    id: 'fisk-5', cat: 'fishing', lat: 58.044955, lng: 7.841339,
+    name: { no: 'Fiskeplass: Berggylt', en: 'Fishing: ballan wrasse' },
+    sub:  { no: 'Sør', en: 'South' },
+    body: { no: 'Berggylt.', en: 'Ballan wrasse.' },
+    sources: []
+  },
+  {
+    id: 'fisk-6', cat: 'fishing', lat: 58.045347, lng: 7.860117,
+    name: { no: 'Fiskeplass: Hyse og hvitting', en: 'Fishing: haddock and whiting' },
+    sub:  { no: 'Sørøst', en: 'Southeast' },
+    body: { no: 'Hyse og hvitting.', en: 'Haddock and whiting.' },
+    sources: []
+  },
+  {
+    id: 'fisk-7', cat: 'fishing', lat: 58.044916, lng: 7.869598,
+    name: { no: 'Fiskeplass: Makrell', en: 'Fishing: mackerel' },
+    sub:  { no: 'Sørøst', en: 'Southeast' },
+    body: { no: 'Makrell.', en: 'Mackerel.' },
+    sources: []
+  },
+  {
+    id: 'fisk-8', cat: 'fishing', lat: 58.034078, lng: 7.835098,
+    name: { no: 'Fiskeplass: Makrell', en: 'Fishing: mackerel' },
+    sub:  { no: 'Lengst sør', en: 'Furthest south' },
+    body: { no: 'Makrell.', en: 'Mackerel.' },
+    sources: []
+  },
+
+  /* ============================================================
+     Renovasjonspunkter (returpunkt for hytter)
+     Koordinater fra brukerens veibeskrivelses-lenker (Google Maps daddr)
+     ============================================================ */
+  {
+    id: 'renov-prestebukta', cat: 'recycling', lat: 58.066128, lng: 7.833662,
+    name: { no: 'Åros, Prestebukta', en: 'Åros, Prestebukta' },
+    sub:  { no: 'Krossnesveien v/Prestebukta · påske–1. nov.', en: 'Krossnesveien by Prestebukta · Easter–1 Nov' },
+    body: {
+      no: 'Returpunkt ved Prestebukta i Krossnesveien. Tilgjengelig fra påske til 1. november.<br><br><strong>Her kan du levere:</strong><br>• Papp, papir og kartong<br>• Restavfall<br>• Brennbar rest<br>• Ødelagte klær og tekstiler<br>• Glassemballasje<br>• Metallemballasje',
+      en: 'Recycling point at Prestebukta on Krossnesveien. Available from Easter to 1 November.<br><br><strong>You can deliver:</strong><br>• Cardboard, paper & carton<br>• Residual waste<br>• Combustible waste<br>• Damaged clothing & textiles<br>• Glass packaging<br>• Metal packaging'
+    },
+    sources: [{ label: 'Google Maps – veibeskrivelse', url: 'https://maps.google.com/maps?daddr=58.066128,7.833662' }]
+  },
+  {
+    id: 'renov-nodenes', cat: 'recycling', lat: 58.071058, lng: 7.866172,
+    name: { no: 'Langenesveien, Nodenes v/fiskebrygga', en: 'Langenesveien, Nodenes by the fishing pier' },
+    sub:  { no: 'Nodenes · påske–1. nov.', en: 'Nodenes · Easter–1 Nov' },
+    body: {
+      no: 'Returpunkt ved fiskebrygga på Nodenes (Langenesveien). Tilgjengelig fra påske til 1. november. Størst utvalg av fraksjoner – også plast og matavfall.<br><br><strong>Her kan du levere:</strong><br>• Papp, papir og kartong<br>• Restavfall<br>• Brennbar rest<br>• Ødelagte klær og tekstiler<br>• Glassemballasje<br>• Metallemballasje<br>• Plastemballasje<br>• Matavfall',
+      en: 'Recycling point at the fishing pier at Nodenes (Langenesveien). Available from Easter to 1 November. Widest range of fractions – including plastic and food waste.<br><br><strong>You can deliver:</strong><br>• Cardboard, paper & carton<br>• Residual waste<br>• Combustible waste<br>• Damaged clothing & textiles<br>• Glass packaging<br>• Metal packaging<br>• Plastic packaging<br>• Food waste'
+    },
+    sources: [{ label: 'Google Maps – veibeskrivelse', url: 'https://maps.google.com/maps?daddr=58.071058,7.866172' }]
+  },
+  {
+    id: 'renov-kommunal-brygge', cat: 'recycling', lat: 58.073709, lng: 7.866827,
+    name: { no: 'Langenesveien, v/kommunal brygge', en: 'Langenesveien, by the municipal pier' },
+    sub:  { no: 'Kommunal brygge · påske–1. nov.', en: 'Municipal pier · Easter–1 Nov' },
+    body: {
+      no: 'Returpunkt ved den kommunale brygga i Langenesveien. Tilgjengelig fra påske til 1. november.<br><br><strong>Her kan du levere:</strong><br>• Papp, papir og kartong<br>• Restavfall<br>• Brennbar rest<br>• Ødelagte klær og tekstiler<br>• Glassemballasje<br>• Metallemballasje',
+      en: 'Recycling point at the municipal pier on Langenesveien. Available from Easter to 1 November.<br><br><strong>You can deliver:</strong><br>• Cardboard, paper & carton<br>• Residual waste<br>• Combustible waste<br>• Damaged clothing & textiles<br>• Glass packaging<br>• Metal packaging'
+    },
+    sources: [{ label: 'Google Maps – veibeskrivelse', url: 'https://maps.google.com/maps?daddr=58.073709,7.866827' }]
+  },
+  {
+    id: 'renov-hollen-brygge', cat: 'recycling', lat: 58.076765, lng: 7.809561,
+    name: { no: 'Høllen, Høllen brygge', en: 'Høllen, Høllen pier' },
+    sub:  { no: 'Hølleveien 234 · nedgravd · hele året', en: 'Hølleveien 234 · underground · all year' },
+    body: {
+      no: 'Nedgravd renovasjonsløsning for hytter ved Høllen brygge (Hølleveien 234). Tilgjengelig hele året. Elektronisk nøkkelbrikke må benyttes.<br><br><strong>Her kan du levere:</strong><br>• Papp, papir og kartong<br>• Restavfall<br>• Brennbar rest<br>• Ødelagte klær og tekstiler<br>• Glassemballasje<br>• Metallemballasje',
+      en: 'Underground waste solution for cabins at Høllen pier (Hølleveien 234). Available all year. An electronic key fob is required.<br><br><strong>You can deliver:</strong><br>• Cardboard, paper & carton<br>• Residual waste<br>• Combustible waste<br>• Damaged clothing & textiles<br>• Glass packaging<br>• Metal packaging'
+    },
+    sources: [{ label: 'Google Maps – veibeskrivelse', url: 'https://maps.google.com/maps?daddr=58.076765,7.809561' }]
+  }
+];
+
+/* ============================================================
+   ROUTES — polylines (turstier + båtruter)
+   ============================================================ */
+const ROUTES = [
+  {
+    id: 'sti-olavssund-vest', cat: 'trail',
+    coords: [[58.052708, 7.845367], [58.051256, 7.845962]],
+    name: { no: 'Sti til Olavssund', en: 'Path to Olavssund' },
+    sub:  { no: 'Fra hytta vestover', en: 'West from the cabin' },
+    body: {
+      no: 'Følg stien vestover fra hytta, og i første kryss følg stien oppover lia. Fin og tydelig sti, men noen høydemeter opp og ned.',
+      en: 'Follow the path west from the cabin, and at the first junction take the path up the hillside. A nice, clear path, but with some elevation up and down.'
+    },
+    style: { weight: 2, dashArray: '5,4' },
+    sources: []
+  },
+  {
+    id: 'sti-olavssund-snarvei', cat: 'trail',
+    coords: [[58.052712, 7.847254], [58.051256, 7.845962]],
+    name: { no: 'Snarvei til Olavssund', en: 'Shortcut to Olavssund' },
+    sub:  { no: 'Gjennom hagen, litt klatring', en: 'Through the garden, a little scrambling' },
+    body: {
+      no: 'Gå gjennom hagen og følg stien over sauegjerdet. Litt klatring forbi noen store steiner.',
+      en: 'Go through the garden and follow the path over the sheep fence. A little scrambling past some large rocks.'
+    },
+    style: { weight: 2, dashArray: '5,4' },
+    sources: []
+  },
+  {
+    id: 'baatrute-hms-farris-helgoya8', cat: 'route',
+    coords: [
+      [58.077610, 7.805765],
+      [58.077649, 7.803155], [58.076541, 7.803236],
+      [58.067096, 7.810734], [58.063983, 7.816183], [58.062433, 7.834835],
+      [58.060897, 7.841924], [58.059072, 7.844213], [58.058506, 7.849813],
+      [58.054529, 7.850825], [58.054012, 7.850901], [58.053336, 7.850857],
+      [58.052845, 7.849839],
+      [58.053073, 7.848358]
+    ],
+    name: { no: 'Båtrute: HMS Farris → Helgøya 8', en: 'Boat route: HMS Farris → Helgøya 8' },
+    sub:  { no: 'Hovedrute for privatbåt', en: 'Main private-boat route' },
+    body: {
+      no: 'Anbefalt rute fra båtplassen vår (HMS Farris i Høllen) til hytta på Helgøya 8. Følger lokalkunnskap om grunner og dybder; bruk sjøkartlaget for å bekrefte dybder før ferd i ukjent vær.',
+      en: 'Recommended route from our boat slip (HMS Farris in Høllen) to the cabin at Helgøya 8. Based on local knowledge of shallows and depths; switch to the sea-chart layer to confirm depths before running in unknown conditions.'
+    },
+    style: { weight: 4, dashArray: '10,8' },
+    sources: []
+  }
+];
+
+/* ============================================================
+   Map initialisation
+   ============================================================ */
+const ATTR = '© <a href="https://www.kartverket.no" target="_blank">Kartverket</a>';
+const KV_BASE = 'https://cache.kartverket.no/v1/wmts/1.0.0';
+
+const layers = {
+  topo:    L.tileLayer(`${KV_BASE}/topo/default/webmercator/{z}/{y}/{x}.png`,          { attribution: ATTR, maxZoom: 19, crossOrigin: true }),
+  sjokart: L.tileLayer(`${KV_BASE}/sjokartraster/default/webmercator/{z}/{y}/{x}.png`, { attribution: ATTR, maxZoom: 18, crossOrigin: true }),
+  turkart: L.tileLayer(`${KV_BASE}/toporaster/default/webmercator/{z}/{y}/{x}.png`,    { attribution: ATTR, maxZoom: 19, crossOrigin: true })
+};
+
+const map = L.map('map', {
+  center: [58.063, 7.849],   // Oversikt: Høllen – Ny-Hellesund – Langenes
+  zoom: 14,
+  minZoom: 10, maxZoom: 19,
+  zoomControl: false,
+  attributionControl: true,
+  layers: [layers.topo]
+});
+
+L.control.zoom({ position: 'bottomright' }).addTo(map);
+L.control.scale({ position: 'bottomleft', imperial: false, maxWidth: 160 }).addTo(map);
+
+/* ============================================================
+   Marker rendering
+   ============================================================ */
+const markersByCat = {};
+Object.keys(CATEGORIES).forEach(c => markersByCat[c] = []);
+
+function makeIcon(cat) {
+  const c = CATEGORIES[cat];
+  const cls = cat === 'cabin' ? 'marker-pin cabin' : 'marker-pin';
+  const html = `<div class="${cls}" style="background:${c.color}"><span class="ico">${c.ico}</span></div>`;
+  const size = cat === 'cabin' ? [44,44] : [32,32];
+  const anch = cat === 'cabin' ? [22,42] : [16,30];
+  return L.divIcon({ html, className: 'mk', iconSize: size, iconAnchor: anch, popupAnchor: [0,-30] });
+}
+
+POIS.forEach(p => {
+  const m = L.marker([p.lat, p.lng], { icon: makeIcon(p.cat), zIndexOffset: p.cat === 'cabin' ? 1000 : 0 });
+  m.poi = p;
+  m.on('click', () => openPanel(p));
+  m.addTo(map);
+  markersByCat[p.cat].push(m);
+});
+
+/* ============================================================
+   Polyline (ROUTES) rendering — trails + boat routes
+   ============================================================ */
+const routesByCat = {};
+const routesByCatCount = {};
+Object.keys(CATEGORIES).forEach(c => { routesByCat[c] = []; routesByCatCount[c] = 0; });
+
+ROUTES.forEach(r => {
+  const cat = CATEGORIES[r.cat];
+  const w = (r.style && r.style.weight) || 4;
+  const dash = (r.style && r.style.dashArray) || null;
+
+  // Casing: white outline for legibility on busy basemaps
+  const casing = L.polyline(r.coords, {
+    color: '#ffffff', weight: w + 3, opacity: 0.9,
+    lineCap: 'round', lineJoin: 'round', interactive: false
+  }).addTo(map);
+
+  // Visible coloured line — kept non-interactive so the wider hit-area below catches clicks
+  const line = L.polyline(r.coords, {
+    color: cat.color, weight: w, opacity: 0.95,
+    dashArray: dash, lineCap: 'round', lineJoin: 'round',
+    interactive: false
+  }).addTo(map);
+
+  // Hit area: a wide, nearly-invisible polyline that captures clicks even for thin dashed strokes
+  const hit = L.polyline(r.coords, {
+    color: cat.color, weight: Math.max(w + 10, 14), opacity: 0.001,
+    lineCap: 'round', lineJoin: 'round'
+  });
+  hit.poi = r;
+  hit.on('click', () => openPanel(r));
+  hit.on('mouseover', () => line.setStyle({ weight: w + 1.5 }));
+  hit.on('mouseout',  () => line.setStyle({ weight: w        }));
+  hit.addTo(map);
+
+  // Endpoint dots
+  const startDot = L.circleMarker(r.coords[0], {
+    radius: 5, fillColor: cat.color, color: 'white', weight: 2, fillOpacity: 1, interactive: false
+  }).addTo(map);
+  const endDot = L.circleMarker(r.coords[r.coords.length - 1], {
+    radius: 5, fillColor: cat.color, color: 'white', weight: 2, fillOpacity: 1, interactive: false
+  }).addTo(map);
+
+  routesByCat[r.cat].push(line, casing, hit, startDot, endDot);
+  routesByCatCount[r.cat] += 1;
+});
+
+/* ============================================================
+   Side panel
+   ============================================================ */
+const panel = document.getElementById('sidepanel');
+const spHero = document.getElementById('sp-hero');
+const spBadge = document.getElementById('sp-badge');
+const spTitle = document.getElementById('sp-title');
+const spSub   = document.getElementById('sp-subtitle');
+const spBody  = document.getElementById('sp-body');
+const spMeta  = document.getElementById('sp-meta');
+const spSources = document.getElementById('sp-sources');
+
+let currentPOI = null;
+let currentLang = 'no';
+
+function openPanel(p) {
+  currentPOI = p;
+  renderPanel();
+  panel.classList.add('open');
+  if (window.innerWidth > 720 && p.lat) {
+    const px = map.latLngToContainerPoint([p.lat, p.lng]);
+    const offset = Math.max(0, px.x - (window.innerWidth - 420 - 60));
+    if (offset > 0) map.panBy([offset, 0], { animate: true });
+  }
+}
+document.getElementById('sidepanel-close').onclick = () => { panel.classList.remove('open'); currentPOI = null; };
+map.on('click', () => { panel.classList.remove('open'); currentPOI = null; });
+
+function renderPanel() {
+  if (!currentPOI) return;
+  const p = currentPOI;
+  const lang = currentLang;
+  const cat = CATEGORIES[p.cat];
+
+  spHero.style.background = `linear-gradient(135deg, ${cat.color} 0%, ${shade(cat.color, 0.55)} 100%)`;
+  spHero.style.backgroundSize = 'cover';
+  spBadge.innerHTML = `<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${cat.color}"></span> ${cat.label[lang]}`;
+
+  spTitle.textContent    = p.name[lang];
+  spSub.textContent      = p.sub ? p.sub[lang] : '';
+  spBody.innerHTML       = `<p>${p.body[lang]}</p>`;
+
+  const t = I18N[lang];
+  let metaHtml = '';
+  metaHtml += `<div class="sidepanel-meta-row"><div class="label">${t.cat_label}</div><div>${cat.ico}&nbsp;${cat.label[lang]}</div></div>`;
+  if (p.lat !== undefined) {
+    metaHtml += `<div class="sidepanel-meta-row"><div class="label">${t.coord_label}</div><div>${p.lat.toFixed(5)}°N, ${p.lng.toFixed(5)}°E${p.note_coords ? ' <span style="color:#b85050">(' + p.note_coords + ')</span>' : ''}</div></div>`;
+  } else if (p.coords) {
+    const from = p.coords[0], to = p.coords[p.coords.length - 1];
+    metaHtml += `<div class="sidepanel-meta-row"><div class="label">${lang==='no'?'Punkter':'Points'}</div><div>${p.coords.length} ${lang==='no'?'punkter':'points'}</div></div>`;
+    metaHtml += `<div class="sidepanel-meta-row"><div class="label">${lang==='no'?'Fra':'From'}</div><div>${from[0].toFixed(5)}°N, ${from[1].toFixed(5)}°E</div></div>`;
+    metaHtml += `<div class="sidepanel-meta-row"><div class="label">${lang==='no'?'Til':'To'}</div><div>${to[0].toFixed(5)}°N, ${to[1].toFixed(5)}°E</div></div>`;
+  }
+  spMeta.innerHTML = metaHtml;
+
+  if (p.sources && p.sources.length) {
+    spSources.innerHTML = `<strong>${t.sources_label}</strong>` + p.sources.map(s => `<a href="${s.url}" target="_blank" rel="noopener">↗ ${s.label}</a>`).join('');
+  } else {
+    spSources.innerHTML = '';
+  }
+}
+
+function shade(hex, factor) {
+  const n = parseInt(hex.replace('#',''), 16);
+  let r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+  r = Math.round(r * factor); g = Math.round(g * factor); b = Math.round(b * factor);
+  return `rgb(${r},${g},${b})`;
+}
+
+/* ============================================================
+   Filter bar
+   ============================================================ */
+const filterBar = document.getElementById('filter-bar');
+const activeCats = new Set(Object.keys(CATEGORIES));
+let userHasFiltered = false;  // false = default "show all" state
+
+function renderFilterBar() {
+  filterBar.innerHTML = '';
+  Object.entries(CATEGORIES).forEach(([key, cat]) => {
+    const markerCount = markersByCat[key] ? markersByCat[key].length : 0;
+    const routeCount  = routesByCatCount[key] || 0;
+    const count = markerCount + routeCount;
+    if (!count && key !== 'cabin') return;
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (activeCats.has(key) ? '' : ' muted');
+    chip.dataset.cat = key;
+    chip.innerHTML = `
+      <div class="chip-icon" style="background:${cat.color}">${cat.ico}</div>
+      <span class="label">${cat.label[currentLang]}</span>
+      <span class="chip-count">${count}</span>`;
+    chip.onclick = () => toggleCat(key);
+    filterBar.appendChild(chip);
+  });
+}
+
+function applyVisibility() {
+  Object.keys(CATEGORIES).forEach(key => {
+    const items = [...(markersByCat[key] || []), ...(routesByCat[key] || [])];
+    const show = activeCats.has(key);
+    items.forEach(m => { if (show) m.addTo(map); else map.removeLayer(m); });
+  });
+}
+
+function toggleCat(key) {
+  if (!userHasFiltered) {
+    // First click from the default "all shown" state: isolate this category
+    activeCats.clear();
+    activeCats.add(key);
+    userHasFiltered = true;
+  } else {
+    // Subsequent clicks: add or remove individual categories
+    if (activeCats.has(key)) activeCats.delete(key); else activeCats.add(key);
+    // If nothing is left selected, reset back to the default "all shown" state
+    if (activeCats.size === 0) {
+      Object.keys(CATEGORIES).forEach(k => activeCats.add(k));
+      userHasFiltered = false;
+    }
+  }
+  applyVisibility();
+  renderFilterBar();
+}
+
+/* ============================================================
+   Layer + language switches
+   ============================================================ */
+document.getElementById('layer-switch').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-layer]');
+  if (!btn) return;
+  const k = btn.dataset.layer;
+  document.querySelectorAll('#layer-switch button').forEach(b => b.classList.toggle('active', b === btn));
+  Object.entries(layers).forEach(([name, lyr]) => {
+    if (name === k) lyr.addTo(map); else map.removeLayer(lyr);
+  });
+});
+
+document.getElementById('lang-switch').addEventListener('click', e => {
+  const btn = e.target.closest('button[data-lang]');
+  if (!btn) return;
+  currentLang = btn.dataset.lang;
+  document.querySelectorAll('#lang-switch button').forEach(b => b.classList.toggle('active', b === btn));
+  document.documentElement.lang = currentLang;
+  applyI18N();
+  renderFilterBar();
+  if (currentPOI) renderPanel();
+});
+
+function applyI18N() {
+  const t = I18N[currentLang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    if (t[k]) el.textContent = t[k];
+  });
+}
+
+/* ============================================================
+   Initial render
+   ============================================================ */
+renderFilterBar();
+applyI18N();
+
+/* No auto-open — cabin is already centered at default zoom */
+</script>
+</body>
+</html>
